@@ -1,0 +1,40 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+.venv/
+venv/
+env/
+
+# Testing
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Generated reports: runs are regenerated and not versioned,
+# EXCEPT the committed sample run (minimal deliverable evidence).
+reports/*
+!reports/example/
+!reports/example/**
+
+# Local / secrets
+.env
+*.local
+errores.txt
+*.log
+
+# n8n runtime
+n8n/.n8n/

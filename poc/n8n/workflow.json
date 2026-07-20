@@ -1,0 +1,51 @@
+{
+  "name": "Taskbot Migration Advisor",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "b1a1e001-0001-4001-8001-000000000001",
+      "name": "Inicio manual",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=http://advisor:8000/analyze",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={ \"inventory_path\": \"/app/data/ejemplo_50_taskbots_prueba.txt\", \"persist\": true }",
+        "options": {
+          "response": { "response": { "neverError": false } },
+          "retry": { "retry": { "maxTries": 3, "waitBetweenTries": 2000 } }
+        }
+      },
+      "id": "b1a1e001-0002-4001-8001-000000000002",
+      "name": "Analizar inventario (servicio Python)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extrae hallazgos accionables del resultado del servicio de analisis.\nconst r = $json;\nconst s = r.summary;\nconst grupos = (r.clusters || []).filter(c => c.es_grupo_consolidable);\nconst variantes = grupos.reduce((acc, c) => acc + c.miembros.length, 0);\nconst headlines = [\n  `${variantes} taskbots son variantes de ${grupos.length} utilidades reutilizables.`,\n  `${s.por_destino.n8n} candidatos a n8n (integracion API/archivo/email).`,\n  `${s.por_destino.rpa_selective} deben quedar en RPA selectivo por UI legacy.`,\n  `${s.por_destino.microservice} deberian ser microservicio/componente compartido.`,\n  `${s.por_ola.ola_1} entran en ola 1 (alto valor, baja complejidad).`\n];\nreturn [{ json: { run_id: r.run_id, headlines, resumen: s } }];"
+      },
+      "id": "b1a1e001-0003-4001-8001-000000000003",
+      "name": "Extraer hallazgos",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [800, 300]
+    }
+  ],
+  "connections": {
+    "Inicio manual": {
+      "main": [[{ "node": "Analizar inventario (servicio Python)", "type": "main", "index": 0 }]]
+    },
+    "Analizar inventario (servicio Python)": {
+      "main": [[{ "node": "Extraer hallazgos", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "pinData": {}
+}

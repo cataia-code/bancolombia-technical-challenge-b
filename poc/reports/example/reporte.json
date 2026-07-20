@@ -1,0 +1,1037 @@
+{
+  "run_id": "example",
+  "summary": {
+    "total_taskbots": 50,
+    "grupos_consolidables": 15,
+    "por_destino": {
+      "n8n": 8,
+      "microservice": 1,
+      "custom_python_java": 5,
+      "rpa_selective": 36,
+      "manual_review": 0
+    },
+    "por_ola": {
+      "ola_1": 2,
+      "ola_2": 7,
+      "ola_3": 41
+    },
+    "errores": 0
+  },
+  "clusters": [
+    {
+      "id": 0,
+      "miembros": [
+        "TB01"
+      ],
+      "representante": "TB01",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 1,
+      "miembros": [
+        "TB02"
+      ],
+      "representante": "TB02",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 2,
+      "miembros": [
+        "TB03"
+      ],
+      "representante": "TB03",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 3,
+      "miembros": [
+        "TB04"
+      ],
+      "representante": "TB04",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 4,
+      "miembros": [
+        "TB05"
+      ],
+      "representante": "TB05",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 5,
+      "miembros": [
+        "TB06"
+      ],
+      "representante": "TB06",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 6,
+      "miembros": [
+        "TB07"
+      ],
+      "representante": "TB07",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 7,
+      "miembros": [
+        "TB08"
+      ],
+      "representante": "TB08",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 8,
+      "miembros": [
+        "TB09",
+        "TB10"
+      ],
+      "representante": "TB09",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 9,
+      "miembros": [
+        "TB11"
+      ],
+      "representante": "TB11",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 10,
+      "miembros": [
+        "TB12"
+      ],
+      "representante": "TB12",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 11,
+      "miembros": [
+        "TB13",
+        "TB14"
+      ],
+      "representante": "TB13",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 12,
+      "miembros": [
+        "TB15"
+      ],
+      "representante": "TB15",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 13,
+      "miembros": [
+        "TB16"
+      ],
+      "representante": "TB16",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 14,
+      "miembros": [
+        "TB17",
+        "TB18"
+      ],
+      "representante": "TB17",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 15,
+      "miembros": [
+        "TB19",
+        "TB20",
+        "TB23",
+        "TB49",
+        "TB50"
+      ],
+      "representante": "TB19",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 16,
+      "miembros": [
+        "TB21",
+        "TB22"
+      ],
+      "representante": "TB21",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 17,
+      "miembros": [
+        "TB24"
+      ],
+      "representante": "TB24",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 18,
+      "miembros": [
+        "TB25",
+        "TB26"
+      ],
+      "representante": "TB25",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 19,
+      "miembros": [
+        "TB27",
+        "TB28"
+      ],
+      "representante": "TB27",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 20,
+      "miembros": [
+        "TB29",
+        "TB30"
+      ],
+      "representante": "TB29",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 21,
+      "miembros": [
+        "TB31"
+      ],
+      "representante": "TB31",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 22,
+      "miembros": [
+        "TB32"
+      ],
+      "representante": "TB32",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 23,
+      "miembros": [
+        "TB33",
+        "TB34"
+      ],
+      "representante": "TB33",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 24,
+      "miembros": [
+        "TB35",
+        "TB36"
+      ],
+      "representante": "TB35",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 25,
+      "miembros": [
+        "TB37",
+        "TB38"
+      ],
+      "representante": "TB37",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 26,
+      "miembros": [
+        "TB39",
+        "TB40"
+      ],
+      "representante": "TB39",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 27,
+      "miembros": [
+        "TB41",
+        "TB42"
+      ],
+      "representante": "TB41",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 28,
+      "miembros": [
+        "TB43",
+        "TB44"
+      ],
+      "representante": "TB43",
+      "es_grupo_consolidable": true
+    },
+    {
+      "id": 29,
+      "miembros": [
+        "TB45"
+      ],
+      "representante": "TB45",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 30,
+      "miembros": [
+        "TB46"
+      ],
+      "representante": "TB46",
+      "es_grupo_consolidable": false
+    },
+    {
+      "id": 31,
+      "miembros": [
+        "TB47",
+        "TB48"
+      ],
+      "representante": "TB47",
+      "es_grupo_consolidable": true
+    }
+  ],
+  "recommendations": [
+    {
+      "taskbot_id": "TB01",
+      "taskbot": "TB_Recepcion_Facturas_Proveedor",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 58.0,
+      "complejidad": 77.0,
+      "cluster_id": null,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Recepcion_Facturas_Proveedor' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0."
+    },
+    {
+      "taskbot_id": "TB02",
+      "taskbot": "TB_Validador_Facturas_OCR",
+      "destino": "n8n",
+      "ola": "ola_3",
+      "valor": 40.0,
+      "complejidad": 63.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Integracion orquestable (API-first, archivos): candidato a n8n."
+      ],
+      "justificacion": "'TB_Validador_Facturas_OCR' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first, archivos): candidato a n8n. Valor=40.0, complejidad=63.0."
+    },
+    {
+      "taskbot_id": "TB03",
+      "taskbot": "TB_Carga_Facturas_SAP",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 40.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Carga_Facturas_SAP' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB04",
+      "taskbot": "TB_Posteo_Gastos_No_OC",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Posteo_Gastos_No_OC' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB05",
+      "taskbot": "TB_Conciliacion_Bancaria_Diaria",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Conciliacion_Bancaria_Diaria' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB06",
+      "taskbot": "TB_Conciliacion_Manual_Asistida",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 58.0,
+      "complejidad": 67.0,
+      "cluster_id": null,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Conciliacion_Manual_Asistida' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0."
+    },
+    {
+      "taskbot_id": "TB07",
+      "taskbot": "TB_Alta_Proveedores_Maestro",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Alta_Proveedores_Maestro' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB08",
+      "taskbot": "TB_Actualizacion_Datos_Proveedores",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 90.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Actualizacion_Datos_Proveedores' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB09",
+      "taskbot": "TB_Gestion_OC_Pendientes",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 72.0,
+      "cluster_id": 8,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Gestion_OC_Pendientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB10",
+      "taskbot": "TB_Alerta_OC_Atrasadas",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 72.0,
+      "cluster_id": 8,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Alerta_OC_Atrasadas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB11",
+      "taskbot": "TB_Control_Inventario_Ciclico",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Control_Inventario_Ciclico' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB12",
+      "taskbot": "TB_Ajuste_Inventario_Emergencia",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 40.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Ajuste_Inventario_Emergencia' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB13",
+      "taskbot": "TB_Reporte_Ventas_Diario",
+      "destino": "custom_python_java",
+      "ola": "ola_2",
+      "valor": 88.0,
+      "complejidad": 57.0,
+      "cluster_id": 11,
+      "revision_manual": false,
+      "razones": [
+        "Interaccion con BD: automatizacion a la medida en Python/Java."
+      ],
+      "justificacion": "'TB_Reporte_Ventas_Diario' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0."
+    },
+    {
+      "taskbot_id": "TB14",
+      "taskbot": "TB_Reporte_Ventas_Semanal",
+      "destino": "custom_python_java",
+      "ola": "ola_2",
+      "valor": 63.0,
+      "complejidad": 44.0,
+      "cluster_id": 11,
+      "revision_manual": false,
+      "razones": [
+        "Interaccion con BD: automatizacion a la medida en Python/Java."
+      ],
+      "justificacion": "'TB_Reporte_Ventas_Semanal' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=63.0, complejidad=44.0."
+    },
+    {
+      "taskbot_id": "TB15",
+      "taskbot": "TB_Provision_Nomina_Contable",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 40.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Provision_Nomina_Contable' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB16",
+      "taskbot": "TB_Asiento_Ajuste_Mensual",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 40.0,
+      "complejidad": 80.0,
+      "cluster_id": null,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Asiento_Ajuste_Mensual' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=80.0."
+    },
+    {
+      "taskbot_id": "TB17",
+      "taskbot": "TB_Cobranza_Recordatorio_Clientes",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 77.0,
+      "cluster_id": 14,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Cobranza_Recordatorio_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0."
+    },
+    {
+      "taskbot_id": "TB18",
+      "taskbot": "TB_Cobranza_Escalamiento_Gerencial",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 72.0,
+      "cluster_id": 14,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Cobranza_Escalamiento_Gerencial' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB19",
+      "taskbot": "TB_Alta_Clientes_CRM",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 85.0,
+      "cluster_id": 15,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+      ],
+      "justificacion": "'TB_Alta_Clientes_CRM' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB20",
+      "taskbot": "TB_Actualizacion_Datos_Cliente",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 67.0,
+      "cluster_id": 15,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+      ],
+      "justificacion": "'TB_Actualizacion_Datos_Cliente' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0."
+    },
+    {
+      "taskbot_id": "TB21",
+      "taskbot": "TB_Monitoreo_Interface_ETL",
+      "destino": "custom_python_java",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 75.0,
+      "cluster_id": 16,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Interaccion con BD: automatizacion a la medida en Python/Java."
+      ],
+      "justificacion": "'TB_Monitoreo_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=75.0."
+    },
+    {
+      "taskbot_id": "TB22",
+      "taskbot": "TB_Reintento_Interface_ETL",
+      "destino": "custom_python_java",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 70.0,
+      "cluster_id": 16,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Interaccion con BD: automatizacion a la medida en Python/Java."
+      ],
+      "justificacion": "'TB_Reintento_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0."
+    },
+    {
+      "taskbot_id": "TB23",
+      "taskbot": "TB_Carga_Maestra_Productos",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 90.0,
+      "cluster_id": 15,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+      ],
+      "justificacion": "'TB_Carga_Maestra_Productos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB24",
+      "taskbot": "TB_Alta_Materiales_Manufactura",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Alta_Materiales_Manufactura' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB25",
+      "taskbot": "TB_Despacho_Guias_Transporte",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 77.0,
+      "cluster_id": 18,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Despacho_Guias_Transporte' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0."
+    },
+    {
+      "taskbot_id": "TB26",
+      "taskbot": "TB_Tracking_Entregas_Cliente",
+      "destino": "n8n",
+      "ola": "ola_2",
+      "valor": 88.0,
+      "complejidad": 44.0,
+      "cluster_id": 18,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (email, API-first): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Tracking_Entregas_Cliente' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0."
+    },
+    {
+      "taskbot_id": "TB27",
+      "taskbot": "TB_Conciliacion_Tarjetas_Corporativas",
+      "destino": "n8n",
+      "ola": "ola_2",
+      "valor": 73.0,
+      "complejidad": 50.0,
+      "cluster_id": 19,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (API-first, archivos): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Conciliacion_Tarjetas_Corporativas' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0."
+    },
+    {
+      "taskbot_id": "TB28",
+      "taskbot": "TB_Validacion_Viaticos",
+      "destino": "n8n",
+      "ola": "ola_1",
+      "valor": 88.0,
+      "complejidad": 37.0,
+      "cluster_id": 19,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (API-first): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Validacion_Viaticos' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0."
+    },
+    {
+      "taskbot_id": "TB29",
+      "taskbot": "TB_Pago_Proveedores_Masivo",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 85.0,
+      "cluster_id": 20,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Pago_Proveedores_Masivo' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB30",
+      "taskbot": "TB_Pago_Proveedores_Urgente",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 90.0,
+      "cluster_id": 20,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Pago_Proveedores_Urgente' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB31",
+      "taskbot": "TB_Actualiza_Tipo_Cambio",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 58.0,
+      "complejidad": 72.0,
+      "cluster_id": null,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Actualiza_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB32",
+      "taskbot": "TB_Reproceso_Tipo_Cambio",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 28.0,
+      "complejidad": 72.0,
+      "cluster_id": null,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Reproceso_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=28.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB33",
+      "taskbot": "TB_Provision_Impuestos_Indirectos",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 90.0,
+      "cluster_id": 23,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Provision_Impuestos_Indirectos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB34",
+      "taskbot": "TB_Declaracion_Impuestos_Mensual",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": 23,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Declaracion_Impuestos_Mensual' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB35",
+      "taskbot": "TB_Bloqueo_Credito_Clientes",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 85.0,
+      "cluster_id": 24,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Bloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB36",
+      "taskbot": "TB_Desbloqueo_Credito_Clientes",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 72.0,
+      "cluster_id": 24,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Desbloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB37",
+      "taskbot": "TB_Extraccion_Auditoria_SOX",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 85.0,
+      "complejidad": 90.0,
+      "cluster_id": 25,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Extraccion_Auditoria_SOX' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB38",
+      "taskbot": "TB_Evidencias_Control_Accesos",
+      "destino": "n8n",
+      "ola": "ola_2",
+      "valor": 73.0,
+      "complejidad": 50.0,
+      "cluster_id": 25,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (API-first, archivos): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Evidencias_Control_Accesos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0."
+    },
+    {
+      "taskbot_id": "TB39",
+      "taskbot": "TB_Actualizacion_Precios_Masiva",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 85.0,
+      "complejidad": 90.0,
+      "cluster_id": 26,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Actualizacion_Precios_Masiva' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB40",
+      "taskbot": "TB_Actualizacion_Descuentos_Comerciales",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 85.0,
+      "complejidad": 85.0,
+      "cluster_id": 26,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Actualizacion_Descuentos_Comerciales' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB41",
+      "taskbot": "TB_Onboarding_Empleado_Digital",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 88.0,
+      "complejidad": 72.0,
+      "cluster_id": 27,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Onboarding_Empleado_Digital' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+    },
+    {
+      "taskbot_id": "TB42",
+      "taskbot": "TB_Offboarding_Empleado_Digital",
+      "destino": "n8n",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 50.0,
+      "cluster_id": 27,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Integracion orquestable (API-first): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Offboarding_Empleado_Digital' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=100.0, complejidad=50.0."
+    },
+    {
+      "taskbot_id": "TB43",
+      "taskbot": "TB_Clasificacion_Tickets_Soporte",
+      "destino": "n8n",
+      "ola": "ola_1",
+      "valor": 88.0,
+      "complejidad": 37.0,
+      "cluster_id": 28,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (API-first): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Clasificacion_Tickets_Soporte' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0."
+    },
+    {
+      "taskbot_id": "TB44",
+      "taskbot": "TB_Priorizacion_Tickets_Criticos",
+      "destino": "custom_python_java",
+      "ola": "ola_3",
+      "valor": 100.0,
+      "complejidad": 70.0,
+      "cluster_id": 28,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Interaccion con BD: automatizacion a la medida en Python/Java."
+      ],
+      "justificacion": "'TB_Priorizacion_Tickets_Criticos' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0."
+    },
+    {
+      "taskbot_id": "TB45",
+      "taskbot": "TB_Extraccion_Pedidos_Ecommerce",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 90.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Extraccion_Pedidos_Ecommerce' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+    },
+    {
+      "taskbot_id": "TB46",
+      "taskbot": "TB_Integracion_Marketplace_Pedidos",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 70.0,
+      "complejidad": 85.0,
+      "cluster_id": null,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Integracion_Marketplace_Pedidos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+    },
+    {
+      "taskbot_id": "TB47",
+      "taskbot": "TB_Control_Vencimiento_Contratos",
+      "destino": "n8n",
+      "ola": "ola_2",
+      "valor": 88.0,
+      "complejidad": 55.0,
+      "cluster_id": 31,
+      "revision_manual": false,
+      "razones": [
+        "Integracion orquestable (email, API-first, archivos): candidato a n8n.",
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+      ],
+      "justificacion": "'TB_Control_Vencimiento_Contratos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (email, API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0."
+    },
+    {
+      "taskbot_id": "TB48",
+      "taskbot": "TB_Alerta_Renovacion_Polizas",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 73.0,
+      "complejidad": 77.0,
+      "cluster_id": 31,
+      "revision_manual": false,
+      "razones": [
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+      ],
+      "justificacion": "'TB_Alerta_Renovacion_Polizas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0."
+    },
+    {
+      "taskbot_id": "TB49",
+      "taskbot": "TB_Depuracion_Datos_Maestros",
+      "destino": "microservice",
+      "ola": "ola_2",
+      "valor": 58.0,
+      "complejidad": 57.0,
+      "cluster_id": 15,
+      "revision_manual": false,
+      "razones": [
+        "Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido."
+      ],
+      "justificacion": "'TB_Depuracion_Datos_Maestros' se recomienda para microservicio / componente compartido (ola 2). Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido. Valor=58.0, complejidad=57.0."
+    },
+    {
+      "taskbot_id": "TB50",
+      "taskbot": "TB_Merge_Clientes_Duplicados",
+      "destino": "rpa_selective",
+      "ola": "ola_3",
+      "valor": 85.0,
+      "complejidad": 90.0,
+      "cluster_id": 15,
+      "revision_manual": true,
+      "razones": [
+        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+      ],
+      "justificacion": "'TB_Merge_Clientes_Duplicados' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=85.0, complejidad=90.0."
+    }
+  ],
+  "errors": []
+}

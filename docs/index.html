@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Agente de inteligencia para consolidación y priorización de migración de taskbots. Prueba Técnica B · Bancolombia.">
+<link rel="icon" type="image/png" href="assets/images/logo-bancolombia.png">
+<title>Agente Migración Taskbots · Bancolombia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<script src="assets/vendor/mermaid.min.js"></script>
+<script>
+  window.__initMermaid = function(){
+    if(!window.mermaid) return;
+    mermaid.initialize({
+      startOnLoad:false,
+      securityLevel:'loose',
+      theme:'base',
+      fontFamily:"'Open Sans','Segoe UI',Arial,sans-serif",
+      themeVariables:{
+        background:'#ffffff',
+        primaryColor:'#ffffff',
+        primaryTextColor:'#2C2A29',
+        primaryBorderColor:'#2C2A29',
+        secondaryColor:'#f4f4f4',
+        tertiaryColor:'#ffffff',
+        lineColor:'#5b6067',
+        textColor:'#2C2A29',
+        fontSize:'13px',
+        clusterBkg:'#fbfbfa',
+        clusterBorder:'#cfccc9',
+        edgeLabelBackground:'#ffffff',
+        nodeBorder:'#2C2A29',
+        actorBorder:'#2C2A29',
+        actorBkg:'#2C2A29',
+        actorTextColor:'#ffffff',
+        signalColor:'#2C2A29',
+        signalTextColor:'#2C2A29',
+        labelBoxBkgColor:'#FDDA24',
+        labelBoxBorderColor:'#a9850a',
+        labelTextColor:'#2C2A29',
+        noteBkgColor:'#FDDA24',
+        noteBorderColor:'#a9850a',
+        noteTextColor:'#2C2A29'
+      },
+      flowchart:{htmlLabels:false, useMaxWidth:true, padding:10, nodeSpacing:40, rankSpacing:46, curve:'basis'},
+      sequence:{useMaxWidth:true, mirrorActors:false, actorMargin:70, boxMargin:12, noteMargin:12, messageMargin:38},
+      gantt:{useMaxWidth:true, fontSize:12, barHeight:20, barGap:5, topPadding:40, leftPadding:230, gridLineStartPadding:20}
+    });
+    var renderQueue = Promise.resolve();
+    var seq = 0;
+    function readMermaidSource(el){
+      if(el.__mermaidSource) return el.__mermaidSource;
+      var source = '';
+      Array.prototype.forEach.call(el.childNodes, function(node){
+        if(node.nodeType === 3) source += node.nodeValue;
+        else if(node.nodeType === 1) source += node.outerHTML || node.textContent || '';
+      });
+      el.__mermaidSource = source.replace(/<br>/gi, '<br/>');
+      return el.__mermaidSource;
+    }
+    window.__renderMermaidDiagrams = function(root){
+      var scope = root || document;
+      renderQueue = renderQueue.then(async function(){
+        var diagrams = Array.prototype.slice.call(scope.querySelectorAll('pre.mermaid:not([data-mermaid-rendered="true"])'));
+        for(var i=0; i<diagrams.length; i++){
+          var el = diagrams[i];
+          if(el.dataset.mermaidRendered === 'true' || el.dataset.mermaidRendered === 'pending') continue;
+          var source = readMermaidSource(el);
+          el.dataset.mermaidRendered = 'pending';
+          try{
+            var out = await mermaid.render('mmd-'+(++seq), source);
+            el.innerHTML = out.svg;
+            if(out.bindFunctions) out.bindFunctions(el);
+            el.dataset.mermaidRendered = 'true';
+          }catch(e){
+            delete el.dataset.mermaidRendered;
+            console.warn('mermaid', e);
+          }
+        }
+      });
+      return renderQueue;
+    };
+    var render = function(){
+      var active = document.querySelector('.page.active') || document;
+      window.__renderMermaidDiagrams(active);
+    };
+    render();
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(render);
+      setTimeout(render, 2500); // fallback solo si fonts.ready nunca resuelve
+    }
+  };
+</script>
+<style>
+:root{
+  --bg:#ffffff;
+  --surface:#f4f4f4;
+  --surface-2:#ededed;
+  --card:#ffffff;
+  --dark:#2C2A29;      /* near-black corporativo */
+  --dark-2:#1c1b1a;
+  --ink:#2C2A29;       /* titulares */
+  --body:#212529;      /* texto */
+  --muted:#6b7075;
+  --yellow:#FDDA24;
+  --yellow-deep:#a9850a;
+  --line:#e3e3e3;
+  --line-soft:#eeeeee;
+  --good:#1e8e5a;
+  --warn:#c98a00;
+  --bad:#c0392b;
+  --info:#2f6b8f;
+  --mono:'JetBrains Mono','Cascadia Code',ui-monospace,Consolas,monospace;
+  --sans:'Open Sans','Segoe UI',system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;
+  --radius:8px;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 10px 30px rgba(0,0,0,.05);
+  --ubar-h:40px;
+  --hdr-h:86px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);font-size:15px;line-height:1.58;-webkit-font-smoothing:antialiased}
+a{color:var(--dark)}
+main a:not(.btn):not([class*="pill"]){text-decoration:underline;text-decoration-color:var(--yellow-deep);text-underline-offset:2px}
+main a:hover{text-decoration-thickness:2px}
+
+/* ---------- Utility bar (oscura) ---------- */
+.ubar{background:var(--dark);color:#fff;height:var(--ubar-h);position:relative;z-index:30}
+.ubar-in{max-width:1400px;margin:0 auto;height:100%;display:flex;align-items:stretch;padding-left:8px}
+.ubar-tabs{display:flex;align-items:stretch}
+.ubar-tabs a{display:flex;align-items:center;padding:0 18px;color:#d6d3d1;font-size:13.5px;text-decoration:none;font-weight:600}
+.ubar-tabs a.active{background:#fff;color:var(--dark)}
+.ubar-tabs a:not(.active):hover{color:#fff}
+.ubar-right{margin-left:auto;display:flex;align-items:center;gap:20px;padding-right:26px}
+.ubar-right a,.ubar-right button{color:#d6d3d1;font-size:13px;text-decoration:none;background:none;border:0;cursor:pointer;font-family:inherit}
+.ubar-right a:hover,.ubar-right button:hover{color:#fff}
+
+/* ---------- Header (blanco) ---------- */
+.hdr{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:25}
+.hdr-in{max-width:1400px;margin:0 auto;height:var(--hdr-h);display:flex;align-items:center;gap:26px;padding:0 26px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;flex:0 0 auto}
+.brand-logo{height:40px;width:auto;display:block}
+.brand .word{font-size:23px;font-weight:800;color:var(--dark);letter-spacing:-.6px}
+.mainnav{display:flex;gap:26px;align-items:center;margin:0 auto}
+.mainnav a{color:var(--dark);font-size:14px;font-weight:600;text-decoration:none;padding:6px 2px;cursor:pointer}
+.mainnav a:hover{color:#000}
+.hdr-actions{display:flex;align-items:center;gap:12px;flex:0 0 auto}
+.pill-dark{background:var(--dark);color:#fff;border:0;border-radius:100px;padding:11px 20px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit}
+.pill-dark:hover{background:#000}
+.login-box{display:flex;align-items:center;gap:12px;border:1px solid var(--line);border-radius:12px;padding:6px 8px 6px 16px}
+.login-box .lb-label{font-size:13.5px;color:var(--dark);font-weight:600;white-space:nowrap}
+.btn-yellow{background:var(--yellow);color:var(--dark);border:0;border-radius:60px;padding:10px 22px;font-size:14px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-yellow:hover{filter:brightness(.96)}
+.menu-btn{display:none;background:none;border:0;font-size:22px;cursor:pointer;color:var(--dark)}
+
+/* ---------- Subnav (tabs de secciones) ---------- */
+.subnav{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:var(--hdr-h);z-index:24}
+.subnav-in{max-width:1400px;margin:0 auto;display:flex;gap:2px;padding:0 20px;overflow-x:auto;scrollbar-width:thin}
+.subnav a{white-space:nowrap;padding:13px 15px;color:var(--muted);font-size:13px;font-weight:600;text-decoration:none;border-bottom:3px solid transparent;cursor:pointer;display:flex;gap:8px;align-items:center}
+.subnav a .ix{font-size:11px;color:var(--muted);font-weight:700;letter-spacing:.5px}
+.subnav a:hover{color:var(--dark)}
+.subnav a.active{color:var(--dark);border-bottom-color:var(--yellow)}
+.subnav a.active .ix{color:var(--yellow-deep)}
+
+/* ---------- Content ---------- */
+main{min-width:0}
+.wrap{max-width:1080px;margin:0 auto;padding:36px 26px 120px}
+.page{display:none;animation:fade .3s ease}
+.page.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.eyebrow{font-size:11.5px;letter-spacing:.5px;text-transform:uppercase;color:var(--yellow-deep);font-weight:700}
+h1{font-size:36px;line-height:1.1;letter-spacing:-1px;margin:.3em 0 .3em;color:var(--ink);font-weight:800;text-wrap:balance}
+h2{font-size:22px;letter-spacing:-.5px;color:var(--ink);margin:2.1em 0 .5em;font-weight:800;text-wrap:balance;scroll-margin-top:150px}
+h3{font-size:16.5px;color:var(--ink);margin:1.6em 0 .4em;font-weight:700}
+h4{font-size:11.5px;letter-spacing:.6px;color:var(--dark);text-transform:uppercase;margin:1.4em 0 .3em;font-weight:700}
+h5{font-size:13.5px;color:var(--ink);margin:1.3em 0 .35em;font-weight:700}
+p{margin:.55em 0}
+.lede{font-size:16.5px;line-height:1.55;color:var(--muted);max-width:72ch}
+ul,ol{padding-left:22px;margin:.5em 0}
+li{margin:.28em 0}
+strong{color:var(--ink);font-weight:700}
+hr{border:0;border-top:1px solid var(--line);margin:34px 0}
+code{font-family:var(--mono);font-size:.84em;background:var(--surface);padding:1.5px 6px;border-radius:5px;color:var(--dark)}
+
+/* Hero */
+.hero{background:var(--surface);border-radius:16px;padding:38px 36px;margin:24px 0 10px}
+.hero h1{margin-top:.15em}
+@media(max-width:640px){.hero{padding:28px 22px}}
+
+/* Question block */
+.q{scroll-margin-top:150px;border-top:1px solid var(--line);padding-top:10px;margin-top:36px}
+.q-tag{display:inline-flex;align-items:center;gap:8px;font-size:11px;color:#fff;background:var(--dark);padding:4px 11px;border-radius:60px;letter-spacing:.3px;font-weight:700;text-transform:uppercase}
+.q h3{margin-top:.5em;font-size:17.5px}
+
+/* Cards & callouts */
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);margin:18px 0}
+.grid{display:grid;gap:16px}
+.grid-2{grid-template-columns:repeat(2,1fr)}
+.grid-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.grid-2,.grid-3{grid-template-columns:1fr}}
+
+.callout{border-left:5px solid var(--dark);background:var(--surface);border-radius:0 8px 8px 0;padding:14px 18px;margin:16px 0}
+.callout.tip{border-color:var(--good)}
+.callout.warn{border-color:var(--warn)}
+.callout.risk{border-color:var(--bad)}
+.callout .k{font-size:11px;letter-spacing:.8px;text-transform:uppercase;font-weight:700;color:var(--muted)}
+
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:22px 0}
+@media(max-width:820px){.kpi-row{grid-template-columns:repeat(2,1fr)}}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow);border-top:4px solid var(--yellow)}
+.kpi .n{font-size:26px;font-weight:800;color:var(--ink);letter-spacing:-.8px;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-top:2px;font-weight:600}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);margin:18px 0;box-shadow:var(--shadow)}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:560px}
+th,td{text-align:left;padding:10px 13px;border-bottom:1px solid var(--line-soft);vertical-align:top}
+thead th{background:var(--dark);color:#fff;font-size:11px;letter-spacing:.4px;text-transform:uppercase;position:sticky;top:0;font-weight:700}
+tbody tr:hover{background:var(--surface)}
+td .mono,th .mono{font-family:var(--mono)}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:60px;font-weight:700;white-space:nowrap}
+.p-hi{background:rgba(192,57,43,.12);color:var(--bad)}
+.p-md{background:rgba(201,138,0,.16);color:var(--warn)}
+.p-lo{background:rgba(30,142,90,.14);color:var(--good)}
+.p-info{background:rgba(47,107,143,.14);color:var(--info)}
+
+/* Diagram figure */
+figure.diagram{margin:22px 0;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--card);box-shadow:var(--shadow)}
+figure.diagram .fig-head{display:flex;align-items:center;gap:10px;padding:12px 16px;background:var(--dark);border-bottom:1px solid var(--line)}
+figure.diagram .fig-head .t{font-size:13px;color:#fff;font-weight:700;letter-spacing:.2px}
+figure.diagram .fig-head .tools{margin-left:auto;display:flex;gap:6px}
+figure.diagram .fig-head .tag{font-size:10px;color:#d6d3d1;border:1px solid #4a4846;padding:2px 8px;border-radius:60px}
+.mini{font-size:11px;padding:5px 10px;border:1px solid #4a4846;background:transparent;border-radius:60px;cursor:pointer;color:#f5f4f2;font-family:inherit;font-weight:600}
+.mini:hover{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+figure.diagram .canvas{padding:18px;overflow-x:auto;background:
+  radial-gradient(circle at 1px 1px, var(--line-soft) 1px, transparent 0);
+  background-size:22px 22px}
+figure.diagram figcaption{font-size:12.5px;color:var(--muted);padding:0 18px 14px}
+.mermaid{display:flex;justify-content:center}
+.mermaid svg{max-width:100%;height:auto}
+
+/* Timeline (roadmap) en HTML/CSS */
+.tl{display:flex;flex-direction:column;gap:7px;min-width:660px}
+.tl-axis,.tl-row{display:grid;grid-template-columns:210px repeat(17,1fr);align-items:center}
+.tl-axis{margin-bottom:4px}
+.tl-axis span{font-size:10.5px;color:var(--muted);font-weight:600;text-align:center;border-left:1px solid var(--line);padding:2px 0}
+.tl-lab{font-size:12px;font-weight:600;color:var(--ink);padding-right:12px;white-space:nowrap;grid-column:1}
+.tl-bar{height:24px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;color:#fff;box-shadow:var(--shadow)}
+.tl-bar.f{background:var(--dark)}
+.tl-bar.m{background:var(--yellow);color:var(--dark)}
+.tl-bar.c{background:#7d241b}
+.tl-mil{height:24px;display:flex;align-items:center;justify-content:flex-start;font-size:11px;font-weight:700;color:#7d241b;white-space:nowrap}
+.tl-legend{display:flex;gap:18px;margin-top:14px;flex-wrap:wrap;font-size:12px;color:var(--muted)}
+.tl-legend span{display:inline-flex;align-items:center;gap:6px}
+.tl-legend i{width:13px;height:13px;border-radius:3px;display:inline-block}
+.tl-legend i.f{background:var(--dark)}
+.tl-legend i.m{background:var(--yellow)}
+.tl-legend i.c{background:#7d241b}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;z-index:100;background:rgba(28,27,26,.9);display:none;flex-direction:column}
+.lightbox.open{display:flex}
+.lb-bar{display:flex;align-items:center;gap:10px;padding:12px 18px;color:#fff;font-size:13px}
+.lb-bar .lb-t{font-weight:700}
+.lb-bar .sp{margin-left:auto;display:flex;gap:8px;flex-wrap:wrap}
+.lb-bar button{font-size:12.5px;background:transparent;color:#fff;border:1px solid rgba(255,255,255,.3);padding:7px 12px;border-radius:60px;cursor:pointer;font-family:inherit;font-weight:600}
+.lb-bar button:hover{background:var(--yellow);color:var(--dark);border-color:var(--yellow)}
+.lb-stage{flex:1;overflow:hidden;position:relative;cursor:grab;display:flex;align-items:center;justify-content:center}
+.lb-stage.grabbing{cursor:grabbing}
+.lb-stage .lb-inner{transform-origin:0 0;transition:transform .04s linear}
+.lb-stage .lb-inner svg{max-width:none;background:#fff;border-radius:8px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.5)}
+.lb-hint{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.7);font-size:11px;background:rgba(0,0,0,.35);padding:5px 12px;border-radius:60px;pointer-events:none}
+
+/* Score */
+.score{display:flex;align-items:center;gap:14px;margin:8px 0}
+.score .bar{flex:1;height:9px;background:var(--surface-2);border-radius:60px;overflow:hidden}
+.score .bar i{display:block;height:100%;background:var(--dark);border-radius:60px}
+.score .bar i.y{background:var(--yellow)}
+.score .v{font-size:12px;color:var(--ink);min-width:52px;text-align:right;font-weight:700}
+.score .lab{font-size:13px;min-width:180px}
+
+/* Footer */
+.foot{border-top:1px solid var(--line);margin-top:60px;padding-top:22px;color:var(--muted);font-size:13px;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between}
+
+blockquote{margin:16px 0}
+
+/* Mobile */
+@media(max-width:960px){
+  .mainnav{display:none}
+  .login-box .lb-label{display:none}
+  .menu-btn{display:inline-flex}
+  .ubar-right{gap:12px;padding-right:14px}
+}
+@media(max-width:640px){
+  h1{font-size:27px}
+  .pill-dark{display:none}
+  .hero{margin:18px 0;padding:26px 20px}
+}
+:focus-visible{outline:2px solid var(--yellow-deep);outline-offset:2px;border-radius:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* ---------- Footer global ---------- */
+.site-foot{background:var(--dark);color:#e8e6e4;margin-top:40px}
+.site-foot-in{max-width:1080px;margin:0 auto;padding:26px 26px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.sf-brand{display:flex;align-items:center;gap:12px}
+.sf-logo{height:38px;width:auto;display:block;filter:brightness(0) invert(1)}
+.sf-brandtxt{display:flex;flex-direction:column;line-height:1.3}
+.sf-brandtxt b{color:#fff;font-size:14.5px;font-weight:700}
+.sf-brandtxt span{color:#a8a5a2;font-size:12px}
+.sf-author{display:flex;flex-direction:column;align-items:flex-end;line-height:1.35;text-align:right}
+.sf-by{font-size:11px;text-transform:uppercase;letter-spacing:.6px;color:#a8a5a2;font-weight:600}
+.sf-name{color:#fff;font-size:15.5px;font-weight:700;text-decoration:none;display:inline-flex;align-items:center}
+.sf-name:hover{color:var(--yellow)}
+.sf-date{font-size:12px;color:#a8a5a2;margin-top:2px}
+@media(max-width:560px){.site-foot-in{flex-direction:column;align-items:flex-start}.sf-author{align-items:flex-start;text-align:left}}
+</style>
+</head>
+<body>
+
+<!-- ============ UTILITY BAR ============ -->
+<div class="ubar">
+  <div class="ubar-in">
+    <nav class="ubar-tabs" aria-label="Perfil">
+      <a class="active">Propuesta</a>
+      <a data-goto="reto">Reto Parte B</a>
+      <a data-goto="uml">Diagramas</a>
+    </nav>
+    <div class="ubar-right">
+      <span style="color:#a8a5a2;font-size:12.5px">Confidencial · Uso en entrevista</span>
+      <button id="printBtn">⎙ PDF</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ HEADER ============ -->
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="brand" data-goto="overview" aria-label="Bancolombia — inicio de la propuesta">
+      <img class="brand-logo" src="assets/images/logo-bancolombia.svg" alt="Bancolombia" width="99" height="28">
+    </a>
+    <nav class="mainnav" aria-label="Secciones principales">
+      <a data-goto="overview">Inicio</a>
+      <a data-goto="arquitectura">Arquitectura</a>
+      <a data-goto="dominio">Dominio</a>
+      <a data-goto="resultados">Resultados</a>
+      <a data-goto="uml">Diagramas</a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="pill-dark" data-goto="resultados">Ver resultados</button>
+      <div class="login-box">
+        <span class="lb-label">Reto Senior · Parte B</span>
+        <button class="btn-yellow" data-goto="reto">Empezar</button>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menú">☰</button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ SUBNAV ============ -->
+<div class="subnav">
+  <div class="subnav-in" id="subnav">
+    <a data-goto="overview"><span class="ix">00</span> Resumen</a>
+    <a data-goto="reto"><span class="ix">01</span> Reto &amp; requisitos</a>
+    <a data-goto="arquitectura"><span class="ix">A</span> Arquitectura</a>
+    <a data-goto="dominio"><span class="ix">B</span> Dominio &amp; reglas</a>
+    <a data-goto="resultados"><span class="ix">C</span> Resultados</a>
+    <a data-goto="ejecucion"><span class="ix">D</span> Ejecución &amp; n8n</a>
+    <a data-goto="uml"><span class="ix">UML</span> Diagramas</a>
+    <a data-goto="testing"><span class="ix">QA</span> Testing</a>
+    <a data-goto="adr"><span class="ix">ADR</span> Decisiones</a>
+  </div>
+</div>
+
+<main>
+  <div class="wrap">
+
+    <!-- ==================== OVERVIEW ==================== -->
+    <section class="page active" id="overview" data-title="Resumen">
+      <div class="hero">
+        <div class="eyebrow">Prueba técnica · Senior Software Engineer · Parte B</div>
+        <h1>Agente de inteligencia para consolidación y priorización de migración de taskbots</h1>
+        <p class="lede">Una solución <strong>local y reproducible</strong> que recibe un inventario fragmentado de taskbots (RPA) y produce <strong>decisiones accionables</strong>: qué consolidar, a qué destino migrar (n8n / microservicio / Python-Java / RPA selectivo), qué requiere revisión manual y en qué <em>ola</em> entra cada caso — con reglas explicables, trazabilidad y sin depender de ambientes del cliente.</p>
+      </div>
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="n">50</div><div class="l">Taskbots analizados</div></div>
+        <div class="kpi"><div class="n">15</div><div class="l">Grupos consolidables</div></div>
+        <div class="kpi"><div class="n">5</div><div class="l">Destinos tecnológicos</div></div>
+        <div class="kpi"><div class="n">3</div><div class="l">Olas de migración</div></div>
+      </div>
+
+      <h2 id="ov-resumen">Resumen ejecutivo</h2>
+      <p>El reto no es "hacer un bot": es demostrar <strong>criterio de diseño</strong> para convertir una masa de automatizaciones fragmentadas en decisiones defendibles. La solución detecta duplicidad, clasifica el destino tecnológico por reglas explicables y prioriza por valor vs. complejidad — todo ejecutable en el entorno local y orquestable con n8n.</p>
+      <p>Se apoya en tres decisiones nucleares, alineadas con la propuesta de la Parte A:</p>
+      <div class="grid grid-3">
+        <div class="card"><h4>1 · Racionalizar antes de migrar</h4><p>De un inventario plano a un catálogo de <em>utilidades</em>: las variantes se consolidan; no se migra una por una.</p></div>
+        <div class="card"><h4>2 · Orquestar, no bot-izar</h4><p>n8n coordina el análisis vía un servicio con API; la lógica de negocio vive en el servicio, no en el orquestador.</p></div>
+        <div class="card"><h4>3 · Criterio explicable</h4><p>Reglas deterministas deciden y <em>justifican</em>; un agente LLM opcional enriquece la redacción sin cambiar la decisión.</p></div>
+      </div>
+
+      <div class="callout">
+        <div class="k">Qué se considera una solución correcta</div>
+        <p>Una solución que (a) corre localmente y es <strong>reproducible</strong> (mismas entradas → mismas decisiones), (b) demuestra reducción de fragmentación mediante consolidación, (c) es <strong>trazable y auditable</strong>, y (d) explica <em>por qué</em> recomienda cada destino y cada ola — sin sobre-ingeniería.</p>
+      </div>
+
+      <h2>Lo que el sistema demuestra en vivo</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Conclusión accionable</th><th>Sustento</th></tr></thead>
+        <tbody>
+          <tr><td>Grupos de taskbots son variantes de unas pocas utilidades reutilizables</td><td>Clustering por similitud declarada + apps + texto</td></tr>
+          <tr><td>Casos candidatos a <strong>n8n</strong> por ser integración API/archivo/email</td><td>Regla de destino sobre el tipo de interacción</td></tr>
+          <tr><td>Casos que quedan en <strong>RPA selectivo</strong> por depender de UI legacy</td><td>El eslabón frágil (UI legacy) domina la decisión</td></tr>
+          <tr><td>Grupos que deberían ser un <strong>microservicio compartido</strong></td><td>Cluster grande sin UI legacy</td></tr>
+          <tr><td>Lista que entra en <strong>Ola 1</strong> por alto valor y baja complejidad</td><td>Scoring valor vs. complejidad</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ==================== RETO ==================== -->
+    <section class="page" id="reto" data-title="Reto y requisitos">
+      <div class="eyebrow">Parte B · Entendimiento del reto</div>
+      <h1>El problema y sus requisitos</h1>
+      <p class="lede">Migrar desde una plataforma de RPAs hacia una arquitectura evolutiva exige decidir <em>qué se migra, qué se consolida y qué se reemplaza</em> — y demostrar valor sin depender de ambientes del cliente.</p>
+
+      <h2>Problema</h2>
+      <p>Un portafolio de RPA crece de forma fragmentada: decenas de taskbots que se duplican, dependen de UI legacy y mezclan integraciones. Decidir manualmente qué hacer con cada uno es lento y subjetivo. Esta solución <strong>automatiza el criterio</strong>.</p>
+
+      <div class="grid grid-2">
+        <div class="card"><h4>Entrada</h4><p>Inventario con nombre, propósito, aplicaciones, tipo(s) de interacción, frecuencia, riesgo, dependencias y evidencia de duplicidad. Formatos: <code>.txt</code>, <code>.csv</code>, <code>.json</code>, <code>.sqlite</code>.</p></div>
+        <div class="card"><h4>Salida</h4><p>Por cada taskbot: destino sugerido, ola, valor/complejidad y justificación; más grupos consolidables y un reporte <code>JSON</code> + <code>HTML</code>.</p></div>
+      </div>
+
+      <h2>Requisitos funcionales</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>ID</th><th>Requisito</th><th>Criterio de aceptación</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">RF1</td><td>Cargar inventario local</td><td>Lee .txt/.csv/.json/.sqlite; registros inválidos no abortan el lote</td></tr>
+          <tr><td class="mono">RF2</td><td>Normalizar atributos</td><td>Interacción, riesgo y frecuencia se canonizan (tolerante a sinónimos)</td></tr>
+          <tr><td class="mono">RF3</td><td>Detectar duplicidad</td><td>Agrupa variantes en clusters; expone grupos consolidables</td></tr>
+          <tr><td class="mono">RF4</td><td>Clasificar destino</td><td>n8n / microservicio / Python-Java / RPA selectivo / revisión manual</td></tr>
+          <tr><td class="mono">RF5</td><td>Priorizar</td><td>Asigna Ola 1/2/3 por valor vs. complejidad</td></tr>
+          <tr><td class="mono">RF6</td><td>Justificar</td><td>Cada recomendación incluye razones explícitas</td></tr>
+          <tr><td class="mono">RF7</td><td>Reportar</td><td>Genera JSON + HTML con hallazgos accionables</td></tr>
+          <tr><td class="mono">RF8</td><td>Trazar</td><td>Logs estructurados con <code>run_id</code>; errores por ítem</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>Requisitos no funcionales</h2>
+      <div class="grid grid-3">
+        <div class="card"><h4>Reproducibilidad</h4><p>Mismas entradas → mismas decisiones. El LLM solo afecta la redacción.</p></div>
+        <div class="card"><h4>Testabilidad</h4><p>Dominio puro sin I/O; cobertura de código 100%.</p></div>
+        <div class="card"><h4>Bajo acoplamiento</h4><p>Puertos y adapters: fuente, salida, LLM y orquestador intercambiables.</p></div>
+        <div class="card"><h4>Extensibilidad</h4><p>Nuevos destinos/reglas/fuentes sin tocar el núcleo.</p></div>
+        <div class="card"><h4>Observabilidad</h4><p>Logs JSON con correlation id por corrida.</p></div>
+        <div class="card"><h4>Portabilidad</h4><p>Local y Docker; sin credenciales del cliente.</p></div>
+      </div>
+
+      <h2>Supuestos y preguntas abiertas</h2>
+      <div class="callout warn">
+        <div class="k">Supuestos</div>
+        <p>La duplicidad suele estar <strong>declarada</strong> en el inventario; el tipo de interacción refleja la vía de integración real; la UI legacy es el factor bloqueante de migración (criterio conservador → RPA selectivo).</p>
+      </div>
+      <div class="callout">
+        <div class="k">Preguntas al evaluador</div>
+        <p>¿Existe volumen/criticidad por bot para afinar el valor? ¿Hay un catálogo de APIs existentes que permita reclasificar legacy con API disponible como candidato a n8n?</p>
+      </div>
+    </section>
+
+    <!-- ==================== ARQUITECTURA ==================== -->
+    <section class="page" id="arquitectura" data-title="Arquitectura">
+      <div class="eyebrow">Diseño · Bloque A</div>
+      <h1>Arquitectura hexagonal ligera</h1>
+      <p class="lede">El criterio de negocio (reglas, scoring, clustering) es <strong>puro y estable</strong>; las orillas (fuente, salida, LLM, HTTP) son <strong>intercambiables</strong>. Un solo despliegue, sin microservicios injustificados.</p>
+
+      <div class="callout tip">
+        <div class="k">Alineación con la Parte A</div>
+        <p>La Parte A propuso <em>racionalizar antes de migrar</em>, <em>orquestar en lugar de bot-izar</em> y <em>gobierno desde el diseño</em>. Esta Parte B es la <strong>implementación local y demostrable</strong> de ese criterio: el <code>discovery</code> de la Parte A (Jaccard + union-find + scoring) evoluciona aquí a un servicio hexagonal con destinos, olas, orquestación n8n y agente.</p>
+      </div>
+
+      <figure class="diagram" data-title="Arquitectura de componentes">
+        <div class="fig-head"><span class="t">Componentes y dependencias</span><span class="tools"><span class="tag">Hexagonal</span></span></div>
+        <div class="canvas"><pre class="mermaid">
+flowchart TB
+    subgraph Interfaz
+      CLI[CLI Typer]
+      API[FastAPI]
+    end
+    subgraph Aplicacion
+      UC[AnalyzeInventory]
+      P[Puertos]
+    end
+    subgraph Dominio
+      RULES[rules]
+      SCORE[scoring]
+      SIMD[clustering]
+      ENT[entities]
+    end
+    subgraph Infraestructura
+      REPO[Repos csv/json/sqlite/txt]
+      SIM[RapidFuzzSimilarity]
+      ADV[Advisor LLM / determinista]
+      REND[Renderers JSON / HTML]
+    end
+    CLI --> UC
+    API --> UC
+    UC --> P
+    UC --> RULES & SCORE & SIMD
+    P -. implementan .- REPO & SIM & ADV & REND
+    N8N[(n8n)] --> API
+        </pre></div>
+        <figcaption>El caso de uso depende de puertos; los adapters de infraestructura los implementan (inversión de dependencias).</figcaption>
+      </figure>
+
+      <h2>Responsabilidad por capa</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Capa</th><th>Qué vive aquí</th><th>Qué NO vive aquí</th></tr></thead>
+        <tbody>
+          <tr><td>Dominio</td><td>Entidades, reglas de destino, scoring, clustering</td><td>I/O, frameworks, formatos</td></tr>
+          <tr><td>Aplicación</td><td>Caso de uso <code>AnalyzeInventory</code>, puertos</td><td>Detalles de CSV/HTTP/LLM</td></tr>
+          <tr><td>Infraestructura</td><td>Repos, similitud, advisor, renderers, config, logging</td><td>Reglas de negocio</td></tr>
+          <tr><td>Interfaz</td><td>CLI (Typer) y API (FastAPI para n8n)</td><td>Lógica de clasificación</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>Trade-offs aceptados</h2>
+      <div class="grid grid-2">
+        <div class="card"><h4>Hook <code>fit()</code> por duck-typing</h4><p>El caso de uso calibra "apps hub" llamando un hook opcional del scorer. Pequeño pragmatismo, documentado, sin obligar a todos los scorers.</p></div>
+        <div class="card"><h4>rapidfuzz como dependencia</h4><p>Mejor similitud en nombres en español a cambio de una dependencia ligera; la idea de clustering es la misma que la Parte A (stdlib).</p></div>
+      </div>
+
+      <h2>Alternativas descartadas</h2>
+      <div class="grid grid-3">
+        <div class="card"><h4>Microservicios</h4><p>No aplica: un solo dominio, un solo despliegue. Fragmentaría sin beneficio.</p></div>
+        <div class="card"><h4>Capas clásicas</h4><p>Acoplan dominio a persistencia; hexagonal invierte esa dependencia.</p></div>
+        <div class="card"><h4>LLM como núcleo</h4><p>Rompe reproducibilidad y la restricción de correr sin credenciales.</p></div>
+      </div>
+    </section>
+
+    <!-- ==================== DOMINIO ==================== -->
+    <section class="page" id="dominio" data-title="Dominio y reglas">
+      <div class="eyebrow">Diseño · Bloque B</div>
+      <h1>Modelo de dominio y reglas de negocio</h1>
+      <p class="lede">Reglas deterministas y explicables: la primera que aplica gana, y cada una emite su razón. El eslabón frágil (UI legacy) domina el destino.</p>
+
+      <h2>Reglas de clasificación de destino</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>#</th><th>Condición</th><th>Destino</th><th>Por qué</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Sin interacción reconocida</td><td><span class="pill p-info">Revisión manual</span></td><td>No se puede clasificar destino</td></tr>
+          <tr><td>2</td><td>Presencia de UI legacy</td><td><span class="pill p-hi">RPA selectivo</span></td><td>Sin integración limpia; el eslabón frágil manda</td></tr>
+          <tr><td>3</td><td>Variante en cluster grande (≥3, sin legacy)</td><td><span class="pill p-md">Microservicio</span></td><td>Utilidad reutilizable compartida</td></tr>
+          <tr><td>4</td><td>Presencia de base de datos</td><td><span class="pill p-md">Python/Java</span></td><td>Lógica de datos a la medida</td></tr>
+          <tr><td>5</td><td>API / email / archivo</td><td><span class="pill p-lo">n8n</span></td><td>Integración orquestable</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout">
+        <div class="k">Bandera ortogonal</div>
+        <p><code>needs_manual_review</code> es independiente del destino: un taskbot puede ir a n8n y <em>además</em> requerir revisión manual por alto riesgo con múltiples dependencias (responde a la pregunta 4 del reto).</p>
+      </div>
+
+      <h2>Scoring y ola</h2>
+      <div class="grid grid-2">
+        <div class="card"><h4>Valor</h4><p>Frecuencia (0–40) + riesgo mitigado (0–30) + bono de consolidación (0–30). Mayor frecuencia y duplicidad ⇒ mayor valor.</p></div>
+        <div class="card"><h4>Complejidad</h4><p>Máx. complejidad de interacción (UI legacy domina) + canales extra + riesgo + dependencias (tope 20).</p></div>
+      </div>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Ola</th><th>Condición</th><th>Interpretación</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill p-lo">Ola 1</span></td><td>valor ≥ 50 y complejidad ≤ 40</td><td>Quick wins: alto valor, baja fricción</td></tr>
+          <tr><td><span class="pill p-md">Ola 2</span></td><td>valor ≥ 40 y complejidad ≤ 65</td><td>Intermedios</td></tr>
+          <tr><td><span class="pill p-hi">Ola 3</span></td><td>resto o revisión manual</td><td>Bajo valor / alta complejidad / a revisar</td></tr>
+        </tbody>
+      </table></div>
+
+      <h2>Detección de duplicidad multi-señal</h2>
+      <p>El clustering (<em>union-find</em>) combina tres señales, evitando el encadenamiento del single-linkage al excluir apps "hub" (presentes en ≥25% del portafolio, p.ej. SAP ECC):</p>
+      <div class="grid grid-3">
+        <div class="card"><h4>1 · Evidencia declarada</h4><p>"Similar a TB_X" en el inventario: la señal más fuerte y confiable.</p></div>
+        <div class="card"><h4>2 · Solapamiento de apps</h4><p>Jaccard sobre aplicaciones <em>no-hub</em>: captura duplicidad no declarada.</p></div>
+        <div class="card"><h4>3 · Similitud textual</h4><p>rapidfuzz sobre nombre + propósito.</p></div>
+      </div>
+    </section>
+
+    <!-- ==================== RESULTADOS ==================== -->
+    <section class="page" id="resultados" data-title="Resultados">
+      <div class="eyebrow">Evidencia · Bloque C</div>
+      <h1>Resultados sobre el inventario real (50 taskbots)</h1>
+      <p class="lede">Salida real del análisis sobre <code>ejemplo_50_taskbots_prueba.txt</code>, reproducible con un comando.</p>
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="n">15</div><div class="l">Grupos consolidables</div></div>
+        <div class="kpi"><div class="n">8</div><div class="l">Candidatos a n8n</div></div>
+        <div class="kpi"><div class="n">36</div><div class="l">RPA selectivo (legacy)</div></div>
+        <div class="kpi"><div class="n">2</div><div class="l">Quick wins (Ola 1)</div></div>
+      </div>
+
+      <h2>Distribución por destino</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Destino</th><th>Taskbots</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill p-lo">n8n</span></td><td>8</td><td>Integraciones API/archivo/email orquestables</td></tr>
+          <tr><td><span class="pill p-md">Python/Java a la medida</span></td><td>5</td><td>Lógica centrada en base de datos</td></tr>
+          <tr><td><span class="pill p-md">Microservicio compartido</span></td><td>1</td><td>Utilidad reutilizable (datos maestros)</td></tr>
+          <tr><td><span class="pill p-hi">RPA selectivo</span></td><td>36</td><td>Atados a UI legacy (SAP GUI, mainframe, Citrix)</td></tr>
+        </tbody>
+      </table></div>
+
+      <div class="callout risk">
+        <div class="k">Hallazgo de negocio</div>
+        <p>El <strong>72% del portafolio depende de UI legacy</strong>. La estrategia realista no es forzar n8n, sino: (1) consolidar variantes, (2) <strong>exponer APIs</strong> donde hoy se navega UI para habilitar migración futura, y (3) reservar RPA selectivo para lo que aún no tiene integración.</p>
+      </div>
+
+      <h2>Distribución por ola</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Ola</th><th>Taskbots</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill p-lo">Ola 1 — quick wins</span></td><td>2</td></tr>
+          <tr><td><span class="pill p-md">Ola 2 — intermedios</span></td><td>7</td></tr>
+          <tr><td><span class="pill p-hi">Ola 3 — a habilitar/revisar</span></td><td>41</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <!-- ==================== EJECUCION ==================== -->
+    <section class="page" id="ejecucion" data-title="Ejecución y n8n">
+      <div class="eyebrow">Operación · Bloque D</div>
+      <h1>Ejecución local y orquestación con n8n</h1>
+      <p class="lede">Se demuestra por CLI (sin n8n) o por n8n (orquestada). El servicio expone un contrato HTTP simple; el orquestador es reemplazable por Appian/Power Platform/BPM.</p>
+
+      <h2>CLI</h2>
+      <div class="card"><pre style="overflow-x:auto;margin:0"><code>python -m pip install -r requirements.txt
+PYTHONPATH=src python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt
+# → reports/&lt;run_id&gt;/reporte.json  +  reporte.html</code></pre></div>
+
+      <h2>API + n8n (local)</h2>
+      <div class="card"><pre style="overflow-x:auto;margin:0"><code>docker compose up --build
+# API   → http://localhost:8000  (/health, /analyze, /analyze/inline)
+# n8n   → http://localhost:5678  → Import → n8n/workflow.json</code></pre></div>
+
+      <h2>n8n Cloud</h2>
+      <p>Se entrega <code>n8n/workflow.cloud.json</code>: un workflow <strong>autocontenido</strong> (nodo Code con el inventario embebido y la lógica de clasificación en JS) que se importa en n8n Cloud y corre sin servicio local. Alternativamente, se expone el servicio local a n8n Cloud con un túnel (cloudflared/ngrok) apuntando el nodo HTTP a la URL pública.</p>
+      <div class="callout tip">
+        <div class="k">Rollback / recuperación</div>
+        <p>El servicio es <em>stateless</em> y de solo lectura sobre el inventario. Cada corrida es idempotente y versionada por <code>run_id</code> en <code>reports/&lt;run_id&gt;/</code> sin sobrescribir. Fail-soft por ítem; el nodo HTTP de n8n reintenta 3×. Recuperarse = volver a ejecutar.</p>
+      </div>
+    </section>
+
+    <!-- ==================== UML ==================== -->
+    <section class="page" id="uml" data-title="Galería UML">
+      <div class="eyebrow">Modelado</div>
+      <h1>Diagramas</h1>
+      <p class="lede">Casos de uso, clases, secuencia y actividad. Haz clic en cualquier diagrama para ampliar, hacer zoom y descargar (SVG/PNG).</p>
+
+      <figure class="diagram" data-title="Casos de uso">
+        <div class="fig-head"><span class="t">Casos de uso</span><span class="tools"><span class="tag">UML</span></span></div>
+        <div class="canvas"><pre class="mermaid">
+flowchart LR
+    arq([Arquitecto de automatizacion])
+    ops([Operacion])
+    n8n([n8n / Orquestador])
+    subgraph Sistema[Taskbot Migration Advisor]
+      uc1((Analizar inventario))
+      uc2((Detectar duplicidad))
+      uc3((Clasificar destino))
+      uc4((Priorizar en olas))
+      uc5((Generar reporte))
+    end
+    arq --> uc1
+    ops --> uc5
+    n8n --> uc1
+    uc1 -.incluye.-> uc2
+    uc1 -.incluye.-> uc3
+    uc1 -.incluye.-> uc4
+    uc1 -.incluye.-> uc5
+        </pre></div>
+        <figcaption>Actores y casos principales del sistema.</figcaption>
+      </figure>
+
+      <figure class="diagram" data-title="Diagrama de clases">
+        <div class="fig-head"><span class="t">Clases (dominio + aplicación)</span><span class="tools"><span class="tag">UML</span></span></div>
+        <div class="canvas"><pre class="mermaid">
+classDiagram
+    class Taskbot {
+      +id
+      +interactions
+      +risk
+      +has()
+    }
+    class Cluster {
+      +member_ids
+      +is_duplicate_group
+    }
+    class Recommendation {
+      +target
+      +wave
+      +value_score
+      +rationale
+    }
+    class AnalyzeInventory {
+      +execute()
+    }
+    class InventoryRepository {
+      &lt;&lt;port&gt;&gt;
+    }
+    class SimilarityScorer {
+      &lt;&lt;port&gt;&gt;
+    }
+    class AgentAdvisor {
+      &lt;&lt;port&gt;&gt;
+    }
+    AnalyzeInventory --> InventoryRepository
+    AnalyzeInventory --> SimilarityScorer
+    AnalyzeInventory --> AgentAdvisor
+    AnalyzeInventory --> Recommendation
+    Recommendation --> Taskbot
+        </pre></div>
+        <figcaption>El caso de uso depende de puertos; las entidades son value objects puros.</figcaption>
+      </figure>
+
+      <figure class="diagram" data-title="Secuencia del flujo principal">
+        <div class="fig-head"><span class="t">Secuencia</span><span class="tools"><span class="tag">UML</span></span></div>
+        <div class="canvas"><pre class="mermaid">
+sequenceDiagram
+    participant U as CLI / n8n
+    participant UC as AnalyzeInventory
+    participant R as Repository
+    participant S as Similarity
+    participant D as Dominio
+    participant A as Advisor
+    U->>UC: execute(run_id)
+    UC->>R: load()
+    R-->>UC: taskbots, errores
+    UC->>S: fit(taskbots)
+    UC->>D: build_clusters(...)
+    D-->>UC: clusters
+    loop por taskbot
+      UC->>D: classify + score + wave
+      D-->>UC: recommendation
+      UC->>A: explain(bot, rec)
+      A-->>UC: justificacion
+    end
+    UC-->>U: AnalysisResult
+        </pre></div>
+        <figcaption>Desde la carga hasta la respuesta con recomendaciones.</figcaption>
+      </figure>
+
+      <figure class="diagram" data-title="Actividad de la lógica de negocio">
+        <div class="fig-head"><span class="t">Actividad</span><span class="tools"><span class="tag">UML</span></span></div>
+        <div class="canvas"><pre class="mermaid">
+flowchart TD
+    A[Cargar inventario] --> B{Registro valido?}
+    B -- no --> E[Registrar error, continuar]
+    B -- si --> C[Normalizar]
+    C --> D[Clustering + apps hub]
+    D --> F{Interaccion reconocida?}
+    F -- no --> G[Revision manual]
+    F -- si --> H{UI legacy?}
+    H -- si --> I[RPA selectivo]
+    H -- no --> J{Cluster grande?}
+    J -- si --> K[Microservicio]
+    J -- no --> L{BD?}
+    L -- si --> M[Python/Java]
+    L -- no --> N[n8n]
+    G & I & K & M & N --> O[Scoring -> ola]
+    O --> P[Justificar y reportar]
+        </pre></div>
+        <figcaption>La primera regla que aplica define el destino.</figcaption>
+      </figure>
+    </section>
+
+    <!-- ==================== TESTING ==================== -->
+    <section class="page" id="testing" data-title="Testing">
+      <div class="eyebrow">Calidad</div>
+      <h1>Estrategia de pruebas</h1>
+      <p class="lede">82 pruebas automatizadas (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
+
+      <div class="kpi-row">
+        <div class="kpi"><div class="n">82</div><div class="l">Pruebas</div></div>
+        <div class="kpi"><div class="n">100%</div><div class="l">Cobertura</div></div>
+        <div class="kpi"><div class="n">unit + e2e</div><div class="l">Niveles</div></div>
+        <div class="kpi"><div class="n">0</div><div class="l">Fallos</div></div>
+      </div>
+
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>ID</th><th>Escenario</th><th>Tipo</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">T1</td><td>Cada tipo de interacción → destino esperado</td><td>unit</td></tr>
+          <tr><td class="mono">T2</td><td>UI legacy domina sobre API/BD</td><td>unit</td></tr>
+          <tr><td class="mono">T3</td><td>Scoring y asignación de ola (bordes)</td><td>unit</td></tr>
+          <tr><td class="mono">T4</td><td>Clustering union-find (duplicados/transitividad)</td><td>unit</td></tr>
+          <tr><td class="mono">T5</td><td>Parseo multivaluado de interacciones</td><td>unit</td></tr>
+          <tr><td class="mono">T6</td><td>Carga real .txt (50 taskbots)</td><td>integración</td></tr>
+          <tr><td class="mono">T7</td><td>Pipeline e2e produce todas las categorías</td><td>integración</td></tr>
+          <tr><td class="mono">T8</td><td>Reproducibilidad (dos corridas idénticas)</td><td>integración</td></tr>
+          <tr><td class="mono">T9</td><td>Reportes versionados por run_id</td><td>integración</td></tr>
+          <tr><td class="mono">T10</td><td>API /health, /analyze, /analyze/inline, error 400</td><td>integración</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout tip"><div class="k">Casos borde cubiertos</div><p>Inventario vacío/registro inválido, campos faltantes, duplicados, LLM caído (fallback determinista), archivo inexistente.</p></div>
+    </section>
+
+    <!-- ==================== ADR ==================== -->
+    <section class="page" id="adr" data-title="ADRs">
+      <div class="eyebrow">Decisiones</div>
+      <h1>Architecture Decision Records</h1>
+      <p class="lede">Cinco decisiones registradas, con contexto, decisión, consecuencias y alternativas.</p>
+
+      <div class="grid grid-2">
+        <div class="card"><h4>ADR-001 · Arquitectura hexagonal</h4><p>Núcleo puro y testeable; orillas intercambiables. Sin microservicios.</p></div>
+        <div class="card"><h4>ADR-002 · Reglas deterministas</h4><p>Clasificación explicable y reproducible; una razón por regla.</p></div>
+        <div class="card"><h4>ADR-003 · Similitud multi-señal</h4><p>Declarada + apps no-hub + texto; evita encadenamiento single-linkage.</p></div>
+        <div class="card"><h4>ADR-004 · Agente híbrido con fallback</h4><p>Reglas deciden; LLM opcional solo redacta y degrada limpio.</p></div>
+        <div class="card"><h4>ADR-005 · n8n orquestador desacoplado</h4><p>Lógica en el servicio HTTP; n8n orquesta. Mapeable a Appian/Power Platform.</p></div>
+      </div>
+      <p style="margin-top:16px">Los ADRs completos están en <code>docs/adr/</code>.</p>
+    </section>
+
+  </div>
+
+  <!-- ============ FOOTER GLOBAL ============ -->
+  <footer class="site-foot">
+    <div class="site-foot-in">
+      <div class="sf-brand">
+        <img class="sf-logo" src="assets/images/logo-bancolombia.svg" alt="Bancolombia" width="92" height="26">
+        <div class="sf-brandtxt">
+          <b>Prueba Técnica B</b>
+          <span>Agente de consolidación y priorización de migración de taskbots</span>
+        </div>
+      </div>
+      <div class="sf-author">
+        <span class="sf-by">Diseñado y presentado por</span>
+        <a class="sf-name" href="https://www.linkedin.com/in/bccruzo/" target="_blank" rel="noopener noreferrer">
+          Briyid Catalina Cruz Ostos
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="vertical-align:-2px;margin-left:5px"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.34V9h3.42v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13zM7.12 20.45H3.56V9h3.56v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg>
+        </a>
+        <span class="sf-date" id="sfDate">Julio 2026</span>
+      </div>
+    </div>
+  </footer>
+</main>
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <div class="lb-bar">
+    <span class="lb-t" id="lbTitle">Diagrama</span>
+    <span class="sp">
+      <button id="lbZoomOut">– Zoom</button>
+      <button id="lbZoomIn">+ Zoom</button>
+      <button id="lbReset">Reset</button>
+      <button id="lbSvg">Descargar SVG</button>
+      <button id="lbPng">Descargar PNG</button>
+      <button id="lbClose">✕ Cerrar</button>
+    </span>
+  </div>
+  <div class="lb-stage" id="lbStage">
+    <div class="lb-inner" id="lbInner"></div>
+    <div class="lb-hint">Arrastra para mover · rueda para zoom</div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  var pages = document.querySelectorAll('.page');
+  var navLinks = document.querySelectorAll('#subnav a');
+
+  function goto(id){
+    var target = document.getElementById(id);
+    if(!target) return;
+    pages.forEach(function(p){ p.classList.toggle('active', p.id===id); });
+    navLinks.forEach(function(a){ a.classList.toggle('active', a.getAttribute('data-goto')===id); });
+    // centrar el tab activo del subnav
+    var act = document.querySelector('#subnav a.active');
+    if(act && act.scrollIntoView) act.scrollIntoView({inline:'center', block:'nearest'});
+    window.scrollTo({top:0, behavior:'auto'});
+    if(history.replaceState) history.replaceState(null,'','#'+id);
+    if(window.__renderMermaidDiagrams) window.__renderMermaidDiagrams(target);
+  }
+
+  document.addEventListener('click', function(e){
+    var el = e.target.closest('[data-goto]');
+    if(el){ e.preventDefault(); goto(el.getAttribute('data-goto')); }
+  });
+
+  var initial = (location.hash||'').replace('#','');
+  if(initial && document.getElementById(initial)) goto(initial);
+
+  // Menú móvil: lleva al subnav
+  var mb = document.getElementById('menuBtn');
+  if(mb) mb.addEventListener('click', function(){
+    document.querySelector('.subnav').scrollIntoView({behavior:'smooth'});
+  });
+
+  document.getElementById('printBtn').addEventListener('click', function(){
+    pages.forEach(function(p){ p.classList.add('active'); });
+    var print = function(){
+      window.print();
+      setTimeout(function(){
+        var active = (location.hash||'#overview').replace('#','');
+        pages.forEach(function(p){ p.classList.toggle('active', p.id===active); });
+      }, 400);
+    };
+    if(window.__renderMermaidDiagrams) window.__renderMermaidDiagrams(document).then(print);
+    else print();
+  });
+
+  /* ---------- Lightbox de diagramas ---------- */
+  var lb = document.getElementById('lightbox');
+  var lbInner = document.getElementById('lbInner');
+  var lbStage = document.getElementById('lbStage');
+  var lbTitle = document.getElementById('lbTitle');
+  var state = {scale:1, x:0, y:0, dragging:false, sx:0, sy:0};
+
+  function applyTransform(){
+    lbInner.style.transform = 'translate('+state.x+'px,'+state.y+'px) scale('+state.scale+')';
+  }
+  function openLightbox(svgEl, title){
+    if(!svgEl) return;
+    var clone = svgEl.cloneNode(true);
+    clone.removeAttribute('style'); clone.style.maxWidth='none';
+    lbInner.innerHTML=''; lbInner.appendChild(clone);
+    lbTitle.textContent = title || 'Diagrama';
+    state.scale=1; state.x=40; state.y=40; applyTransform();
+    lb.classList.add('open'); lb.setAttribute('aria-hidden','false');
+  }
+  function closeLightbox(){ lb.classList.remove('open'); lb.setAttribute('aria-hidden','true'); lbInner.innerHTML=''; }
+
+  function decorateFigures(){
+    document.querySelectorAll('figure.diagram').forEach(function(fig){
+      if(fig.dataset.decorated) return;
+      var svg = fig.querySelector('.mermaid svg');
+      if(!svg) return;
+      fig.dataset.decorated='1';
+      var tools = fig.querySelector('.fig-head .tools');
+      var title = fig.getAttribute('data-title') || 'Diagrama';
+      var zBtn = document.createElement('button'); zBtn.className='mini'; zBtn.textContent='⤢ Zoom';
+      var dBtn = document.createElement('button'); dBtn.className='mini'; dBtn.textContent='↓ SVG';
+      zBtn.addEventListener('click', function(){ openLightbox(fig.querySelector('.mermaid svg'), title); });
+      dBtn.addEventListener('click', function(){ downloadSvg(fig.querySelector('.mermaid svg'), title); });
+      tools.insertBefore(dBtn, tools.firstChild);
+      tools.insertBefore(zBtn, tools.firstChild);
+      var canvas = fig.querySelector('.canvas');
+      canvas.style.cursor='zoom-in';
+      canvas.addEventListener('click', function(){ openLightbox(fig.querySelector('.mermaid svg'), title); });
+    });
+  }
+  var mo = new MutationObserver(function(){ decorateFigures(); });
+  mo.observe(document.body, {childList:true, subtree:true});
+  window.addEventListener('load', function(){ setTimeout(decorateFigures, 300); setTimeout(decorateFigures, 1200); });
+
+  function svgToString(svg){
+    var clone = svg.cloneNode(true);
+    clone.setAttribute('xmlns','http://www.w3.org/2000/svg');
+    clone.style.background='#ffffff';
+    return '<?xml version="1.0" encoding="UTF-8"?>\n' + new XMLSerializer().serializeToString(clone);
+  }
+  function downloadBlob(blob, name){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click();
+    document.body.removeChild(a); setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  }
+  function slug(t){ return (t||'diagrama').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,''); }
+  function downloadSvg(svg, title){ if(!svg) return; downloadBlob(new Blob([svgToString(svg)], {type:'image/svg+xml'}), slug(title)+'.svg'); }
+  function downloadPng(svg, title){
+    if(!svg) return;
+    var xml = svgToString(svg);
+    var box = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width ? svg.viewBox.baseVal : {width:svg.clientWidth||1200, height:svg.clientHeight||800};
+    var scale = 2, img = new Image();
+    img.onload = function(){
+      var c = document.createElement('canvas');
+      c.width=(box.width||1200)*scale; c.height=(box.height||800)*scale;
+      var ctx=c.getContext('2d'); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,c.width,c.height);
+      ctx.drawImage(img,0,0,c.width,c.height);
+      c.toBlob(function(b){ if(b) downloadBlob(b, slug(title)+'.png'); }, 'image/png');
+    };
+    img.onerror = function(){ downloadSvg(svg, title); };
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(xml)));
+  }
+
+  document.getElementById('lbClose').addEventListener('click', closeLightbox);
+  document.getElementById('lbZoomIn').addEventListener('click', function(){ state.scale=Math.min(8,state.scale*1.25); applyTransform(); });
+  document.getElementById('lbZoomOut').addEventListener('click', function(){ state.scale=Math.max(0.2,state.scale/1.25); applyTransform(); });
+  document.getElementById('lbReset').addEventListener('click', function(){ state.scale=1; state.x=40; state.y=40; applyTransform(); });
+  document.getElementById('lbSvg').addEventListener('click', function(){ downloadSvg(lbInner.querySelector('svg'), lbTitle.textContent); });
+  document.getElementById('lbPng').addEventListener('click', function(){ downloadPng(lbInner.querySelector('svg'), lbTitle.textContent); });
+
+  lbStage.addEventListener('wheel', function(e){
+    e.preventDefault();
+    var delta = e.deltaY < 0 ? 1.12 : 1/1.12;
+    state.scale = Math.max(0.2, Math.min(8, state.scale*delta));
+    applyTransform();
+  }, {passive:false});
+  lbStage.addEventListener('mousedown', function(e){ state.dragging=true; state.sx=e.clientX-state.x; state.sy=e.clientY-state.y; lbStage.classList.add('grabbing'); });
+  window.addEventListener('mousemove', function(e){ if(!state.dragging) return; state.x=e.clientX-state.sx; state.y=e.clientY-state.sy; applyTransform(); });
+  window.addEventListener('mouseup', function(){ state.dragging=false; lbStage.classList.remove('grabbing'); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && lb.classList.contains('open')) closeLightbox(); });
+
+  /* ---------- Fecha del footer ---------- */
+  try{
+    var d = new Date();
+    var meses=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+    var el = document.getElementById('sfDate');
+    if(el) el.textContent = meses[d.getMonth()].charAt(0).toUpperCase()+meses[d.getMonth()].slice(1)+' '+d.getFullYear();
+  }catch(e){}
+
+  /* ---------- Render de Mermaid ---------- */
+  if(window.__initMermaid) window.__initMermaid();
+
+})();
+</script>
+</body>
+</html>

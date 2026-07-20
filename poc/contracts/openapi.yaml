@@ -1,0 +1,111 @@
+openapi: 3.0.3
+info:
+  title: Taskbot Migration Advisor API
+  version: "1.0.0"
+  description: >
+    HTTP contract exposed by the analysis service so an orchestrator (n8n,
+    Appian, Power Platform, BPM) can request migration/consolidation
+    recommendations for a taskbot inventory. Business logic lives in the
+    service; the orchestrator only calls this contract.
+servers:
+  - url: http://localhost:8000
+    description: Local service (docker compose)
+paths:
+  /health:
+    get:
+      summary: Readiness probe
+      responses:
+        "200":
+          description: Service is up
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status: { type: string, example: ok }
+  /analyze:
+    post:
+      summary: Analyze an inventory referenced by local path
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [inventory_path]
+              properties:
+                inventory_path:
+                  type: string
+                  description: Local path (.csv/.json/.sqlite/.txt)
+                  example: data/ejemplo_50_taskbots_prueba.txt
+                run_id: { type: string, nullable: true }
+                persist:
+                  type: boolean
+                  default: true
+                  description: Write JSON+HTML reports under reports/<run_id>/
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AnalysisResult" }
+        "400":
+          description: Inventory could not be loaded
+  /analyze/inline:
+    post:
+      summary: Analyze an inventory embedded in the request body
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [taskbots]
+              properties:
+                taskbots:
+                  type: array
+                  items: { type: object, additionalProperties: true }
+                run_id: { type: string, nullable: true }
+      responses:
+        "200":
+          description: Analysis result
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/AnalysisResult" }
+components:
+  schemas:
+    AnalysisResult:
+      type: object
+      properties:
+        run_id: { type: string }
+        summary:
+          type: object
+          properties:
+            total_taskbots: { type: integer }
+            grupos_consolidables: { type: integer }
+            por_destino: { type: object, additionalProperties: { type: integer } }
+            por_ola: { type: object, additionalProperties: { type: integer } }
+            errores: { type: integer }
+        clusters:
+          type: array
+          items: { type: object, additionalProperties: true }
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              taskbot_id: { type: string }
+              taskbot: { type: string }
+              destino:
+                type: string
+                enum: [n8n, microservice, custom_python_java, rpa_selective, manual_review]
+              ola: { type: string, enum: [ola_1, ola_2, ola_3] }
+              valor: { type: number }
+              complejidad: { type: number }
+              cluster_id: { type: integer, nullable: true }
+              revision_manual: { type: boolean }
+              razones: { type: array, items: { type: string } }
+              justificacion: { type: string }
+        errors:
+          type: array
+          items: { type: object, additionalProperties: true }

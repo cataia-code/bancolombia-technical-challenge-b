@@ -1,0 +1,552 @@
+CATALOGO DE EJEMPLO - 50 TASKBOTS
+Uso sugerido: material de prueba para candidatos.
+
+============================================================
+Taskbot 01
+Nombre del taskbot: TB_Recepcion_Facturas_Proveedor
+Proposito funcional: Descargar facturas desde correo y registrar metadatos para cuentas por pagar.
+Aplicaciones involucradas: Outlook, SharePoint, SAP ECC
+Tipo de interaccion: email, archivo, UI legacy
+Frecuencia de ejecucion: Cada hora (L-V 07:00-19:00)
+Riesgo operacional: Medio
+Dependencias conocidas: Buzon AP activo, credenciales SAP, carpeta SharePoint Facturas_Entrada
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Validador_Facturas_OCR y TB_Carga_Facturas_SAP (mismo origen de facturas).
+
+============================================================
+Taskbot 02
+Nombre del taskbot: TB_Validador_Facturas_OCR
+Proposito funcional: Extraer datos clave de PDF/XML de facturas y validar campos obligatorios.
+Aplicaciones involucradas: OCR Service, File Server, Excel Control
+Tipo de interaccion: API, archivo
+Frecuencia de ejecucion: Bajo demanda
+Riesgo operacional: Alto
+Dependencias conocidas: API OCR disponible, plantilla Excel vigente, acceso a repositorio de entrada
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Recepcion_Facturas_Proveedor en el preprocesamiento documental.
+
+============================================================
+Taskbot 03
+Nombre del taskbot: TB_Carga_Facturas_SAP
+Proposito funcional: Registrar facturas validadas en transaccion MIRO.
+Aplicaciones involucradas: SAP ECC, SQL Server
+Tipo de interaccion: UI legacy, BD
+Frecuencia de ejecucion: 4 veces al dia
+Riesgo operacional: Alto
+Dependencias conocidas: Ventana de SAP disponible, tabla de staging en SQL, reglas fiscales actualizadas
+Evidencia de duplicidad o similitud con otros taskbots: Solapa funcional con TB_Posteo_Gastos_No_OC para documentos sin orden de compra.
+
+============================================================
+Taskbot 04
+Nombre del taskbot: TB_Posteo_Gastos_No_OC
+Proposito funcional: Registrar gastos administrativos sin orden de compra en SAP.
+Aplicaciones involucradas: SAP ECC, Outlook
+Tipo de interaccion: UI legacy, email
+Frecuencia de ejecucion: Diario 18:00
+Riesgo operacional: Alto
+Dependencias conocidas: Catalogo de centros de costo, aprobacion por correo, usuario tecnico SAP
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Carga_Facturas_SAP en pasos de contabilizacion y validacion fiscal.
+
+============================================================
+Taskbot 05
+Nombre del taskbot: TB_Conciliacion_Bancaria_Diaria
+Proposito funcional: Conciliar movimientos bancarios contra movimientos contables.
+Aplicaciones involucradas: Portal Bancario, SAP ECC, Power BI
+Tipo de interaccion: archivo, UI legacy
+Frecuencia de ejecucion: Diario 06:00
+Riesgo operacional: Alto
+Dependencias conocidas: Archivo MT940, acceso al portal bancario, reportes SAP habilitados
+Evidencia de duplicidad o similitud con otros taskbots: Parcialmente duplicado con TB_Conciliacion_Manual_Asistida en reglas de matching.
+
+============================================================
+Taskbot 06
+Nombre del taskbot: TB_Conciliacion_Manual_Asistida
+Proposito funcional: Preparar propuesta de conciliacion para analista financiero en casos excepcionales.
+Aplicaciones involucradas: Excel, SAP ECC
+Tipo de interaccion: archivo, UI legacy
+Frecuencia de ejecucion: Diario 11:00
+Riesgo operacional: Medio
+Dependencias conocidas: Plantilla Excel macro, extraccion SAP FBL3N
+Evidencia de duplicidad o similitud con otros taskbots: Reutiliza 70 por ciento de reglas de TB_Conciliacion_Bancaria_Diaria.
+
+============================================================
+Taskbot 07
+Nombre del taskbot: TB_Alta_Proveedores_Maestro
+Proposito funcional: Crear nuevos proveedores en maestro de datos tras validaciones de cumplimiento.
+Aplicaciones involucradas: ServiceNow, SAP ECC, Lista OFAC API
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Cada 30 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: Ticket ServiceNow aprobado, endpoint OFAC disponible, rol SAP XK01
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Actualizacion_Datos_Proveedores en validaciones regulatorias.
+
+============================================================
+Taskbot 08
+Nombre del taskbot: TB_Actualizacion_Datos_Proveedores
+Proposito funcional: Actualizar datos bancarios y fiscales de proveedores existentes.
+Aplicaciones involucradas: SharePoint, SAP ECC, Outlook
+Tipo de interaccion: archivo, UI legacy, email
+Frecuencia de ejecucion: Cada 2 horas
+Riesgo operacional: Alto
+Dependencias conocidas: Formulario de cambios validado, doble aprobacion, acceso a transaccion XK02
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Alta_Proveedores_Maestro en chequeos de compliance.
+
+============================================================
+Taskbot 09
+Nombre del taskbot: TB_Gestion_OC_Pendientes
+Proposito funcional: Identificar ordenes de compra pendientes y notificar responsables.
+Aplicaciones involucradas: SAP ECC, Outlook, Teams
+Tipo de interaccion: UI legacy, email
+Frecuencia de ejecucion: Diario 09:00
+Riesgo operacional: Medio
+Dependencias conocidas: Reporte ME2N, lista de compradores, conector Teams
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Alerta_OC_Atrasadas (misma base de datos y destinatarios).
+
+============================================================
+Taskbot 10
+Nombre del taskbot: TB_Alerta_OC_Atrasadas
+Proposito funcional: Generar alertas escaladas para ordenes de compra con retraso mayor a 15 dias.
+Aplicaciones involucradas: SAP ECC, Outlook
+Tipo de interaccion: UI legacy, email
+Frecuencia de ejecucion: Diario 15:00
+Riesgo operacional: Medio
+Dependencias conocidas: Parametro de antiguedad, buzones por categoria, calendario laboral
+Evidencia de duplicidad o similitud con otros taskbots: Duplicidad parcial con TB_Gestion_OC_Pendientes en extraccion y envio.
+
+============================================================
+Taskbot 11
+Nombre del taskbot: TB_Control_Inventario_Ciclico
+Proposito funcional: Cargar conteos ciclicos y ajustar diferencias de inventario.
+Aplicaciones involucradas: WMS Legacy, SAP ECC, SQL Server
+Tipo de interaccion: UI legacy, BD
+Frecuencia de ejecucion: Diario 22:00
+Riesgo operacional: Alto
+Dependencias conocidas: Archivo de conteo cerrado, interfaz WMS disponible, ventana nocturna SAP
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Ajuste_Inventario_Emergencia en transacciones de ajuste.
+
+============================================================
+Taskbot 12
+Nombre del taskbot: TB_Ajuste_Inventario_Emergencia
+Proposito funcional: Ejecutar ajustes urgentes por merma o siniestro fuera de ciclo.
+Aplicaciones involucradas: SAP ECC, ServiceNow
+Tipo de interaccion: UI legacy, API
+Frecuencia de ejecucion: Bajo demanda
+Riesgo operacional: Alto
+Dependencias conocidas: Ticket aprobado por operaciones, codigo de motivo, usuario con privilegios
+Evidencia de duplicidad o similitud con otros taskbots: Solapa con TB_Control_Inventario_Ciclico en 60 por ciento de pasos SAP.
+
+============================================================
+Taskbot 13
+Nombre del taskbot: TB_Reporte_Ventas_Diario
+Proposito funcional: Consolidar ventas del dia y publicar tablero ejecutivo.
+Aplicaciones involucradas: SQL Server, Power BI, SharePoint
+Tipo de interaccion: BD, API
+Frecuencia de ejecucion: Diario 07:30
+Riesgo operacional: Medio
+Dependencias conocidas: Job ETL finalizado, dataset Power BI, permiso de publicacion
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Reporte_Ventas_Semanal en logica de consulta.
+
+============================================================
+Taskbot 14
+Nombre del taskbot: TB_Reporte_Ventas_Semanal
+Proposito funcional: Generar consolidado semanal por canal y region.
+Aplicaciones involucradas: SQL Server, Power BI
+Tipo de interaccion: BD, API
+Frecuencia de ejecucion: Semanal lunes 08:00
+Riesgo operacional: Bajo
+Dependencias conocidas: Calendario comercial, vistas SQL certificadas
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Reporte_Ventas_Diario; cambia ventana temporal.
+
+============================================================
+Taskbot 15
+Nombre del taskbot: TB_Provision_Nomina_Contable
+Proposito funcional: Registrar provisiones de nomina para cierre contable mensual.
+Aplicaciones involucradas: Workday, SAP ECC, Excel
+Tipo de interaccion: archivo, UI legacy
+Frecuencia de ejecucion: Mensual (ultimo dia habil)
+Riesgo operacional: Alto
+Dependencias conocidas: Archivo de nomina cerrado, mapping contable vigente, bloqueo de periodo SAP
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Asiento_Ajuste_Mensual en mecanica de carga contable.
+
+============================================================
+Taskbot 16
+Nombre del taskbot: TB_Asiento_Ajuste_Mensual
+Proposito funcional: Cargar asientos de ajuste de cierre mensual.
+Aplicaciones involucradas: SAP ECC, SharePoint
+Tipo de interaccion: UI legacy, archivo
+Frecuencia de ejecucion: Mensual
+Riesgo operacional: Alto
+Dependencias conocidas: Plantilla de asientos aprobada, ventana de cierre habilitada
+Evidencia de duplicidad o similitud con otros taskbots: Repite flujo de validacion de TB_Provision_Nomina_Contable.
+
+============================================================
+Taskbot 17
+Nombre del taskbot: TB_Cobranza_Recordatorio_Clientes
+Proposito funcional: Enviar recordatorios de pago a clientes con saldo vencido.
+Aplicaciones involucradas: SAP ECC, Outlook, Salesforce
+Tipo de interaccion: UI legacy, email, API
+Frecuencia de ejecucion: Diario 10:00
+Riesgo operacional: Medio
+Dependencias conocidas: Segmentacion de cartera, plantillas de correo, conexion Salesforce
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Cobranza_Escalamiento_Gerencial en motor de deuda.
+
+============================================================
+Taskbot 18
+Nombre del taskbot: TB_Cobranza_Escalamiento_Gerencial
+Proposito funcional: Escalar casos de mora critica a gerencias comerciales.
+Aplicaciones involucradas: SAP ECC, Outlook, Teams
+Tipo de interaccion: UI legacy, email
+Frecuencia de ejecucion: Diario 16:30
+Riesgo operacional: Medio
+Dependencias conocidas: Umbral de mora, jerarquia comercial, listas de distribucion
+Evidencia de duplicidad o similitud con otros taskbots: Duplicidad parcial con TB_Cobranza_Recordatorio_Clientes.
+
+============================================================
+Taskbot 19
+Nombre del taskbot: TB_Alta_Clientes_CRM
+Proposito funcional: Crear clientes nuevos en CRM y replicar a ERP.
+Aplicaciones involucradas: Salesforce, SAP ECC, API Integracion
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Cada hora
+Riesgo operacional: Alto
+Dependencias conocidas: Validacion fiscal, API de sincronizacion, reglas de deduplicacion
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Actualizacion_Datos_Cliente en validaciones y replica.
+
+============================================================
+Taskbot 20
+Nombre del taskbot: TB_Actualizacion_Datos_Cliente
+Proposito funcional: Mantener direccion, condiciones de pago y contactos de clientes.
+Aplicaciones involucradas: Salesforce, SAP ECC
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Cada 2 horas
+Riesgo operacional: Medio
+Dependencias conocidas: Flujo de aprobacion comercial, endpoint de cambios maestros
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Alta_Clientes_CRM.
+
+============================================================
+Taskbot 21
+Nombre del taskbot: TB_Monitoreo_Interface_ETL
+Proposito funcional: Verificar ejecucion de interfaces ETL y generar alertas por falla.
+Aplicaciones involucradas: Control-M, SQL Server, Email Gateway
+Tipo de interaccion: API, BD, email
+Frecuencia de ejecucion: Cada 15 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: API scheduler, tabla de logs ETL, SMTP corporativo
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Reintento_Interface_ETL en lectura de logs.
+
+============================================================
+Taskbot 22
+Nombre del taskbot: TB_Reintento_Interface_ETL
+Proposito funcional: Reintentar cargas ETL fallidas segun reglas de severidad.
+Aplicaciones involucradas: Control-M, SQL Server
+Tipo de interaccion: API, BD
+Frecuencia de ejecucion: Cada 30 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: Politica de retries, token de scheduler, scripts de recuperacion
+Evidencia de duplicidad o similitud con otros taskbots: Complementario y parcialmente duplicado con TB_Monitoreo_Interface_ETL.
+
+============================================================
+Taskbot 23
+Nombre del taskbot: TB_Carga_Maestra_Productos
+Proposito funcional: Crear y actualizar maestro de productos desde catalogo central.
+Aplicaciones involucradas: PIM, SAP ECC, SQL Server
+Tipo de interaccion: API, UI legacy, BD
+Frecuencia de ejecucion: Diario 05:00
+Riesgo operacional: Alto
+Dependencias conocidas: Catalogo PIM aprobado, taxonomia vigente, tabla de mapeo categorias
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Alta_Materiales_Manufactura en datos maestros.
+
+============================================================
+Taskbot 24
+Nombre del taskbot: TB_Alta_Materiales_Manufactura
+Proposito funcional: Dar de alta materiales para plantas de manufactura.
+Aplicaciones involucradas: SAP ECC, MES Legacy, Excel
+Tipo de interaccion: UI legacy, archivo
+Frecuencia de ejecucion: Diario 13:00
+Riesgo operacional: Alto
+Dependencias conocidas: Solicitudes de ingenieria, codigos de planta, hoja de especificacion
+Evidencia de duplicidad o similitud con otros taskbots: Solapa con TB_Carga_Maestra_Productos en 50 por ciento de atributos.
+
+============================================================
+Taskbot 25
+Nombre del taskbot: TB_Despacho_Guias_Transporte
+Proposito funcional: Generar guias de transporte y enviar a operadores logisticos.
+Aplicaciones involucradas: TMS, SAP ECC, Email Gateway
+Tipo de interaccion: API, UI legacy, email
+Frecuencia de ejecucion: Cada 20 minutos
+Riesgo operacional: Medio
+Dependencias conocidas: Ordenes liberadas, API TMS operativa, plantillas de guia
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Tracking_Entregas_Cliente en datos de embarque.
+
+============================================================
+Taskbot 26
+Nombre del taskbot: TB_Tracking_Entregas_Cliente
+Proposito funcional: Actualizar estado de entrega y notificar cliente final.
+Aplicaciones involucradas: TMS, Salesforce, Outlook
+Tipo de interaccion: API, email
+Frecuencia de ejecucion: Cada hora
+Riesgo operacional: Medio
+Dependencias conocidas: Webhooks TMS, mapping pedidos CRM, plantilla de notificacion
+Evidencia de duplicidad o similitud con otros taskbots: Comparte origen logistico con TB_Despacho_Guias_Transporte.
+
+============================================================
+Taskbot 27
+Nombre del taskbot: TB_Conciliacion_Tarjetas_Corporativas
+Proposito funcional: Conciliar consumos de tarjetas corporativas con reportes de gastos.
+Aplicaciones involucradas: Portal Bancario, Concur, Excel
+Tipo de interaccion: archivo, API
+Frecuencia de ejecucion: Semanal viernes 18:00
+Riesgo operacional: Medio
+Dependencias conocidas: Extracto bancario semanal, export Concur, reglas de categoria
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Validacion_Viaticos por fuente Concur y reglas de gasto.
+
+============================================================
+Taskbot 28
+Nombre del taskbot: TB_Validacion_Viaticos
+Proposito funcional: Revisar politicas de viaticos y marcar excepciones para auditoria.
+Aplicaciones involucradas: Concur, ServiceNow
+Tipo de interaccion: API
+Frecuencia de ejecucion: Diario 20:00
+Riesgo operacional: Medio
+Dependencias conocidas: Politica de gastos vigente, acceso API Concur, mesa de control
+Evidencia de duplicidad o similitud con otros taskbots: Reutiliza catalogos de TB_Conciliacion_Tarjetas_Corporativas.
+
+============================================================
+Taskbot 29
+Nombre del taskbot: TB_Pago_Proveedores_Masivo
+Proposito funcional: Preparar lote de pagos y generar archivo para banca electronica.
+Aplicaciones involucradas: SAP ECC, Portal Bancario, PGP Encryptor
+Tipo de interaccion: UI legacy, archivo
+Frecuencia de ejecucion: Diario 17:00
+Riesgo operacional: Alto
+Dependencias conocidas: Propuesta F110 aprobada, certificado PGP vigente, ventana bancaria
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Pago_Proveedores_Urgente en generacion de layout bancario.
+
+============================================================
+Taskbot 30
+Nombre del taskbot: TB_Pago_Proveedores_Urgente
+Proposito funcional: Ejecutar pagos urgentes fuera del ciclo normal.
+Aplicaciones involucradas: SAP ECC, Portal Bancario, Outlook
+Tipo de interaccion: UI legacy, archivo, email
+Frecuencia de ejecucion: Bajo demanda
+Riesgo operacional: Alto
+Dependencias conocidas: Aprobacion de tesoreria, usuario habilitado, corte bancario extraordinario
+Evidencia de duplicidad o similitud con otros taskbots: Duplicidad parcial con TB_Pago_Proveedores_Masivo.
+
+============================================================
+Taskbot 31
+Nombre del taskbot: TB_Actualiza_Tipo_Cambio
+Proposito funcional: Cargar tipos de cambio diarios en ERP.
+Aplicaciones involucradas: API Banco Central, SAP ECC
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Diario 07:00
+Riesgo operacional: Medio
+Dependencias conocidas: Endpoint banco central, tabla de monedas activas, permisos OB08
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Reproceso_Tipo_Cambio para carga manual de contingencia.
+
+============================================================
+Taskbot 32
+Nombre del taskbot: TB_Reproceso_Tipo_Cambio
+Proposito funcional: Reprocesar o corregir tipos de cambio cuando falla la carga automatica.
+Aplicaciones involucradas: SAP ECC, Excel
+Tipo de interaccion: UI legacy, archivo
+Frecuencia de ejecucion: Bajo demanda
+Riesgo operacional: Medio
+Dependencias conocidas: Archivo de respaldo, validacion financiera, logs de error
+Evidencia de duplicidad o similitud con otros taskbots: Misma funcionalidad base que TB_Actualiza_Tipo_Cambio con ruta alternativa.
+
+============================================================
+Taskbot 33
+Nombre del taskbot: TB_Provision_Impuestos_Indirectos
+Proposito funcional: Calcular y registrar provision de IVA e impuestos indirectos.
+Aplicaciones involucradas: SAP ECC, SQL Server, Excel
+Tipo de interaccion: UI legacy, BD, archivo
+Frecuencia de ejecucion: Mensual
+Riesgo operacional: Alto
+Dependencias conocidas: Parametros fiscales del mes, cierre de ventas, tablas de tasas
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Declaracion_Impuestos_Mensual en base de calculo.
+
+============================================================
+Taskbot 34
+Nombre del taskbot: TB_Declaracion_Impuestos_Mensual
+Proposito funcional: Preparar papeles de trabajo y archivo de declaracion mensual.
+Aplicaciones involucradas: Portal Tributario, SAP ECC, Excel
+Tipo de interaccion: UI legacy, archivo
+Frecuencia de ejecucion: Mensual dia 5
+Riesgo operacional: Alto
+Dependencias conocidas: Provision cerrada, usuario tributario, firma digital
+Evidencia de duplicidad o similitud con otros taskbots: Reutiliza datos de TB_Provision_Impuestos_Indirectos.
+
+============================================================
+Taskbot 35
+Nombre del taskbot: TB_Bloqueo_Credito_Clientes
+Proposito funcional: Bloquear clientes por riesgo crediticio segun politicas vigentes.
+Aplicaciones involucradas: SAP ECC, Buró API, Salesforce
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Diario 06:30
+Riesgo operacional: Alto
+Dependencias conocidas: Score crediticio actualizado, umbrales comerciales, sincronizacion CRM
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Desbloqueo_Credito_Clientes en reglas de negocio.
+
+============================================================
+Taskbot 36
+Nombre del taskbot: TB_Desbloqueo_Credito_Clientes
+Proposito funcional: Desbloquear clientes al regularizar pagos o mejorar perfil de riesgo.
+Aplicaciones involucradas: SAP ECC, Salesforce
+Tipo de interaccion: UI legacy, API
+Frecuencia de ejecucion: Cada 2 horas
+Riesgo operacional: Medio
+Dependencias conocidas: Confirmacion de pago aplicada, aprobacion comercial, reglas de credito
+Evidencia de duplicidad o similitud con otros taskbots: Complementario a TB_Bloqueo_Credito_Clientes con pasos casi identicos.
+
+============================================================
+Taskbot 37
+Nombre del taskbot: TB_Extraccion_Auditoria_SOX
+Proposito funcional: Generar evidencias de auditoria SOX para controles clave.
+Aplicaciones involucradas: SAP ECC, SQL Server, SharePoint
+Tipo de interaccion: UI legacy, BD, archivo
+Frecuencia de ejecucion: Semanal
+Riesgo operacional: Alto
+Dependencias conocidas: Matriz de controles, accesos de auditoria, repositorio SharePoint
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Evidencias_Control_Accesos en exportacion de logs.
+
+============================================================
+Taskbot 38
+Nombre del taskbot: TB_Evidencias_Control_Accesos
+Proposito funcional: Consolidar evidencias de altas y bajas de usuarios para cumplimiento.
+Aplicaciones involucradas: Active Directory, ServiceNow, SharePoint
+Tipo de interaccion: API, archivo
+Frecuencia de ejecucion: Semanal
+Riesgo operacional: Medio
+Dependencias conocidas: Logs AD, tickets cerrados, estructura de carpetas de evidencia
+Evidencia de duplicidad o similitud con otros taskbots: Parcialmente duplicado con TB_Extraccion_Auditoria_SOX.
+
+============================================================
+Taskbot 39
+Nombre del taskbot: TB_Actualizacion_Precios_Masiva
+Proposito funcional: Cargar listas de precios por canal y vigencia.
+Aplicaciones involucradas: SAP ECC, Salesforce, Excel
+Tipo de interaccion: UI legacy, API, archivo
+Frecuencia de ejecucion: Semanal miercoles 05:00
+Riesgo operacional: Alto
+Dependencias conocidas: Lista aprobada por pricing, validaciones de margen, versionamiento de archivo
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Actualizacion_Descuentos_Comerciales en estructuras de carga.
+
+============================================================
+Taskbot 40
+Nombre del taskbot: TB_Actualizacion_Descuentos_Comerciales
+Proposito funcional: Ajustar esquemas de descuento por cliente y producto.
+Aplicaciones involucradas: SAP ECC, Salesforce
+Tipo de interaccion: UI legacy, API
+Frecuencia de ejecucion: Semanal
+Riesgo operacional: Alto
+Dependencias conocidas: Politica comercial vigente, aprobacion de gerencia, tabla de condiciones
+Evidencia de duplicidad o similitud con otros taskbots: Solapa con TB_Actualizacion_Precios_Masiva en objetos de condicion.
+
+============================================================
+Taskbot 41
+Nombre del taskbot: TB_Onboarding_Empleado_Digital
+Proposito funcional: Crear cuentas y accesos base para nuevos ingresos.
+Aplicaciones involucradas: Workday, Active Directory, ServiceNow, M365 Admin
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Diario 07:15
+Riesgo operacional: Medio
+Dependencias conocidas: Alta en HR cerrada, plantillas de rol, conectividad M365
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Offboarding_Empleado_Digital en workflows de identidad.
+
+============================================================
+Taskbot 42
+Nombre del taskbot: TB_Offboarding_Empleado_Digital
+Proposito funcional: Revocar accesos y resguardar activos digitales de empleados de salida.
+Aplicaciones involucradas: Workday, Active Directory, ServiceNow
+Tipo de interaccion: API
+Frecuencia de ejecucion: Cada 4 horas
+Riesgo operacional: Alto
+Dependencias conocidas: Notificacion HR, politicas de retencion, flujo de aprobacion legal
+Evidencia de duplicidad o similitud con otros taskbots: Complementario y muy similar a TB_Onboarding_Empleado_Digital.
+
+============================================================
+Taskbot 43
+Nombre del taskbot: TB_Clasificacion_Tickets_Soporte
+Proposito funcional: Clasificar tickets de soporte y enrutar a cola correcta.
+Aplicaciones involucradas: ServiceNow, NLP API, Teams
+Tipo de interaccion: API
+Frecuencia de ejecucion: Tiempo real (evento)
+Riesgo operacional: Medio
+Dependencias conocidas: Modelo NLP publicado, reglas de enrutamiento, integracion Teams
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Priorizacion_Tickets_Criticos en motor de scoring.
+
+============================================================
+Taskbot 44
+Nombre del taskbot: TB_Priorizacion_Tickets_Criticos
+Proposito funcional: Asignar prioridad automatica a incidentes de alto impacto.
+Aplicaciones involucradas: ServiceNow, CMDB
+Tipo de interaccion: API, BD
+Frecuencia de ejecucion: Cada 10 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: CMDB actualizada, matriz impacto-urgencia, API ServiceNow
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Clasificacion_Tickets_Soporte en criterios de severidad.
+
+============================================================
+Taskbot 45
+Nombre del taskbot: TB_Extraccion_Pedidos_Ecommerce
+Proposito funcional: Descargar pedidos de ecommerce y cargarlos al ERP.
+Aplicaciones involucradas: Shopify, SAP ECC, SQL Server
+Tipo de interaccion: API, UI legacy, BD
+Frecuencia de ejecucion: Cada 15 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: API key ecommerce, tabla staging, reglas de impuestos por canal
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Integracion_Marketplace_Pedidos en estructura de carga.
+
+============================================================
+Taskbot 46
+Nombre del taskbot: TB_Integracion_Marketplace_Pedidos
+Proposito funcional: Integrar pedidos de marketplaces y actualizar estado de cumplimiento.
+Aplicaciones involucradas: Mercado API, SAP ECC, TMS
+Tipo de interaccion: API, UI legacy
+Frecuencia de ejecucion: Cada 20 minutos
+Riesgo operacional: Alto
+Dependencias conocidas: Tokens marketplace vigentes, mapeo SKU, disponibilidad de TMS
+Evidencia de duplicidad o similitud con otros taskbots: Duplicidad parcial con TB_Extraccion_Pedidos_Ecommerce.
+
+============================================================
+Taskbot 47
+Nombre del taskbot: TB_Control_Vencimiento_Contratos
+Proposito funcional: Detectar contratos proximos a vencer y activar renovacion.
+Aplicaciones involucradas: SharePoint, Outlook, SAP Ariba
+Tipo de interaccion: archivo, email, API
+Frecuencia de ejecucion: Diario 08:30
+Riesgo operacional: Medio
+Dependencias conocidas: Maestro de contratos actualizado, responsables asignados, plantillas de aviso
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Alerta_Renovacion_Polizas en logica de vencimientos.
+
+============================================================
+Taskbot 48
+Nombre del taskbot: TB_Alerta_Renovacion_Polizas
+Proposito funcional: Alertar renovacion de polizas de seguro con antelacion definida.
+Aplicaciones involucradas: Excel, Outlook, Portal Aseguradora
+Tipo de interaccion: archivo, email, UI legacy
+Frecuencia de ejecucion: Semanal lunes 09:00
+Riesgo operacional: Medio
+Dependencias conocidas: Base de polizas vigente, calendario de renovacion, acceso al portal
+Evidencia de duplicidad o similitud con otros taskbots: Reutiliza logica de alertamiento de TB_Control_Vencimiento_Contratos.
+
+============================================================
+Taskbot 49
+Nombre del taskbot: TB_Depuracion_Datos_Maestros
+Proposito funcional: Identificar registros maestros duplicados e inconsistentes para saneamiento.
+Aplicaciones involucradas: SQL Server, SAP ECC, Data Quality Tool
+Tipo de interaccion: BD, API
+Frecuencia de ejecucion: Mensual
+Riesgo operacional: Medio
+Dependencias conocidas: Reglas de calidad de datos, permisos de lectura transversal, catalogos de referencia
+Evidencia de duplicidad o similitud con otros taskbots: Similar a TB_Merge_Clientes_Duplicados en deteccion de duplicidad.
+
+============================================================
+Taskbot 50
+Nombre del taskbot: TB_Merge_Clientes_Duplicados
+Proposito funcional: Unificar clientes duplicados en CRM y ERP siguiendo reglas de supervivencia.
+Aplicaciones involucradas: Salesforce, SAP ECC, SQL Server
+Tipo de interaccion: API, UI legacy, BD
+Frecuencia de ejecucion: Quincenal
+Riesgo operacional: Alto
+Dependencias conocidas: Matriz de consolidacion aprobada, respaldo previo, ventana de mantenimiento
+Evidencia de duplicidad o similitud con otros taskbots: Alta similitud con TB_Depuracion_Datos_Maestros y TB_Alta_Clientes_CRM.

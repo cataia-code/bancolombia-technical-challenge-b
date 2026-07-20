@@ -1,0 +1,112 @@
+name: Deploy propuesta a GitHub Pages
+
+# Verifica la solución (tests 100%, workflow n8n, sitio) y publica docs/ en Pages
+# en cada push a main.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Permisos mínimos requeridos por el despliegue de Pages.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+  deployments: write
+
+# Un solo despliegue vigente: un push nuevo cancela el anterior en curso.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  # ---- Verificación del sitio estático ----
+  verify:
+    name: Verificar sitio
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Estructura esperada existe
+        run: |
+          test -f docs/index.html || { echo "Falta docs/index.html"; exit 1; }
+          test -f docs/assets/images/logo-bancolombia.svg || { echo "Falta el logo"; exit 1; }
+          test -f docs/assets/vendor/mermaid.min.js || { echo "Falta mermaid vendorizado"; exit 1; }
+          echo "Estructura OK"
+
+      - name: HTML bien formado (validación ligera)
+        run: |
+          sudo apt-get update -y && sudo apt-get install -y libxml2-utils
+          xmllint --html --noout docs/index.html 2>errores.txt || true
+          if grep -Ei "error : (Premature end|Opening and ending)" errores.txt; then
+            echo "HTML con errores estructurales:"; cat errores.txt; exit 1
+          fi
+          echo "HTML sin errores estructurales graves"
+
+      - name: Enlaces internos a assets existen
+        run: |
+          grep -q 'assets/images/logo-bancolombia.svg' docs/index.html || { echo "El index no referencia el logo"; exit 1; }
+          grep -q 'assets/vendor/mermaid.min.js' docs/index.html || { echo "El index no referencia mermaid local"; exit 1; }
+          echo "Referencias OK"
+
+  # ---- Verificación de la solución (PoC) ----
+  poc-tests:
+    name: Verificar PoC
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Instalar dependencias
+        working-directory: poc
+        run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
+
+      - name: Tests con 100% de cobertura
+        working-directory: poc
+        run: python -m pytest tests/ --cov=taskbot_advisor --cov-report=term-missing --cov-fail-under=100
+
+      - name: El reporte se genera (CLI end-to-end)
+        working-directory: poc
+        run: python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id ci
+
+      - name: Validar docker-compose
+        run: docker compose -f poc/docker-compose.yml config
+
+      - name: Workflow n8n Cloud es JSON válido
+        run: python -c "import json; json.load(open('poc/n8n/workflow.cloud.json', encoding='utf-8')); json.load(open('poc/n8n/workflow.json', encoding='utf-8')); print('n8n workflows OK')"
+
+  # ---- Build del artefacto de Pages ----
+  build:
+    name: Build Pages
+    needs: [verify, poc-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configurar Pages
+        uses: actions/configure-pages@v5
+
+      - name: Subir artefacto (carpeta docs/)
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./docs
+
+  # ---- Deploy a GitHub Pages ----
+  deploy:
+    name: Deploy Pages
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Desplegar
+        id: deployment
+        uses: actions/deploy-pages@v4

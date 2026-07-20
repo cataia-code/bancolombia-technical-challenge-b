@@ -1,0 +1,26 @@
+id,nombre,proposito,aplicaciones,tipo_interaccion,frecuencia,riesgo_operacional,dependencias,evidencia_duplicidad
+TB001,Descarga extractos bancarios diaria,Descarga extractos de cuentas y los guarda,Portal Banco;SFTP,api,diaria,medio,servicio-tesoreria,Similar a TB002 y TB003
+TB002,Bajar extractos cuentas,Descarga extractos bancarios y almacena en carpeta,Portal Banco;SFTP,api,diaria,medio,servicio-tesoreria,Variante de descarga de extractos
+TB003,Extraccion extractos bancarios,Obtiene extractos del portal y los deja en SFTP,Portal Banco;SFTP,api,diaria,bajo,servicio-tesoreria,Duplicado funcional de TB001
+TB004,Descarga estados de cuenta,Descarga estados de cuenta por API del portal,Portal Banco;SFTP,api,semanal,bajo,,Muy parecido a extractos
+TB010,Conciliacion pagos proveedores,Concilia pagos contra facturas en base de datos,Oracle ERP;SQL Server,database,diaria,alto,core-financiero;ldap,
+TB011,Conciliacion cuentas por cobrar,Cruza cobros con cartera en base de datos,Oracle ERP;SQL Server,bd,diaria,alto,core-financiero;ldap,Similar a TB010
+TB012,Conciliacion tesoreria,Concilia movimientos de tesoreria contra ERP,Oracle ERP;SQL Server,database,semanal,alto,core-financiero;ldap,Variante de conciliacion
+TB020,Alta clientes SAP UI,Crea clientes navegando la pantalla de SAP,SAP GUI,ui_legacy,diaria,alto,sap-basis,
+TB021,Actualizacion datos cliente SAP,Actualiza datos de cliente en pantalla SAP,SAP GUI,ui_legacy,semanal,medio,sap-basis,Parecido a TB020
+TB022,Bloqueo clientes mainframe,Bloquea clientes en terminal mainframe 3270,Mainframe 3270,mainframe,mensual,alto,host-conn,
+TB023,Consulta saldos Citrix,Consulta saldos en aplicacion Citrix legacy,Citrix;AppLegacy,ui_legacy,diaria,medio,citrix-farm,
+TB030,Notificacion correo incidentes,Envia correos de incidentes a operacion,Exchange;SMTP,email,diaria,bajo,,
+TB031,Alerta correo vencimientos,Envia alertas de vencimientos por correo,Exchange;SMTP,email,diaria,bajo,,Similar a TB030
+TB032,Reporte correo diario cartera,Envia reporte diario de cartera por email,Exchange;SMTP,correo,diaria,bajo,,
+TB040,Carga archivos nomina,Procesa archivo plano de nomina y valida,SFTP;FileShare,archivo,mensual,medio,rrhh-sistema,
+TB041,Ingesta CSV transacciones,Lee CSV de transacciones y normaliza,FileShare,file,diaria,medio,,
+TB042,Procesamiento Excel comisiones,Procesa Excel de comisiones comerciales,Excel;FileShare,archivo,semanal,bajo,,
+TB050,Integracion API pagos PSE,Consume API de PSE para registrar pagos,API PSE,api,diaria,medio,gateway-pagos,
+TB051,Integracion API SARLAFT,Consulta listas restrictivas via API,API SARLAFT,api,diaria,alto,gateway-riesgo,
+TB052,Integracion API centrales riesgo,Consulta centrales de riesgo por API,API Datacredito,api,semanal,medio,gateway-riesgo,
+TB060,Robot desconocido legado,Proceso heredado sin documentacion clara,Desconocido,,mensual,alto,,Sin clasificar
+TB061,Bot mantenimiento varios,Tareas varias no documentadas,Varios,,on-demand,medio,,
+TB070,Generacion reporte regulatorio,Genera reporte regulatorio desde ERP,Oracle ERP,database,mensual,alto,core-financiero;regulatorio;auditoria,
+TB071,Envio reporte Superfinanciera,Arma y envia reporte a ente de control,Portal SFC,api,mensual,alto,gateway-regulatorio;auditoria,
+TB080,Descarga extractos mensual respaldo,Descarga extractos como respaldo mensual,Portal Banco;SFTP,api,mensual,bajo,,Otra variante de extractos
