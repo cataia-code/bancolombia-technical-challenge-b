@@ -107,9 +107,40 @@ _TEMPLATE = """<!doctype html>
  {% endif %}{% endfor %}
  </div>
 
+ <h2 style="font-size:1.1rem">Catalogo de componentes reutilizables</h2>
+ <p style="color:#94a3b8;font-size:.9rem">Cada grupo de variantes se convierte en un componente extraible.</p>
+ <table><thead><tr>
+   <th>Componente sugerido</th><th>Miembros</th><th>Patron destino</th><th>Apps dominantes</th><th>Legacy</th><th>Accion recomendada</th>
+ </tr></thead><tbody>
+ {% for c in data.component_candidates %}
+   <tr>
+     <td>{{ c.nombre_sugerido }} <span class="tag">c{{ c.cluster_id }}</span></td>
+     <td>{{ c.nombres|join(', ') }}</td>
+     <td>{{ target_label(c.patron_destino) }}</td>
+     <td>{{ c.apps_dominantes|join(', ') }}</td>
+     <td>{{ 'si' if c.blocker_legacy else '-' }}{% if c.requiere_habilitacion_api %} · req. API{% endif %}</td>
+     <td>{{ c.accion_recomendada }}</td>
+   </tr>
+ {% endfor %}
+ </tbody></table>
+
+ <h2 style="font-size:1.1rem">Matriz API / no-API por sistema</h2>
+ <table><thead><tr>
+   <th>Sistema</th><th>Taskbots</th><th>API disponible</th><th>Tocado por legacy</th><th>Requiere habilitacion API</th>
+ </tr></thead><tbody>
+ {% for s in data.api_matrix %}
+   <tr>
+     <td>{{ s.sistema }}</td><td>{{ s.taskbots }}</td>
+     <td>{{ 'si' if s.api_disponible else 'no' }}</td>
+     <td>{{ 'si' if s.tocado_por_legacy else '-' }}</td>
+     <td>{{ 'SI' if s.requiere_habilitacion_api else '-' }}</td>
+   </tr>
+ {% endfor %}
+ </tbody></table>
+
  <h2 style="font-size:1.1rem">Recomendaciones por taskbot</h2>
  <table><thead><tr>
-   <th>Taskbot</th><th>Destino</th><th>Ola</th><th>Valor</th><th>Compl.</th><th>Justificacion</th>
+   <th>Taskbot</th><th>Destino</th><th>Ola</th><th>Valor</th><th>Compl.</th><th>API</th><th>Justificacion</th>
  </tr></thead><tbody>
  {% for r in recommendations %}
    <tr>
@@ -117,6 +148,7 @@ _TEMPLATE = """<!doctype html>
      <td>{{ target_of(r) }}</td>
      <td class="{{ 'w1' if r.wave.value=='ola_1' else 'w2' if r.wave.value=='ola_2' else 'w3' }}">{{ r.wave.value }}</td>
      <td>{{ r.value_score }}</td><td>{{ r.complexity_score }}</td>
+     <td>{% if r.api_enablement and r.api_enablement.blocker %}bloqueo: {{ r.api_enablement.blocker }}{% elif r.api_enablement and r.api_enablement.api_available %}API ok{% else %}-{% endif %}</td>
      <td>{{ r.rationale }}</td>
    </tr>
  {% endfor %}

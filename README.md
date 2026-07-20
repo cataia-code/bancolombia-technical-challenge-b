@@ -43,7 +43,7 @@ Esta solución **automatiza el criterio** y lo hace **explicable**:
 │   └── evidencia_pruebas.txt       # Salida de pytest + cobertura
 ├── poc/                           # Solución ejecutable (arquitectura hexagonal)
 │   ├── src/taskbot_advisor/        # domain · application · infrastructure · interface
-│   ├── tests/                      # 82 tests (unit + integración), 100% cobertura
+│   ├── tests/                      # 111 tests (unit + integración), 100% cobertura
 │   ├── data/                       # inventario real (.txt) + ejemplo (.csv)
 │   ├── n8n/                        # workflow local + workflow.cloud.json + guía
 │   ├── reports/example/            # reporte de ejemplo versionado (JSON + HTML)
@@ -111,10 +111,21 @@ Reporte de ejemplo versionado en [`poc/reports/example/`](poc/reports/example/) 
   alcanza `localhost`); la **fuente única de verdad es el servicio Python**. Para producción se usa
   el nodo HTTP contra el servicio (vía túnel público). Detalle en [`poc/n8n/README-n8n.md`](poc/n8n/README-n8n.md).
 
+## Plan de racionalización (salida enriquecida)
+
+Además de la recomendación por taskbot, el reporte produce:
+- **Catálogo de componentes reutilizables** (`component_candidates`): nombre sugerido, miembros,
+  propósito común, patrón destino, apps dominantes, blocker legacy y acción recomendada.
+- **Matriz API/no-API** por sistema (`api_matrix`) y por operación (`api_enablement`): qué requiere
+  *API enablement* para migrar fuera de RPA — hace defendible el 72% legacy.
+- **Scoring explicado** (`score_breakdown`) por recomendación: frecuencia, riesgo, duplicidad,
+  complejidad por interacción y dependencias.
+
 ## Documentación
 
 - [Sitio web técnico](docs/index.html) — misma identidad visual que la Parte A.
-- [Documento de diseño](docs/diseno.md) · [UML](docs/uml.md) · [ADRs](docs/adr/) · [Resumen ejecutivo](docs/resumen_ejecutivo.md)
+- [Documento de diseño](docs/diseno.md) · [UML](docs/uml.md) · [ADRs](docs/adr/) · [Resumen ejecutivo](docs/resumen_ejecutivo.md) · [Runbook de demo/fallo](docs/runbook.md)
+- Contrato: [`poc/contracts/openapi.json`](poc/contracts/openapi.json) (validado en CI).
 
 ## Decisiones clave
 

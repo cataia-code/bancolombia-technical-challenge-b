@@ -293,6 +293,598 @@
       "es_grupo_consolidable": true
     }
   ],
+  "component_candidates": [
+    {
+      "cluster_id": 8,
+      "nombre_sugerido": "Componente Alerta",
+      "miembros": [
+        "TB09",
+        "TB10"
+      ],
+      "nombres": [
+        "TB_Gestion_OC_Pendientes",
+        "TB_Alerta_OC_Atrasadas"
+      ],
+      "proposito_comun": "Identificar ordenes de compra pendientes y notificar responsables.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Outlook",
+        "Teams"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 11,
+      "nombre_sugerido": "Componente Reporte Ventas",
+      "miembros": [
+        "TB13",
+        "TB14"
+      ],
+      "nombres": [
+        "TB_Reporte_Ventas_Diario",
+        "TB_Reporte_Ventas_Semanal"
+      ],
+      "proposito_comun": "Generar consolidado semanal por canal y region.",
+      "patron_destino": "custom_python_java",
+      "apps_dominantes": [
+        "SQL Server",
+        "Power BI",
+        "SharePoint"
+      ],
+      "blocker_legacy": false,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Unificar en un unico flujo n8n reutilizable y retirar los duplicados."
+    },
+    {
+      "cluster_id": 14,
+      "nombre_sugerido": "Componente Cobranza",
+      "miembros": [
+        "TB17",
+        "TB18"
+      ],
+      "nombres": [
+        "TB_Cobranza_Recordatorio_Clientes",
+        "TB_Cobranza_Escalamiento_Gerencial"
+      ],
+      "proposito_comun": "Escalar casos de mora critica a gerencias comerciales.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Outlook",
+        "Salesforce"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 15,
+      "nombre_sugerido": "Componente Clientes",
+      "miembros": [
+        "TB19",
+        "TB20",
+        "TB23",
+        "TB49",
+        "TB50"
+      ],
+      "nombres": [
+        "TB_Alta_Clientes_CRM",
+        "TB_Actualizacion_Datos_Cliente",
+        "TB_Carga_Maestra_Productos",
+        "TB_Depuracion_Datos_Maestros",
+        "TB_Merge_Clientes_Duplicados"
+      ],
+      "proposito_comun": "Crear clientes nuevos en CRM y replicar a ERP.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Salesforce",
+        "SQL Server"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 16,
+      "nombre_sugerido": "Componente Etl Interface",
+      "miembros": [
+        "TB21",
+        "TB22"
+      ],
+      "nombres": [
+        "TB_Monitoreo_Interface_ETL",
+        "TB_Reintento_Interface_ETL"
+      ],
+      "proposito_comun": "Reintentar cargas ETL fallidas segun reglas de severidad.",
+      "patron_destino": "custom_python_java",
+      "apps_dominantes": [
+        "Control-M",
+        "SQL Server",
+        "Email Gateway"
+      ],
+      "blocker_legacy": false,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Unificar en un unico flujo n8n reutilizable y retirar los duplicados."
+    },
+    {
+      "cluster_id": 18,
+      "nombre_sugerido": "Componente Cliente",
+      "miembros": [
+        "TB25",
+        "TB26"
+      ],
+      "nombres": [
+        "TB_Despacho_Guias_Transporte",
+        "TB_Tracking_Entregas_Cliente"
+      ],
+      "proposito_comun": "Actualizar estado de entrega y notificar cliente final.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "TMS",
+        "SAP ECC",
+        "Email Gateway"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 19,
+      "nombre_sugerido": "Componente Conciliacion",
+      "miembros": [
+        "TB27",
+        "TB28"
+      ],
+      "nombres": [
+        "TB_Conciliacion_Tarjetas_Corporativas",
+        "TB_Validacion_Viaticos"
+      ],
+      "proposito_comun": "Revisar politicas de viaticos y marcar excepciones para auditoria.",
+      "patron_destino": "n8n",
+      "apps_dominantes": [
+        "Concur",
+        "Portal Bancario",
+        "Excel"
+      ],
+      "blocker_legacy": false,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Unificar en un unico flujo n8n reutilizable y retirar los duplicados."
+    },
+    {
+      "cluster_id": 20,
+      "nombre_sugerido": "Componente Pago Proveedores",
+      "miembros": [
+        "TB29",
+        "TB30"
+      ],
+      "nombres": [
+        "TB_Pago_Proveedores_Masivo",
+        "TB_Pago_Proveedores_Urgente"
+      ],
+      "proposito_comun": "Ejecutar pagos urgentes fuera del ciclo normal.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Portal Bancario",
+        "PGP Encryptor"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 23,
+      "nombre_sugerido": "Componente Impuestos",
+      "miembros": [
+        "TB33",
+        "TB34"
+      ],
+      "nombres": [
+        "TB_Provision_Impuestos_Indirectos",
+        "TB_Declaracion_Impuestos_Mensual"
+      ],
+      "proposito_comun": "Calcular y registrar provision de IVA e impuestos indirectos.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Excel",
+        "SQL Server"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 24,
+      "nombre_sugerido": "Componente Clientes Credito",
+      "miembros": [
+        "TB35",
+        "TB36"
+      ],
+      "nombres": [
+        "TB_Bloqueo_Credito_Clientes",
+        "TB_Desbloqueo_Credito_Clientes"
+      ],
+      "proposito_comun": "Bloquear clientes por riesgo crediticio segun politicas vigentes.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Salesforce",
+        "Buró API"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 25,
+      "nombre_sugerido": "Componente Accesos",
+      "miembros": [
+        "TB37",
+        "TB38"
+      ],
+      "nombres": [
+        "TB_Extraccion_Auditoria_SOX",
+        "TB_Evidencias_Control_Accesos"
+      ],
+      "proposito_comun": "Generar evidencias de auditoria SOX para controles clave.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SharePoint",
+        "SAP ECC",
+        "SQL Server"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 26,
+      "nombre_sugerido": "Componente Actualizacion",
+      "miembros": [
+        "TB39",
+        "TB40"
+      ],
+      "nombres": [
+        "TB_Actualizacion_Precios_Masiva",
+        "TB_Actualizacion_Descuentos_Comerciales"
+      ],
+      "proposito_comun": "Cargar listas de precios por canal y vigencia.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "SAP ECC",
+        "Salesforce",
+        "Excel"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 27,
+      "nombre_sugerido": "Componente Digital Empleado",
+      "miembros": [
+        "TB41",
+        "TB42"
+      ],
+      "nombres": [
+        "TB_Onboarding_Empleado_Digital",
+        "TB_Offboarding_Empleado_Digital"
+      ],
+      "proposito_comun": "Crear cuentas y accesos base para nuevos ingresos.",
+      "patron_destino": "rpa_selective",
+      "apps_dominantes": [
+        "Workday",
+        "Active Directory",
+        "ServiceNow"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    },
+    {
+      "cluster_id": 28,
+      "nombre_sugerido": "Componente Tickets",
+      "miembros": [
+        "TB43",
+        "TB44"
+      ],
+      "nombres": [
+        "TB_Clasificacion_Tickets_Soporte",
+        "TB_Priorizacion_Tickets_Criticos"
+      ],
+      "proposito_comun": "Clasificar tickets de soporte y enrutar a cola correcta.",
+      "patron_destino": "n8n",
+      "apps_dominantes": [
+        "ServiceNow",
+        "NLP API",
+        "Teams"
+      ],
+      "blocker_legacy": false,
+      "requiere_habilitacion_api": false,
+      "accion_recomendada": "Unificar en un unico flujo n8n reutilizable y retirar los duplicados."
+    },
+    {
+      "cluster_id": 31,
+      "nombre_sugerido": "Componente Alerta",
+      "miembros": [
+        "TB47",
+        "TB48"
+      ],
+      "nombres": [
+        "TB_Control_Vencimiento_Contratos",
+        "TB_Alerta_Renovacion_Polizas"
+      ],
+      "proposito_comun": "Detectar contratos proximos a vencer y activar renovacion.",
+      "patron_destino": "n8n",
+      "apps_dominantes": [
+        "Outlook",
+        "SharePoint",
+        "SAP Ariba"
+      ],
+      "blocker_legacy": true,
+      "requiere_habilitacion_api": true,
+      "accion_recomendada": "Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior."
+    }
+  ],
+  "api_matrix": [
+    {
+      "sistema": "SAP ECC",
+      "taskbots": 35,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "SQL Server",
+      "taskbots": 12,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Outlook",
+      "taskbots": 11,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Excel",
+      "taskbots": 9,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Salesforce",
+      "taskbots": 9,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "ServiceNow",
+      "taskbots": 8,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "SharePoint",
+      "taskbots": 7,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Portal Bancario",
+      "taskbots": 4,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Active Directory",
+      "taskbots": 3,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Power BI",
+      "taskbots": 3,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "TMS",
+      "taskbots": 3,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Teams",
+      "taskbots": 3,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Workday",
+      "taskbots": 3,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Concur",
+      "taskbots": 2,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Control-M",
+      "taskbots": 2,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Email Gateway",
+      "taskbots": 2,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "API Banco Central",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "API Integracion",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Buró API",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "CMDB",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Data Quality Tool",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Excel Control",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "File Server",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Lista OFAC API",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "M365 Admin",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "MES Legacy",
+      "taskbots": 1,
+      "api_disponible": false,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": true
+    },
+    {
+      "sistema": "Mercado API",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "NLP API",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "OCR Service",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "PGP Encryptor",
+      "taskbots": 1,
+      "api_disponible": false,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": true
+    },
+    {
+      "sistema": "PIM",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Portal Aseguradora",
+      "taskbots": 1,
+      "api_disponible": false,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": true
+    },
+    {
+      "sistema": "Portal Tributario",
+      "taskbots": 1,
+      "api_disponible": false,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": true
+    },
+    {
+      "sistema": "SAP Ariba",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": false,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "Shopify",
+      "taskbots": 1,
+      "api_disponible": true,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": false
+    },
+    {
+      "sistema": "WMS Legacy",
+      "taskbots": 1,
+      "api_disponible": false,
+      "tocado_por_legacy": true,
+      "requiere_habilitacion_api": true
+    }
+  ],
   "recommendations": [
     {
       "taskbot_id": "TB01",
@@ -306,7 +898,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Recepcion_Facturas_Proveedor' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0."
+      "justificacion": "'TB_Recepcion_Facturas_Proveedor' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 58.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 77.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Outlook",
+          "SharePoint",
+          "SAP ECC"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB02",
@@ -321,7 +960,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Integracion orquestable (API-first, archivos): candidato a n8n."
       ],
-      "justificacion": "'TB_Validador_Facturas_OCR' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first, archivos): candidato a n8n. Valor=40.0, complejidad=63.0."
+      "justificacion": "'TB_Validador_Facturas_OCR' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first, archivos): candidato a n8n. Valor=40.0, complejidad=63.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 40.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "file",
+            "puntos": 18.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 63.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "OCR Service",
+          "File Server",
+          "Excel Control"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB03",
@@ -336,7 +1022,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Carga_Facturas_SAP' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+      "justificacion": "'TB_Carga_Facturas_SAP' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 40.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "SQL Server"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB04",
@@ -351,7 +1083,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Posteo_Gastos_No_OC' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Posteo_Gastos_No_OC' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Outlook"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB05",
@@ -366,7 +1144,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Conciliacion_Bancaria_Diaria' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Conciliacion_Bancaria_Diaria' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Portal Bancario",
+          "SAP ECC",
+          "Power BI"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB06",
@@ -380,7 +1205,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Conciliacion_Manual_Asistida' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0."
+      "justificacion": "'TB_Conciliacion_Manual_Asistida' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 58.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "total": 67.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Excel",
+          "SAP ECC"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB07",
@@ -395,7 +1266,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alta_Proveedores_Maestro' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Alta_Proveedores_Maestro' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "ServiceNow",
+          "SAP ECC",
+          "Lista OFAC API"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB08",
@@ -410,7 +1328,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Actualizacion_Datos_Proveedores' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+      "justificacion": "'TB_Actualizacion_Datos_Proveedores' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SharePoint",
+          "SAP ECC",
+          "Outlook"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB09",
@@ -424,7 +1389,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Gestion_OC_Pendientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+      "justificacion": "'TB_Gestion_OC_Pendientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Outlook",
+          "Teams"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB10",
@@ -438,7 +1450,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alerta_OC_Atrasadas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+      "justificacion": "'TB_Alerta_OC_Atrasadas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Outlook"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB11",
@@ -453,7 +1511,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Control_Inventario_Ciclico' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Control_Inventario_Ciclico' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "WMS Legacy",
+          "SAP ECC",
+          "SQL Server"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB12",
@@ -468,7 +1573,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Ajuste_Inventario_Emergencia' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+      "justificacion": "'TB_Ajuste_Inventario_Emergencia' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 40.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "ServiceNow"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB13",
@@ -482,7 +1633,54 @@
       "razones": [
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Reporte_Ventas_Diario' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0."
+      "justificacion": "'TB_Reporte_Ventas_Diario' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 57.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SQL Server",
+          "Power BI",
+          "SharePoint"
+        ],
+        "api_disponible": true,
+        "api_requerida": false,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB14",
@@ -496,7 +1694,53 @@
       "razones": [
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Reporte_Ventas_Semanal' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=63.0, complejidad=44.0."
+      "justificacion": "'TB_Reporte_Ventas_Semanal' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=63.0, complejidad=44.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "low",
+            "puntos": 8.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 63.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "low",
+            "puntos": 4.0
+          },
+          "dependencias": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "total": 44.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SQL Server",
+          "Power BI"
+        ],
+        "api_disponible": true,
+        "api_requerida": false,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB15",
@@ -511,7 +1755,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Provision_Nomina_Contable' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0."
+      "justificacion": "'TB_Provision_Nomina_Contable' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 40.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Workday",
+          "SAP ECC",
+          "Excel"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB16",
@@ -525,7 +1816,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Asiento_Ajuste_Mensual' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=80.0."
+      "justificacion": "'TB_Asiento_Ajuste_Mensual' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=80.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 40.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "total": 80.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "SharePoint"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB17",
@@ -539,7 +1876,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Cobranza_Recordatorio_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0."
+      "justificacion": "'TB_Cobranza_Recordatorio_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 77.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Outlook",
+          "Salesforce"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB18",
@@ -553,7 +1937,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Cobranza_Escalamiento_Gerencial' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+      "justificacion": "'TB_Cobranza_Escalamiento_Gerencial' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Outlook",
+          "Teams"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB19",
@@ -569,7 +2000,54 @@
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
         "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
       ],
-      "justificacion": "'TB_Alta_Clientes_CRM' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=85.0."
+      "justificacion": "'TB_Alta_Clientes_CRM' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Salesforce",
+          "SAP ECC",
+          "API Integracion"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB20",
@@ -584,7 +2062,53 @@
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
         "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
       ],
-      "justificacion": "'TB_Actualizacion_Datos_Cliente' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0."
+      "justificacion": "'TB_Actualizacion_Datos_Cliente' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "total": 67.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Salesforce",
+          "SAP ECC"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB21",
@@ -599,7 +2123,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Monitoreo_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=75.0."
+      "justificacion": "'TB_Monitoreo_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=75.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 75.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Control-M",
+          "SQL Server",
+          "Email Gateway"
+        ],
+        "api_disponible": true,
+        "api_requerida": false,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB22",
@@ -614,7 +2185,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Reintento_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0."
+      "justificacion": "'TB_Reintento_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 70.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Control-M",
+          "SQL Server"
+        ],
+        "api_disponible": true,
+        "api_requerida": false,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB23",
@@ -630,7 +2247,54 @@
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
         "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
       ],
-      "justificacion": "'TB_Carga_Maestra_Productos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=90.0."
+      "justificacion": "'TB_Carga_Maestra_Productos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "PIM",
+          "SAP ECC",
+          "SQL Server"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB24",
@@ -645,7 +2309,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alta_Materiales_Manufactura' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Alta_Materiales_Manufactura' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "MES Legacy",
+          "Excel"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB25",
@@ -659,7 +2370,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Despacho_Guias_Transporte' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0."
+      "justificacion": "'TB_Despacho_Guias_Transporte' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 77.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "TMS",
+          "SAP ECC",
+          "Email Gateway"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB26",
@@ -671,10 +2429,57 @@
       "cluster_id": 18,
       "revision_manual": false,
       "razones": [
-        "Integracion orquestable (email, API-first): candidato a n8n.",
+        "Integracion orquestable (API-first, email): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Tracking_Entregas_Cliente' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0."
+      "justificacion": "'TB_Tracking_Entregas_Cliente' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, email): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "email",
+            "puntos": 12.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 44.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "TMS",
+          "Salesforce",
+          "Outlook"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB27",
@@ -686,10 +2491,57 @@
       "cluster_id": 19,
       "revision_manual": false,
       "razones": [
-        "Integracion orquestable (API-first, archivos): candidato a n8n.",
+        "Integracion orquestable (archivos, API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Conciliacion_Tarjetas_Corporativas' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0."
+      "justificacion": "'TB_Conciliacion_Tarjetas_Corporativas' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 73.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "file",
+            "puntos": 18.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 50.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Portal Bancario",
+          "Concur",
+          "Excel"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB28",
@@ -704,7 +2556,53 @@
         "Integracion orquestable (API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Validacion_Viaticos' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0."
+      "justificacion": "'TB_Validacion_Viaticos' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "api",
+            "puntos": 10.0
+          },
+          "canales_extra": {
+            "cantidad": 0,
+            "puntos": 0.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 37.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Concur",
+          "ServiceNow"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB29",
@@ -719,7 +2617,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Pago_Proveedores_Masivo' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0."
+      "justificacion": "'TB_Pago_Proveedores_Masivo' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Portal Bancario",
+          "PGP Encryptor"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB30",
@@ -734,7 +2679,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Pago_Proveedores_Urgente' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+      "justificacion": "'TB_Pago_Proveedores_Urgente' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Portal Bancario",
+          "Outlook"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB31",
@@ -748,7 +2740,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Actualiza_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0."
+      "justificacion": "'TB_Actualiza_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 58.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "API Banco Central",
+          "SAP ECC"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB32",
@@ -762,7 +2800,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Reproceso_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=28.0, complejidad=72.0."
+      "justificacion": "'TB_Reproceso_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=28.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 28.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Excel"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB33",
@@ -777,7 +2861,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Provision_Impuestos_Indirectos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+      "justificacion": "'TB_Provision_Impuestos_Indirectos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "SQL Server",
+          "Excel"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB34",
@@ -792,7 +2923,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Declaracion_Impuestos_Mensual' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Declaracion_Impuestos_Mensual' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Portal Tributario",
+          "SAP ECC",
+          "Excel"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB35",
@@ -807,7 +2985,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Bloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0."
+      "justificacion": "'TB_Bloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Buró API",
+          "Salesforce"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB36",
@@ -821,7 +3046,53 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Desbloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+      "justificacion": "'TB_Desbloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Salesforce"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB37",
@@ -836,7 +3107,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Extraccion_Auditoria_SOX' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0."
+      "justificacion": "'TB_Extraccion_Auditoria_SOX' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 85.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "SQL Server",
+          "SharePoint"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB38",
@@ -851,7 +3169,54 @@
         "Integracion orquestable (API-first, archivos): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Evidencias_Control_Accesos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0."
+      "justificacion": "'TB_Evidencias_Control_Accesos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 73.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "file",
+            "puntos": 18.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 50.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Active Directory",
+          "ServiceNow",
+          "SharePoint"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB39",
@@ -866,7 +3231,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Actualizacion_Precios_Masiva' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0."
+      "justificacion": "'TB_Actualizacion_Precios_Masiva' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 85.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Salesforce",
+          "Excel"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB40",
@@ -881,7 +3293,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Actualizacion_Descuentos_Comerciales' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=85.0."
+      "justificacion": "'TB_Actualizacion_Descuentos_Comerciales' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 85.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SAP ECC",
+          "Salesforce"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB41",
@@ -895,7 +3353,55 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Onboarding_Empleado_Digital' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0."
+      "justificacion": "'TB_Onboarding_Empleado_Digital' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 72.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Workday",
+          "Active Directory",
+          "ServiceNow",
+          "M365 Admin"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB42",
@@ -911,7 +3417,54 @@
         "Integracion orquestable (API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Offboarding_Empleado_Digital' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=100.0, complejidad=50.0."
+      "justificacion": "'TB_Offboarding_Empleado_Digital' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=100.0, complejidad=50.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "api",
+            "puntos": 10.0
+          },
+          "canales_extra": {
+            "cantidad": 0,
+            "puntos": 0.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 50.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Workday",
+          "Active Directory",
+          "ServiceNow"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB43",
@@ -926,7 +3479,54 @@
         "Integracion orquestable (API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Clasificacion_Tickets_Soporte' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0."
+      "justificacion": "'TB_Clasificacion_Tickets_Soporte' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "api",
+            "puntos": 10.0
+          },
+          "canales_extra": {
+            "cantidad": 0,
+            "puntos": 0.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 37.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "ServiceNow",
+          "NLP API",
+          "Teams"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB44",
@@ -941,7 +3541,53 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Priorizacion_Tickets_Criticos' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0."
+      "justificacion": "'TB_Priorizacion_Tickets_Criticos' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 100.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 70.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "ServiceNow",
+          "CMDB"
+        ],
+        "api_disponible": true,
+        "api_requerida": false,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB45",
@@ -956,7 +3602,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Extraccion_Pedidos_Ecommerce' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0."
+      "justificacion": "'TB_Extraccion_Pedidos_Ecommerce' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Shopify",
+          "SAP ECC",
+          "SQL Server"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB46",
@@ -971,7 +3664,54 @@
         "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Integracion_Marketplace_Pedidos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0."
+      "justificacion": "'TB_Integracion_Marketplace_Pedidos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": false,
+            "puntos": 0.0
+          },
+          "total": 70.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 85.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Mercado API",
+          "SAP ECC",
+          "TMS"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB47",
@@ -983,10 +3723,57 @@
       "cluster_id": 31,
       "revision_manual": false,
       "razones": [
-        "Integracion orquestable (email, API-first, archivos): candidato a n8n.",
+        "Integracion orquestable (archivos, email, API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Control_Vencimiento_Contratos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (email, API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0."
+      "justificacion": "'TB_Control_Vencimiento_Contratos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "high",
+            "puntos": 40.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 88.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "file",
+            "puntos": 18.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 55.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SharePoint",
+          "Outlook",
+          "SAP Ariba"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB48",
@@ -1000,7 +3787,54 @@
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alerta_Renovacion_Polizas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0."
+      "justificacion": "'TB_Alerta_Renovacion_Polizas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 73.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 77.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Excel",
+          "Outlook",
+          "Portal Aseguradora"
+        ],
+        "api_disponible": false,
+        "api_requerida": true,
+        "bloqueador": "ui_legacy",
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+      }
     },
     {
       "taskbot_id": "TB49",
@@ -1014,7 +3848,54 @@
       "razones": [
         "Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido."
       ],
-      "justificacion": "'TB_Depuracion_Datos_Maestros' se recomienda para microservicio / componente compartido (ola 2). Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido. Valor=58.0, complejidad=57.0."
+      "justificacion": "'TB_Depuracion_Datos_Maestros' se recomienda para microservicio / componente compartido (ola 2). Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido. Valor=58.0, complejidad=57.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "low",
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 18.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 58.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "database",
+            "puntos": 25.0
+          },
+          "canales_extra": {
+            "cantidad": 1,
+            "puntos": 5.0
+          },
+          "riesgo": {
+            "nivel": "medium",
+            "puntos": 12.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 57.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "SQL Server",
+          "SAP ECC",
+          "Data Quality Tool"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     },
     {
       "taskbot_id": "TB50",
@@ -1030,7 +3911,54 @@
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
         "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
       ],
-      "justificacion": "'TB_Merge_Clientes_Duplicados' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=85.0, complejidad=90.0."
+      "justificacion": "'TB_Merge_Clientes_Duplicados' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=85.0, complejidad=90.0.",
+      "score_breakdown": {
+        "valor": {
+          "frecuencia": {
+            "bucket": "medium",
+            "puntos": 25.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 30.0
+          },
+          "duplicidad": {
+            "en_grupo": true,
+            "puntos": 30.0
+          },
+          "total": 85.0
+        },
+        "complejidad": {
+          "interaccion_dominante": {
+            "tipo": "ui_legacy",
+            "puntos": 40.0
+          },
+          "canales_extra": {
+            "cantidad": 2,
+            "puntos": 10.0
+          },
+          "riesgo": {
+            "nivel": "high",
+            "puntos": 25.0
+          },
+          "dependencias": {
+            "cantidad": 3,
+            "puntos": 15.0
+          },
+          "total": 90.0
+        }
+      },
+      "api_enablement": {
+        "sistemas": [
+          "Salesforce",
+          "SAP ECC",
+          "SQL Server"
+        ],
+        "api_disponible": true,
+        "api_requerida": true,
+        "bloqueador": null,
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+      }
     }
   ],
   "errors": []

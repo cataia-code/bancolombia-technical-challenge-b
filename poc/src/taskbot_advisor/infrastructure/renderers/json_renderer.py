@@ -42,6 +42,22 @@ class JsonRenderer:
                 }
                 for c in result.clusters
             ],
+            "component_candidates": [
+                {
+                    "cluster_id": c.cluster_id,
+                    "nombre_sugerido": c.suggested_name,
+                    "miembros": list(c.member_ids),
+                    "nombres": list(c.member_names),
+                    "proposito_comun": c.common_purpose,
+                    "patron_destino": c.target_pattern.value,
+                    "apps_dominantes": list(c.dominant_apps),
+                    "blocker_legacy": c.legacy_blocker,
+                    "requiere_habilitacion_api": c.needs_api_enablement,
+                    "accion_recomendada": c.recommended_action,
+                }
+                for c in result.component_candidates
+            ],
+            "api_matrix": result.api_matrix,
             "recommendations": [
                 {
                     "taskbot_id": r.taskbot_id,
@@ -54,6 +70,8 @@ class JsonRenderer:
                     "revision_manual": r.needs_manual_review,
                     "razones": r.reasons,
                     "justificacion": r.rationale,
+                    "score_breakdown": r.score_breakdown,
+                    "api_enablement": _api_enablement_dict(r.api_enablement),
                 }
                 for r in result.recommendations
             ],
@@ -65,3 +83,15 @@ def _w(value: str):
     from ...domain.entities import Wave
 
     return Wave(value)
+
+
+def _api_enablement_dict(api) -> dict | None:
+    if api is None:
+        return None
+    return {
+        "sistemas": list(api.systems),
+        "api_disponible": api.api_available,
+        "api_requerida": api.api_required,
+        "bloqueador": api.blocker,
+        "accion_habilitadora": api.enabling_action,
+    }

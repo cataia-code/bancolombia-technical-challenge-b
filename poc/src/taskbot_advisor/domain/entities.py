@@ -160,6 +160,51 @@ class Recommendation:
     needs_manual_review: bool = False
     # Natural-language justification (rule + optional agent enrichment).
     rationale: str = ""
+    # Transparent breakdown of how value/complexity were computed (explainability).
+    score_breakdown: dict = field(default_factory=dict)
+    # API enablement view of this operation (see api_enablement.py).
+    api_enablement: "ApiEnablement | None" = None
+
+
+@dataclass(frozen=True)
+class ApiEnablement:
+    """API/no-API view of one operation (recommendation).
+
+    Answers, per operation: which systems it touches, whether an API is already
+    available, whether the target requires one, what blocks it and what action
+    would enable migrating off RPA. Makes the "legacy -> RPA" verdict defensible.
+    """
+
+    systems: tuple[str, ...]
+    api_available: bool
+    api_required: bool
+    blocker: str | None
+    enabling_action: str
+
+
+@dataclass(frozen=True)
+class ComponentCandidate:
+    """A reusable component that could be extracted from a cluster of variants.
+
+    This is the step from "these are duplicates" to "extract THIS shared
+    component": suggested name, members, common purpose, target pattern,
+    dominant apps, whether a legacy blocker exists and the recommended action.
+    """
+
+    cluster_id: int
+    suggested_name: str
+    member_ids: tuple[str, ...]
+    member_names: tuple[str, ...]
+    common_purpose: str
+    target_pattern: MigrationTarget
+    dominant_apps: tuple[str, ...]
+    legacy_blocker: bool
+    needs_api_enablement: bool
+    recommended_action: str
+
+    @property
+    def size(self) -> int:
+        return len(self.member_ids)
 
 
 @dataclass
@@ -170,6 +215,9 @@ class AnalysisResult:
     recommendations: list[Recommendation]
     clusters: list[Cluster]
     errors: list[dict] = field(default_factory=list)
+    # Rationalization plan enrichments (built by the use case).
+    component_candidates: list[ComponentCandidate] = field(default_factory=list)
+    api_matrix: list[dict] = field(default_factory=list)
 
     @property
     def total(self) -> int:

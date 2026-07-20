@@ -10,7 +10,8 @@ from __future__ import annotations
 
 import uuid
 
-from ..domain import scoring
+from ..domain import api_enablement, scoring
+from ..domain.catalog import build_component_candidates
 from ..domain.entities import AnalysisResult, Recommendation
 from ..domain.rules import classify_target
 from ..domain.similarity import build_clusters, cluster_of
@@ -57,15 +58,24 @@ class AnalyzeInventory:
         # 2. For each taskbot: classify, score, assign a wave and justify.
         recommendations: list[Recommendation] = []
         errors: list[dict] = list(load_errors)
+        processed: list = []
         for bot in bots:
             try:
                 recommendations.append(self._recommend(bot, clusters))
+                processed.append(bot)
             except Exception as exc:  # Fail-soft: one item must not sink the batch.
                 log.error("fallo_taskbot", extra={"taskbot": bot.id}, exc_info=True)
                 errors.append({"taskbot_id": bot.id, "error": str(exc)})
 
+        # 3. Rationalization plan: reusable-component catalog + API/no-API matrix.
+        bots_by_id = {b.id: b for b in processed}
+        recs_by_id = {r.taskbot_id: r for r in recommendations}
+        component_candidates = build_component_candidates(clusters, bots_by_id, recs_by_id)
+        api_matrix = api_enablement.system_matrix(processed)
+
         result = AnalysisResult(
-            run_id=run_id, recommendations=recommendations, clusters=clusters, errors=errors
+            run_id=run_id, recommendations=recommendations, clusters=clusters, errors=errors,
+            component_candidates=component_candidates, api_matrix=api_matrix,
         )
         log.info(
             "analisis_completado",
@@ -88,6 +98,8 @@ class AnalyzeInventory:
             value_score=round(value, 1), complexity_score=round(complexity, 1),
             cluster_id=cluster.id if (cluster and cluster.is_duplicate_group) else None,
             reasons=reasons, needs_manual_review=manual,
+            score_breakdown=scoring.score_breakdown(bot, in_dup),
+            api_enablement=api_enablement.assess(bot, target),
         )
         # Written justification (deterministic or LLM). Does not alter the decision.
         rec.rationale = self._advisor.explain(bot, rec)

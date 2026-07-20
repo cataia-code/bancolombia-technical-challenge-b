@@ -21,6 +21,9 @@ class Settings:
     apps_overlap_weight: float = 0.35
     # Root directory where reports are written (one subfolder per runId).
     reports_dir: str = "reports"
+    # If set, /analyze only accepts inventory paths contained within this root
+    # (guardrail for external exposure). None = unrestricted (local dev default).
+    inventory_root: str | None = None
     # Enables the LLM agent layer. If False (or no API key) the deterministic
     # fallback advisor is used. The solution NEVER depends on the LLM.
     llm_enabled: bool = False
@@ -41,6 +44,7 @@ class Settings:
             similarity_threshold=threshold,
             apps_overlap_weight=_read_float("TASKBOT_APPS_OVERLAP_WEIGHT", 0.35),
             reports_dir=os.getenv("TASKBOT_REPORTS_DIR", "reports"),
+            inventory_root=os.getenv("TASKBOT_INVENTORY_ROOT") or None,
             # The LLM is only activated if explicitly enabled AND a credential exists.
             llm_enabled=llm_enabled and api_key is not None,
             llm_model=os.getenv("TASKBOT_LLM_MODEL", "claude-opus-4-8"),

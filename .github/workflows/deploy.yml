@@ -71,14 +71,20 @@ jobs:
         working-directory: poc
         run: python -m pytest tests/ --cov=taskbot_advisor --cov-report=term-missing --cov-fail-under=100
 
-      - name: El reporte se genera (CLI end-to-end)
+      - name: Contrato OpenAPI actualizado
         working-directory: poc
-        run: python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id ci
+        run: python scripts/export_openapi.py --check
+
+      - name: Reporte de ejemplo no está desactualizado (drift check)
+        run: |
+          cd poc && python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id example --quiet
+          cd .. && git diff --exit-code -- poc/reports/example/reporte.json \
+            || { echo "poc/reports/example está desactualizado: regenéralo y commitea"; exit 1; }
 
       - name: Validar docker-compose
         run: docker compose -f poc/docker-compose.yml config
 
-      - name: Workflow n8n Cloud es JSON válido
+      - name: Workflows n8n son JSON válido
         run: python -c "import json; json.load(open('poc/n8n/workflow.cloud.json', encoding='utf-8')); json.load(open('poc/n8n/workflow.json', encoding='utf-8')); print('n8n workflows OK')"
 
   # ---- Build del artefacto de Pages ----

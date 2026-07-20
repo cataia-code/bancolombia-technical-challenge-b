@@ -98,3 +98,8 @@ def test_import_main_module():
     import importlib
     mod = importlib.import_module("taskbot_advisor.__main__")
     assert hasattr(mod, "app")
+
+
+def test_api_enablement_dict_none():
+    from taskbot_advisor.infrastructure.renderers.json_renderer import _api_enablement_dict
+    assert _api_enablement_dict(None) is None

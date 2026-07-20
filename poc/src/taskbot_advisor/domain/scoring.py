@@ -80,6 +80,41 @@ def complexity_score(bot: Taskbot) -> float:
     return min(score, 100.0)
 
 
+def value_breakdown(bot: Taskbot, in_duplicate_cluster: bool) -> dict:
+    """Explain the value score component by component (for the report)."""
+    bucket = classify_frequency(bot.frequency)
+    cluster_pts = _CLUSTER_VALUE_BONUS if in_duplicate_cluster else 0.0
+    return {
+        "frecuencia": {"bucket": bucket, "puntos": _FREQUENCY_VALUE[bucket]},
+        "riesgo": {"nivel": bot.risk.value, "puntos": _RISK_VALUE[bot.risk]},
+        "duplicidad": {"en_grupo": in_duplicate_cluster, "puntos": cluster_pts},
+        "total": value_score(bot, in_duplicate_cluster),
+    }
+
+
+def complexity_breakdown(bot: Taskbot) -> dict:
+    """Explain the complexity score component by component (for the report)."""
+    interactions = bot.interactions or (InteractionType.UNKNOWN,)
+    dominant = max(interactions, key=lambda i: _INTERACTION_COMPLEXITY[i])
+    extra = max(len(bot.known_interactions) - 1, 0)
+    dep_pts = min(len(bot.dependencies) * _DEP_COMPLEXITY_PER_ITEM, _DEP_COMPLEXITY_CAP)
+    return {
+        "interaccion_dominante": {"tipo": dominant.value, "puntos": _INTERACTION_COMPLEXITY[dominant]},
+        "canales_extra": {"cantidad": extra, "puntos": extra * 5.0},
+        "riesgo": {"nivel": bot.risk.value, "puntos": _RISK_COMPLEXITY[bot.risk]},
+        "dependencias": {"cantidad": len(bot.dependencies), "puntos": dep_pts},
+        "total": complexity_score(bot),
+    }
+
+
+def score_breakdown(bot: Taskbot, in_duplicate_cluster: bool) -> dict:
+    """Full, explainable breakdown of value and complexity."""
+    return {
+        "valor": value_breakdown(bot, in_duplicate_cluster),
+        "complejidad": complexity_breakdown(bot),
+    }
+
+
 def assign_wave(value: float, complexity: float, needs_manual_review: bool) -> Wave:
     """Assign a wave: Wave 1 = high value and low complexity (quick wins).
 

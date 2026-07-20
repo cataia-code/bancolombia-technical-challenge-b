@@ -622,6 +622,18 @@ flowchart TB
           <tr><td><span class="pill p-hi">Ola 3 — a habilitar/revisar</span></td><td>41</td></tr>
         </tbody>
       </table></div>
+
+      <h2>De recomendaciones a plan de racionalización</h2>
+      <p class="lede">La salida no es una lista de recomendaciones sueltas: es un plan accionable con tres piezas que el reporte genera automáticamente.</p>
+      <div class="grid grid-3">
+        <div class="card"><h4>Catálogo de componentes</h4><p><strong>15 componentes reutilizables</strong> extraíbles: nombre sugerido, miembros, propósito común, patrón destino, apps dominantes, blocker legacy y acción recomendada. Conecta con "qué componentes reutilizables extraer".</p></div>
+        <div class="card"><h4>Matriz API / no-API</h4><p>Por sistema y por operación: <em>api_disponible</em>, <em>api_requerida</em>, <em>bloqueador</em> y <em>acción habilitadora</em>. Hace defendible el 72% legacy: no es resignación a RPA, es un plan de <em>API enablement</em>.</p></div>
+        <div class="card"><h4>Scoring explicado</h4><p>Cada recomendación trae su <code>score_breakdown</code>: frecuencia, riesgo, duplicidad, complejidad por interacción y dependencias. Permite defender por qué algo cayó en Ola 1/2/3.</p></div>
+      </div>
+      <div class="callout tip">
+        <div class="k">Guardrails de seguridad</div>
+        <p>El endpoint <code>/analyze</code> valida <code>run_id</code> (regex), contiene el inventario dentro de <code>TASKBOT_INVENTORY_ROOT</code> y recomienda <code>/analyze/inline</code> para exposición externa. Ver <a href="runbook.md">runbook de demo/fallo</a>.</p>
+      </div>
     </section>
 
     <!-- ==================== EJECUCION ==================== -->
@@ -630,18 +642,27 @@ flowchart TB
       <h1>Ejecución local y orquestación con n8n</h1>
       <p class="lede">Se demuestra por CLI (sin n8n) o por n8n (orquestada). El servicio expone un contrato HTTP simple; el orquestador es reemplazable por Appian/Power Platform/BPM.</p>
 
+      <h2>Demo en un comando</h2>
+      <div class="card"><pre style="overflow-x:auto;margin:0"><code># desde la raíz del repo
+bash scripts/demo.sh          # Linux/macOS/Git-Bash
+.\scripts\demo.ps1            # Windows PowerShell</code></pre></div>
+
       <h2>CLI</h2>
-      <div class="card"><pre style="overflow-x:auto;margin:0"><code>python -m pip install -r requirements.txt
-PYTHONPATH=src python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt
+      <div class="card"><pre style="overflow-x:auto;margin:0"><code># instalar una vez (desde la raíz)
+python -m venv .venv &amp;&amp; . .venv/Scripts/activate   # o source .venv/bin/activate
+pip install -e "./poc[dev]"
+
+# analizar el inventario real
+python -m taskbot_advisor analyze poc/data/ejemplo_50_taskbots_prueba.txt
 # → reports/&lt;run_id&gt;/reporte.json  +  reporte.html</code></pre></div>
 
       <h2>API + n8n (local)</h2>
-      <div class="card"><pre style="overflow-x:auto;margin:0"><code>docker compose up --build
+      <div class="card"><pre style="overflow-x:auto;margin:0"><code>cd poc &amp;&amp; docker compose up --build
 # API   → http://localhost:8000  (/health, /analyze, /analyze/inline)
-# n8n   → http://localhost:5678  → Import → n8n/workflow.json</code></pre></div>
+# n8n   → http://localhost:5678  → Import → poc/n8n/workflow.json</code></pre></div>
 
       <h2>n8n Cloud</h2>
-      <p>Se entrega <code>n8n/workflow.cloud.json</code>: un workflow <strong>autocontenido</strong> (nodo Code con el inventario embebido y la lógica de clasificación en JS) que se importa en n8n Cloud y corre sin servicio local. Alternativamente, se expone el servicio local a n8n Cloud con un túnel (cloudflared/ngrok) apuntando el nodo HTTP a la URL pública.</p>
+      <p>Se entrega <code>poc/n8n/workflow.cloud.json</code>: un workflow <strong>autocontenido</strong> (nodo Code con el inventario embebido y la lógica en JS) que se importa en n8n Cloud y corre sin servicio local. <strong>Es solo fallback de demostración</strong>: duplica las reglas en JS porque n8n Cloud no alcanza <code>localhost</code>; la fuente única de verdad es el servicio Python. Para producción, el nodo HTTP apunta al servicio vía un túnel (cloudflared/ngrok).</p>
       <div class="callout tip">
         <div class="k">Rollback / recuperación</div>
         <p>El servicio es <em>stateless</em> y de solo lectura sobre el inventario. Cada corrida es idempotente y versionada por <code>run_id</code> en <code>reports/&lt;run_id&gt;/</code> sin sobrescribir. Fail-soft por ítem; el nodo HTTP de n8n reintenta 3×. Recuperarse = volver a ejecutar.</p>
@@ -775,10 +796,10 @@ flowchart TD
     <section class="page" id="testing" data-title="Testing">
       <div class="eyebrow">Calidad</div>
       <h1>Estrategia de pruebas</h1>
-      <p class="lede">82 pruebas automatizadas (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
+      <p class="lede">111 pruebas automatizadas (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
 
       <div class="kpi-row">
-        <div class="kpi"><div class="n">82</div><div class="l">Pruebas</div></div>
+        <div class="kpi"><div class="n">111</div><div class="l">Pruebas</div></div>
         <div class="kpi"><div class="n">100%</div><div class="l">Cobertura</div></div>
         <div class="kpi"><div class="n">unit + e2e</div><div class="l">Niveles</div></div>
         <div class="kpi"><div class="n">0</div><div class="l">Fallos</div></div>

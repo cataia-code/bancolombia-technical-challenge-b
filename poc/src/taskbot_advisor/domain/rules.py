@@ -88,7 +88,8 @@ def classify_target(
         InteractionType.EMAIL: "email",
         InteractionType.FILE: "archivos",
     }
-    present = ", ".join(labels[i] for i in interactions if i in labels)
+    # Iterate the ordered tuple (not the set) so the text is deterministic.
+    present = ", ".join(labels[i] for i in bot.known_interactions if i in labels)
     reasons.append(f"Integracion orquestable ({present}): candidato a n8n.")
     if cluster is not None and cluster.is_duplicate_group:
         reasons.append(

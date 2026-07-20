@@ -119,6 +119,23 @@ lectura sobre el inventario. Entradas validadas (Pydantic en la API; parseo tole
 Logs sin datos sensibles (solo ids/atributos de clasificación). El LLM es opcional y desactivado por
 defecto, por lo que la demo no envía datos a terceros.
 
+**Guardrails del endpoint (`infrastructure/security.py`)** para exposición externa:
+`run_id` validado por regex `^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$` (no escapa el directorio de reportes);
+`inventory_path` contenido dentro de `TASKBOT_INVENTORY_ROOT` si se define (rechaza rutas absolutas y
+`..`); y `/analyze/inline` como endpoint recomendado para exposición externa (el inventario viaja en
+el cuerpo, sin ruta local).
+
+## 6.b. Plan de racionalización (salida enriquecida)
+
+La salida va más allá de "recomendación por taskbot" (alineado con la Parte A):
+- **Catálogo de componentes reutilizables** (`domain/catalog.py`): por cada cluster consolidable, un
+  `ComponentCandidate` con nombre sugerido, propósito común, patrón destino, apps dominantes, blocker
+  legacy, `needs_api_enablement` y acción recomendada.
+- **Matriz API/no-API** (`domain/api_enablement.py`): por sistema (agregada) y por operación
+  (`api_available`, `api_required`, `blocker`, `enabling_action`).
+- **Scoring explicable** (`domain/scoring.py::score_breakdown`): desglose por frecuencia, riesgo,
+  duplicidad, complejidad por interacción y dependencias.
+
 ## 7. Observabilidad
 
 Logs estructurados en JSON (`infrastructure/logging.py`) con `run_id` como correlation id en cada
@@ -148,7 +165,7 @@ y puede reprocesarse sin repetir todo el lote.
 | T10 | API /health, /analyze, /analyze/inline, error 400 | integración | alta |
 
 Casos borde cubiertos: inventario vacío/registro inválido, campos faltantes, duplicados,
-LLM caído (fallback), archivo inexistente. **82 pruebas, 100% de cobertura** (umbral `fail_under = 100`).
+LLM caído (fallback), archivo inexistente. **111 pruebas, 100% de cobertura** (umbral `fail_under = 100`).
 Evidencia: [`evidencia_pruebas.txt`](evidencia_pruebas.txt).
 
 ## 10. Mejoras futuras

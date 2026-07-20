@@ -2,7 +2,7 @@
 
 Servicio ejecutable de la Parte B: recibe un inventario de taskbots y genera recomendaciones de
 consolidación y migración. Arquitectura **hexagonal** (dominio puro + puertos/adapters), CLI y API
-para n8n, 82 pruebas con **100% de cobertura**.
+para n8n, 111 pruebas con **100% de cobertura**.
 
 ## Requisitos
 
@@ -44,7 +44,7 @@ docker compose up --build
 ## Pruebas
 
 ```bash
-python -m pytest                                                   # 82 pruebas
+python -m pytest                                                   # 111 pruebas
 python -m pytest --cov=taskbot_advisor --cov-report=term-missing   # 100% (fail_under=100)
 ```
 
@@ -57,6 +57,7 @@ Evidencia: [`../docs/evidencia_pruebas.txt`](../docs/evidencia_pruebas.txt).
 | `TASKBOT_SIMILARITY_THRESHOLD` | `82` | Umbral [0-100] para tratar dos taskbots como variantes. |
 | `TASKBOT_APPS_OVERLAP_WEIGHT` | `0.35` | Peso del solapamiento de apps vs. similitud textual. |
 | `TASKBOT_REPORTS_DIR` | `reports` | Carpeta de salida (subcarpeta por `run_id`). |
+| `TASKBOT_INVENTORY_ROOT` | — | Si se define, `/analyze` solo acepta inventarios contenidos en esta ruta (guardrail para exposición externa). |
 | `TASKBOT_LLM_ENABLED` | `false` | Habilita la capa de agente LLM (opcional). |
 | `ANTHROPIC_API_KEY` | — | Credencial del LLM. Si falta, se usa el advisor determinista. |
 
