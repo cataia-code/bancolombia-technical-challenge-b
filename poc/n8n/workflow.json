@@ -15,7 +15,7 @@
         "url": "=http://advisor:8000/analyze",
         "sendBody": true,
         "specifyBody": "json",
-        "jsonBody": "={ \"inventory_path\": \"/app/data/ejemplo_50_taskbots_prueba.txt\", \"persist\": true }",
+        "jsonBody": "={ \"inventory_path\": \"ejemplo_50_taskbots_prueba.txt\", \"persist\": true }",
         "options": {
           "response": { "response": { "neverError": false } },
           "retry": { "retry": { "maxTries": 3, "waitBetweenTries": 2000 } }

@@ -15,7 +15,7 @@ For untrusted external exposure the recommended endpoint is ``/analyze/inline``
 from __future__ import annotations
 
 import re
-from pathlib import Path
+from pathlib import Path, PureWindowsPath
 
 _RUN_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$")
 
@@ -44,8 +44,10 @@ def resolve_inventory_path(path_str: str, inventory_root: str | None) -> str:
     """
     if not inventory_root:
         return path_str
+    if Path(path_str).is_absolute() or PureWindowsPath(path_str).is_absolute():
+        raise SecurityError("inventory_path debe ser relativo a TASKBOT_INVENTORY_ROOT.")
     base = Path(inventory_root).resolve()
-    candidate = Path(path_str.lstrip("/\\"))
+    candidate = Path(path_str)
     resolved = (base / candidate).resolve()
     if base != resolved and base not in resolved.parents:
         raise SecurityError(

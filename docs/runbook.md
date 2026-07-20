@@ -25,7 +25,7 @@ y la ruta del reporte (`poc/reports/demo/reporte.html`).
 | n8n Cloud no conecta al servicio | n8n Cloud no alcanza `localhost` | Usar `workflow.cloud.json` (autocontenido) o un túnel público al servicio | El workflow cloud corre sin servicio local |
 | `docker compose up` falla | Docker no está corriendo / puertos ocupados | Iniciar Docker; liberar 8000/5678; o usar el CLI sin Docker | El CLI produce el mismo reporte sin infraestructura |
 | Reportes previos "desaparecen" | — (no ocurre) | Cada corrida escribe en `reports/<run_id>/` sin sobrescribir | Carpetas por `run_id`, idempotentes |
-| `HTTP 400` en `/analyze` | `run_id` inválido o ruta fuera de `TASKBOT_INVENTORY_ROOT` | Usar `run_id` `[A-Za-z0-9_-]`; ruta dentro del root | Guardrails de seguridad activos |
+| `HTTP 400` en `/analyze` | `run_id` inválido o ruta fuera de `TASKBOT_INVENTORY_ROOT` | Usar `run_id` `[A-Za-z0-9_-]`; ruta relativa dentro del root | Guardrails de seguridad activos |
 
 ## Rollback / recuperación (resumen)
 

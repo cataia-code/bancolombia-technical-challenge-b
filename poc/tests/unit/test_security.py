@@ -36,7 +36,7 @@ def test_resolve_con_root_bloquea_traversal(tmp_path):
         resolve_inventory_path("../../etc/passwd", str(tmp_path))
 
 
-def test_resolve_con_root_bloquea_absoluta(tmp_path):
-    # Una ruta absoluta se reinterpreta relativa al root; si escapa, se rechaza.
+@pytest.mark.parametrize("path", ["/etc/passwd", r"C:\secret\inv.txt"])
+def test_resolve_con_root_bloquea_absoluta(tmp_path, path):
     with pytest.raises(SecurityError):
-        resolve_inventory_path("/etc/passwd/../../../secret", str(tmp_path))
+        resolve_inventory_path(path, str(tmp_path))

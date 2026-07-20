@@ -11,6 +11,7 @@ services:
       - ./data:/app/data:ro      # inventario de ejemplo (solo lectura)
     environment:
       TASKBOT_LLM_ENABLED: "false"   # demo 100% offline y reproducible
+      TASKBOT_INVENTORY_ROOT: "/app/data"  # /analyze solo acepta inventarios montados
 
   n8n:
     image: n8nio/n8n:latest

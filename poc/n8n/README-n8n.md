@@ -12,7 +12,9 @@ recibe el JSON de recomendaciones y extrae los hallazgos accionables. La lógica
 
 - **Inicio manual**: dispara la ejecución en la demo.
 - **Analizar inventario**: `POST http://advisor:8000/analyze` con
-  `{"inventory_path": "/app/data/ejemplo_50_taskbots_prueba.txt", "persist": true}`.
+  `{"inventory_path": "ejemplo_50_taskbots_prueba.txt", "persist": true}`.
+  El servicio corre con `TASKBOT_INVENTORY_ROOT=/app/data`, por lo que la ruta se resuelve
+  dentro del volumen de inventarios montado en Docker.
   Tiene **reintentos** (3 intentos, 2s) — parte de la estrategia de recuperación ante fallo.
 - **Extraer hallazgos**: nodo Code que transforma el resultado en las frases de negocio
   ("N taskbots son variantes de M utilidades", "K candidatos a n8n", etc.).
