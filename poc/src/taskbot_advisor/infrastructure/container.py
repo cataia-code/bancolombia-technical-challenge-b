@@ -13,6 +13,7 @@ from ..application.use_cases import AnalyzeInventory
 from ..domain.entities import AnalysisResult
 from .advisor import build_advisor
 from .config import Settings
+from .logging import JsonRunLoggerFactory
 from .renderers.html_renderer import HtmlRenderer
 from .renderers.json_renderer import JsonRenderer
 from .repositories.file_repositories import repository_for
@@ -25,6 +26,7 @@ def build_use_case(inventory_path: str | Path, settings: Settings) -> AnalyzeInv
         similarity=RapidFuzzSimilarity(settings.apps_overlap_weight),
         advisor=build_advisor(settings),
         threshold=settings.similarity_threshold,
+        logger_factory=JsonRunLoggerFactory(),
     )
 
 

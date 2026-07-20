@@ -503,12 +503,13 @@ flowchart TB
       SIM[RapidFuzzSimilarity]
       ADV[Advisor LLM / determinista]
       REND[Renderers JSON / HTML]
+      LOG[Logging JSON]
     end
     CLI --> UC
     API --> UC
     UC --> P
     UC --> RULES & SCORE & SIMD
-    P -. implementan .- REPO & SIM & ADV & REND
+    P -. implementan .- REPO & SIM & ADV & REND & LOG
     N8N[(n8n)] --> API
         </pre></div>
         <figcaption>El caso de uso depende de puertos; los adapters de infraestructura los implementan (inversión de dependencias).</figcaption>
@@ -527,7 +528,7 @@ flowchart TB
 
       <h2>Trade-offs aceptados</h2>
       <div class="grid grid-2">
-        <div class="card"><h4>Hook <code>fit()</code> por duck-typing</h4><p>El caso de uso calibra "apps hub" llamando un hook opcional del scorer. Pequeño pragmatismo, documentado, sin obligar a todos los scorers.</p></div>
+        <div class="card"><h4>Puerto entrenable explícito</h4><p>La calibración de "apps hub" pasa por <code>TrainableSimilarityScorer</code>; los scorers simples solo implementan <code>SimilarityScorer</code>.</p></div>
         <div class="card"><h4>rapidfuzz como dependencia</h4><p>Mejor similitud en nombres en español a cambio de una dependencia ligera; la idea de clustering es la misma que la Parte A (stdlib).</p></div>
       </div>
 
@@ -715,10 +716,19 @@ classDiagram
       +is_duplicate_group
     }
     class Recommendation {
+      +decision
+      +scores
+      +rationale
+    }
+    class MigrationDecision {
       +target
       +wave
-      +value_score
-      +rationale
+      +needs_manual_review
+    }
+    class ScoreExplanation {
+      +value
+      +complexity
+      +breakdown
     }
     class AnalyzeInventory {
       +execute()
@@ -729,14 +739,23 @@ classDiagram
     class SimilarityScorer {
       &lt;&lt;port&gt;&gt;
     }
+    class TrainableSimilarityScorer {
+      &lt;&lt;port&gt;&gt;
+    }
     class AgentAdvisor {
+      &lt;&lt;port&gt;&gt;
+    }
+    class RunLoggerFactory {
       &lt;&lt;port&gt;&gt;
     }
     AnalyzeInventory --> InventoryRepository
     AnalyzeInventory --> SimilarityScorer
+    AnalyzeInventory --> RunLoggerFactory
     AnalyzeInventory --> AgentAdvisor
     AnalyzeInventory --> Recommendation
-    Recommendation --> Taskbot
+    Recommendation --> MigrationDecision
+    Recommendation --> ScoreExplanation
+    TrainableSimilarityScorer --|> SimilarityScorer
         </pre></div>
         <figcaption>El caso de uso depende de puertos; las entidades son value objects puros.</figcaption>
       </figure>
@@ -754,7 +773,9 @@ sequenceDiagram
     U->>UC: execute(run_id)
     UC->>R: load()
     R-->>UC: taskbots, errores
-    UC->>S: fit(taskbots)
+    opt scorer entrenable
+      UC->>S: fit(taskbots)
+    end
     UC->>D: build_clusters(...)
     D-->>UC: clusters
     loop por taskbot
@@ -796,10 +817,10 @@ flowchart TD
     <section class="page" id="testing" data-title="Testing">
       <div class="eyebrow">Calidad</div>
       <h1>Estrategia de pruebas</h1>
-      <p class="lede">111 pruebas automatizadas (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
+      <p class="lede">Suite automatizada (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
 
       <div class="kpi-row">
-        <div class="kpi"><div class="n">111</div><div class="l">Pruebas</div></div>
+        <div class="kpi"><div class="n">suite</div><div class="l">Pruebas</div></div>
         <div class="kpi"><div class="n">100%</div><div class="l">Cobertura</div></div>
         <div class="kpi"><div class="n">unit + e2e</div><div class="l">Niveles</div></div>
         <div class="kpi"><div class="n">0</div><div class="l">Fallos</div></div>

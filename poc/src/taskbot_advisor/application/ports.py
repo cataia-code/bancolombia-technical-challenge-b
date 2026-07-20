@@ -8,7 +8,7 @@ is small and single-responsibility.
 
 from __future__ import annotations
 
-from typing import Protocol
+from typing import Protocol, runtime_checkable
 
 from ..domain.entities import AnalysisResult, Recommendation, Taskbot
 
@@ -32,6 +32,14 @@ class SimilarityScorer(Protocol):
         ...
 
 
+@runtime_checkable
+class TrainableSimilarityScorer(SimilarityScorer, Protocol):
+    """Similarity scorer that can calibrate itself from the full portfolio."""
+
+    def fit(self, bots: list[Taskbot]) -> None:
+        ...
+
+
 class AgentAdvisor(Protocol):
     """Enriches an already-decided recommendation with a written justification.
 
@@ -51,3 +59,37 @@ class ReportRenderer(Protocol):
 
     def render(self, result: AnalysisResult) -> str:
         ...
+
+
+class RunLogger(Protocol):
+    """Observability port for run-scoped structured events."""
+
+    def info(self, event: str, **fields: object) -> None:
+        ...
+
+    def error(self, event: str, exc_info: bool = False, **fields: object) -> None:
+        ...
+
+
+class RunLoggerFactory(Protocol):
+    """Creates a logger bound to a generated or user-provided run_id."""
+
+    def for_run(self, run_id: str) -> RunLogger:
+        ...
+
+
+class NullRunLogger:
+    """No-op logger for tests or embedded use without observability wiring."""
+
+    def info(self, event: str, **fields: object) -> None:
+        return None
+
+    def error(self, event: str, exc_info: bool = False, **fields: object) -> None:
+        return None
+
+
+class NullRunLoggerFactory:
+    """Default logger factory that keeps the use case independent of infra."""
+
+    def for_run(self, run_id: str) -> RunLogger:
+        return NullRunLogger()

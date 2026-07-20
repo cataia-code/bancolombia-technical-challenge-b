@@ -2,7 +2,7 @@
 
 Servicio ejecutable de la Parte B: recibe un inventario de taskbots y genera recomendaciones de
 consolidación y migración. Arquitectura **hexagonal** (dominio puro + puertos/adapters), CLI y API
-para n8n, 111 pruebas con **100% de cobertura**.
+para n8n, suite automatizada con **100% de cobertura**.
 
 ## Requisitos
 
@@ -44,7 +44,7 @@ docker compose up --build
 ## Pruebas
 
 ```bash
-python -m pytest                                                   # 111 pruebas
+python -m pytest
 python -m pytest --cov=taskbot_advisor --cov-report=term-missing   # 100% (fail_under=100)
 ```
 

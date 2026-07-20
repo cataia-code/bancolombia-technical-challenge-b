@@ -2,9 +2,11 @@
 
 from taskbot_advisor.domain.entities import (
     InteractionType,
+    MigrationDecision,
     MigrationTarget,
     Recommendation,
     RiskLevel,
+    ScoreExplanation,
     Taskbot,
     Wave,
 )
@@ -23,11 +25,21 @@ def _bot():
     )
 
 
-def _rec():
+def _rec(reasons=None):
     return Recommendation(
-        taskbot_id="t1", taskbot_name="Bot X", target=MigrationTarget.N8N, wave=Wave.WAVE_1,
-        value_score=70.0, complexity_score=20.0, cluster_id=None,
-        reasons=["Integracion API-first: candidato a n8n."],
+        taskbot_id="t1",
+        taskbot_name="Bot X",
+        decision=MigrationDecision(
+            target=MigrationTarget.N8N,
+            wave=Wave.WAVE_1,
+            cluster_id=None,
+            reasons=(
+                ("Integracion API-first: candidato a n8n.",)
+                if reasons is None
+                else tuple(reasons)
+            ),
+        ),
+        scores=ScoreExplanation(value=70.0, complexity=20.0),
     )
 
 
@@ -38,9 +50,7 @@ def test_deterministic_advisor_incluye_destino_y_scores():
 
 
 def test_deterministic_sin_razones_usa_texto_base():
-    rec = _rec()
-    rec.reasons = []
-    text = DeterministicAdvisor().explain(_bot(), rec)
+    text = DeterministicAdvisor().explain(_bot(), _rec(reasons=[]))
     assert "reglas base" in text.lower()
 
 

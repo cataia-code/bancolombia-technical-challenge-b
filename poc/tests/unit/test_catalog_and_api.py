@@ -5,9 +5,11 @@ from taskbot_advisor.domain.catalog import build_component_candidates
 from taskbot_advisor.domain.entities import (
     Cluster,
     InteractionType,
+    MigrationDecision,
     MigrationTarget,
     Recommendation,
     RiskLevel,
+    ScoreExplanation,
     Taskbot,
     Wave,
 )
@@ -22,8 +24,14 @@ def _bot(id_, name, interactions=(I.API,), apps=("SAP ECC",), purpose="hace algo
 
 
 def _rec(bot, target):
-    return Recommendation(taskbot_id=bot.id, taskbot_name=bot.name, target=target,
-                          wave=Wave.WAVE_2, value_score=50, complexity_score=30, cluster_id=0)
+    return Recommendation(
+        taskbot_id=bot.id,
+        taskbot_name=bot.name,
+        decision=MigrationDecision(
+            target=target, wave=Wave.WAVE_2, cluster_id=0,
+        ),
+        scores=ScoreExplanation(value=50, complexity=30),
+    )
 
 
 # ---------------- API enablement (per operation) ----------------

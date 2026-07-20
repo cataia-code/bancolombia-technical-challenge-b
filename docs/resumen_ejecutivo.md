@@ -41,5 +41,5 @@ no es forzar n8n, sino: (1) consolidar variantes, (2) exponer APIs donde hoy se 
 ## Cómo se demuestra
 
 `docker compose up` levanta n8n + el servicio; el workflow dispara el análisis y muestra los
-hallazgos. Alternativamente, un comando CLI produce los reportes localmente. 111 pruebas
-automatizadas con 100% de cobertura respaldan la solución.
+hallazgos. Alternativamente, un comando CLI produce los reportes localmente. La suite automatizada
+con 100% de cobertura respalda la solución.

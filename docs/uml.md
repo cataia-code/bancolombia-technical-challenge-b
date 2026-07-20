@@ -44,12 +44,20 @@ classDiagram
       +is_duplicate_group: bool
     }
     class Recommendation {
+      +decision: MigrationDecision
+      +scores: ScoreExplanation
+      +rationale: str
+    }
+    class MigrationDecision {
       +target: MigrationTarget
       +wave: Wave
-      +value_score: float
-      +complexity_score: float
+      +cluster_id: int
       +needs_manual_review: bool
-      +rationale: str
+    }
+    class ScoreExplanation {
+      +value: float
+      +complexity: float
+      +breakdown: dict
     }
     class AnalysisResult {
       +recommendations: list
@@ -68,6 +76,10 @@ classDiagram
       <<port>>
       +score(a,b) float
     }
+    class TrainableSimilarityScorer {
+      <<port>>
+      +fit(bots)
+    }
     class AgentAdvisor {
       <<port>>
       +explain(bot, rec) str
@@ -76,14 +88,27 @@ classDiagram
       <<port>>
       +render(result) str
     }
+    class RunLoggerFactory {
+      <<port>>
+      +for_run(run_id)
+    }
+    class RunLogger {
+      <<port>>
+      +info(event, fields)
+      +error(event, fields)
+    }
 
     AnalyzeInventory --> InventoryRepository
     AnalyzeInventory --> SimilarityScorer
+    AnalyzeInventory --> RunLoggerFactory
     AnalyzeInventory --> AgentAdvisor
     AnalyzeInventory --> AnalysisResult
     AnalysisResult "1" --> "*" Recommendation
     AnalysisResult "1" --> "*" Cluster
-    Recommendation --> Taskbot
+    Recommendation --> MigrationDecision
+    Recommendation --> ScoreExplanation
+    TrainableSimilarityScorer --|> SimilarityScorer
+    RunLoggerFactory --> RunLogger
 ```
 
 ## Secuencia (flujo principal)
@@ -101,7 +126,9 @@ sequenceDiagram
     U->>UC: execute(run_id)
     UC->>R: load()
     R-->>UC: taskbots, errores
-    UC->>S: fit(taskbots)  %% calibra apps hub
+    opt scorer entrenable
+        UC->>S: fit(taskbots)  %% calibra apps hub por puerto explicito
+    end
     UC->>D: build_clusters(taskbots, score, umbral)
     D-->>UC: clusters
     loop por taskbot
@@ -137,13 +164,14 @@ flowchart TB
       SIM[RapidFuzzSimilarity]
       ADV[Advisor LLM/determinista]
       REND[Renderers JSON/HTML]
-      CFG[config/logging]
+      CFG[config]
+      LOG[logging JSON]
     end
     CLI --> UC
     API --> UC
     UC --> P
     UC --> RULES & SCORE & SIMD
-    P -. implementan .- REPO & SIM & ADV & REND
+    P -. implementan .- REPO & SIM & ADV & REND & LOG
     n8n[(n8n)] --> API
 ```
 

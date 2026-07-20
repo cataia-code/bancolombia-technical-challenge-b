@@ -25,6 +25,14 @@ class _Sim:
         return 0.0
 
 
+class _TrainableSim(_Sim):
+    def __init__(self):
+        self.fitted_with = None
+
+    def fit(self, bots):
+        self.fitted_with = list(bots)
+
+
 class _AdvisorOK:
     def explain(self, bot, rec):
         return "ok"
@@ -65,3 +73,10 @@ def test_run_id_autogenerado_cuando_no_se_pasa():
     uc = AnalyzeInventory(_Repo([_bot("1")]), _Sim(), _AdvisorOK(), 82.0)
     result = uc.execute()
     assert result.run_id and len(result.run_id) >= 6
+
+
+def test_similarity_trainable_se_calibra_por_puerto_explicito():
+    sim = _TrainableSim()
+    uc = AnalyzeInventory(_Repo([_bot("1")]), sim, _AdvisorOK(), 82.0)
+    uc.execute(run_id="r")
+    assert [b.id for b in sim.fitted_with] == ["1"]

@@ -12,6 +12,8 @@ import logging
 import sys
 from datetime import datetime, timezone
 
+from ..application.ports import RunLogger
+
 
 class JsonFormatter(logging.Formatter):
     """Formats each record as a JSON line with stable fields."""
@@ -41,6 +43,27 @@ def get_logger(run_id: str, name: str = "taskbot_advisor") -> logging.LoggerAdap
         logger.setLevel(logging.INFO)
         logger.propagate = False
     return _RunIdAdapter(logger, {"run_id": run_id})
+
+
+class JsonRunLoggerFactory:
+    """Infrastructure adapter for the application's run-scoped logging port."""
+
+    def __init__(self, name: str = "taskbot_advisor") -> None:
+        self._name = name
+
+    def for_run(self, run_id: str) -> RunLogger:
+        return _JsonRunLogger(get_logger(run_id, name=self._name))
+
+
+class _JsonRunLogger:
+    def __init__(self, logger: logging.LoggerAdapter) -> None:
+        self._logger = logger
+
+    def info(self, event: str, **fields: object) -> None:
+        self._logger.info(event, extra=fields)
+
+    def error(self, event: str, exc_info: bool = False, **fields: object) -> None:
+        self._logger.error(event, extra=fields, exc_info=exc_info)
 
 
 class _RunIdAdapter(logging.LoggerAdapter):

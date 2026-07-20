@@ -54,8 +54,8 @@ secretos embebidos; el LLM es opcional).
 El núcleo de valor —reglas de clasificación, scoring y clustering— es **puro** (sin I/O) y por tanto
 estable y trivialmente testeable. Las orillas —fuente de inventario, salida de reportes, agente LLM
 y API HTTP— son **adapters** detrás de puertos (`InventoryRepository`, `SimilarityScorer`,
-`AgentAdvisor`, `ReportRenderer`). El caso de uso `AnalyzeInventory` orquesta el flujo dependiendo
-solo de abstracciones.
+`TrainableSimilarityScorer`, `AgentAdvisor`, `ReportRenderer`, `RunLoggerFactory`). El caso de uso
+`AnalyzeInventory` orquesta el flujo dependiendo solo de abstracciones.
 
 ```
 Interfaz (CLI / FastAPI)  →  Aplicación (AnalyzeInventory, ports)  →  Dominio (reglas, scoring, clustering)
@@ -73,8 +73,8 @@ Infraestructura: repos (csv/json/sqlite/txt), similitud rapidfuzz, advisor (LLM|
 
 ### Trade-offs aceptados
 
-- Un pequeño acoplamiento pragmático: el caso de uso invoca un hook opcional `fit()` del scorer para
-  calibrar apps "hub". Se resuelve por duck-typing (no obliga a todos los scorers a implementarlo).
+- El scorer puede calibrar apps "hub", pero lo hace mediante el puerto explícito
+  `TrainableSimilarityScorer`; los scorers simples siguen implementando solo `SimilarityScorer`.
 - La similitud usa rapidfuzz (dependencia) en vez de solo stdlib: mejor calidad en nombres en
   español a cambio de una dependencia ligera.
 
@@ -84,7 +84,8 @@ Infraestructura: repos (csv/json/sqlite/txt), similitud rapidfuzz, advisor (LLM|
   riesgo, dependencias, evidencia de duplicidad.
 - **InteractionType / RiskLevel** (enums con `parse`/`parse_many` tolerantes a sinónimos).
 - **Cluster**: grupo de variantes (union-find); `is_duplicate_group` si tiene ≥2 miembros.
-- **Recommendation**: destino, ola, valor, complejidad, razones, `needs_manual_review`, justificación.
+- **Recommendation**: compone `MigrationDecision` (destino, ola, razones, revisión manual),
+  `ScoreExplanation` (valor, complejidad, desglose) y `ApiEnablement`.
 - **AnalysisResult**: recomendaciones + clusters + errores; consultas por destino/ola.
 
 ## 4. Reglas de negocio
@@ -138,9 +139,10 @@ La salida va más allá de "recomendación por taskbot" (alineado con la Parte A
 
 ## 7. Observabilidad
 
-Logs estructurados en JSON (`infrastructure/logging.py`) con `run_id` como correlation id en cada
-línea: `inventario_cargado`, `clusters_detectados`, `analisis_completado`, `fallo_taskbot`. Métricas
-derivables del resumen (conteos por destino/ola/errores). Reportes versionados por `run_id`.
+Logs estructurados en JSON con `run_id` como correlation id en cada línea:
+`inventario_cargado`, `clusters_detectados`, `analisis_completado`, `fallo_taskbot`. El caso de uso
+solo conoce el puerto `RunLoggerFactory`; `infrastructure/logging.py` implementa el adapter JSON.
+Métricas derivables del resumen (conteos por destino/ola/errores). Reportes versionados por `run_id`.
 
 ## 8. Rollback / recuperación
 
@@ -165,7 +167,7 @@ y puede reprocesarse sin repetir todo el lote.
 | T10 | API /health, /analyze, /analyze/inline, error 400 | integración | alta |
 
 Casos borde cubiertos: inventario vacío/registro inválido, campos faltantes, duplicados,
-LLM caído (fallback), archivo inexistente. **111 pruebas, 100% de cobertura** (umbral `fail_under = 100`).
+LLM caído (fallback), archivo inexistente. La suite mantiene **100% de cobertura** (umbral `fail_under = 100`).
 Evidencia: [`evidencia_pruebas.txt`](evidencia_pruebas.txt).
 
 ## 10. Mejoras futuras

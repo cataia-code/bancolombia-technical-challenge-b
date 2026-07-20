@@ -8,7 +8,7 @@ from taskbot_advisor.domain.entities import (
     InteractionType,
     RiskLevel,
 )
-from taskbot_advisor.infrastructure.logging import get_logger
+from taskbot_advisor.infrastructure.logging import JsonRunLoggerFactory, get_logger
 from taskbot_advisor.infrastructure.mapping import _split_list, to_taskbot
 from taskbot_advisor.infrastructure.similarity_rapidfuzz import RapidFuzzSimilarity
 
@@ -54,6 +54,20 @@ def test_logger_emite_json_con_run_id(capsys):
     assert first["run_id"] == "run-123"
     assert first["k"] == "v"
     assert any("error" in json.loads(line) for line in err)
+
+
+def test_json_run_logger_factory_adapta_puerto(capsys):
+    log = JsonRunLoggerFactory(name="test_logger_factory_unico").for_run("run-456")
+    log.info("evento_adapter", k="v")
+    try:
+        raise RuntimeError("boom")
+    except RuntimeError:
+        log.error("fallo_adapter", taskbot="t1", exc_info=True)
+    lines = [json.loads(line) for line in capsys.readouterr().err.strip().splitlines()]
+    assert lines[0]["run_id"] == "run-456"
+    assert lines[0]["k"] == "v"
+    assert lines[1]["taskbot"] == "t1"
+    assert "error" in lines[1]
 
 
 def test_similarity_jaccard_apps_vacias_no_falla():

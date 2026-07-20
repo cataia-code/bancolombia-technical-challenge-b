@@ -43,7 +43,7 @@ Esta solución **automatiza el criterio** y lo hace **explicable**:
 │   └── evidencia_pruebas.txt       # Salida de pytest + cobertura
 ├── poc/                           # Solución ejecutable (arquitectura hexagonal)
 │   ├── src/taskbot_advisor/        # domain · application · infrastructure · interface
-│   ├── tests/                      # 111 tests (unit + integración), 100% cobertura
+│   ├── tests/                      # suite unit + integración, 100% cobertura
 │   ├── data/                       # inventario real (.txt) + ejemplo (.csv)
 │   ├── n8n/                        # workflow local + workflow.cloud.json + guía
 │   ├── reports/example/            # reporte de ejemplo versionado (JSON + HTML)

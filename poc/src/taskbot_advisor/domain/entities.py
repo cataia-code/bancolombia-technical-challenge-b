@@ -145,25 +145,75 @@ class Cluster:
         return self.size >= 2
 
 
+@dataclass(frozen=True)
+class MigrationDecision:
+    """Target decision independent from scoring and written rationale."""
+
+    target: MigrationTarget
+    wave: Wave
+    cluster_id: int | None
+    reasons: tuple[str, ...] = ()
+    needs_manual_review: bool = False
+
+
+@dataclass(frozen=True)
+class ScoreExplanation:
+    """Scores plus their transparent component breakdown."""
+
+    value: float
+    complexity: float
+    breakdown: dict[str, object] = field(default_factory=dict)
+
+
 @dataclass
 class Recommendation:
-    """Actionable decision for a taskbot: target, wave and its justification."""
+    """Actionable recommendation for a taskbot.
+
+    The recommendation composes smaller value objects (decision, scores and API
+    enablement). Read-only properties preserve the previous public API used by
+    renderers and tests.
+    """
 
     taskbot_id: str
     taskbot_name: str
-    target: MigrationTarget
-    wave: Wave
-    value_score: float
-    complexity_score: float
-    cluster_id: int | None
-    reasons: list[str] = field(default_factory=list)
-    needs_manual_review: bool = False
+    decision: MigrationDecision
+    scores: ScoreExplanation
     # Natural-language justification (rule + optional agent enrichment).
     rationale: str = ""
-    # Transparent breakdown of how value/complexity were computed (explainability).
-    score_breakdown: dict = field(default_factory=dict)
     # API enablement view of this operation (see api_enablement.py).
     api_enablement: "ApiEnablement | None" = None
+
+    @property
+    def target(self) -> MigrationTarget:
+        return self.decision.target
+
+    @property
+    def wave(self) -> Wave:
+        return self.decision.wave
+
+    @property
+    def value_score(self) -> float:
+        return self.scores.value
+
+    @property
+    def complexity_score(self) -> float:
+        return self.scores.complexity
+
+    @property
+    def cluster_id(self) -> int | None:
+        return self.decision.cluster_id
+
+    @property
+    def reasons(self) -> tuple[str, ...]:
+        return self.decision.reasons
+
+    @property
+    def needs_manual_review(self) -> bool:
+        return self.decision.needs_manual_review
+
+    @property
+    def score_breakdown(self) -> dict[str, object]:
+        return self.scores.breakdown
 
 
 @dataclass(frozen=True)
