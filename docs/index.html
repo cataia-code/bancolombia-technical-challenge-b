@@ -651,7 +651,7 @@ flowchart TB
       </div>
       <div class="callout tip">
         <div class="k">Guardrails de seguridad</div>
-        <p>El endpoint <code>/analyze</code> valida <code>run_id</code> (regex), contiene el inventario dentro de <code>TASKBOT_INVENTORY_ROOT</code> y recomienda <code>/analyze/inline</code> para exposición externa. Ver <a href="runbook.md">runbook de demo/fallo</a>.</p>
+        <p>El endpoint <code>/analyze</code> valida <code>run_id</code> (regex), contiene el inventario dentro de <code>TASKBOT_INVENTORY_ROOT</code> y recomienda <code>/analyze/inline</code> para exposición externa. Ver <a href="architecture.md">arquitectura y recuperacion</a>.</p>
       </div>
     </section>
 
@@ -1016,7 +1016,7 @@ flowchart TD
     <section class="page" id="adr" data-title="ADRs">
       <div class="eyebrow">Decisiones</div>
       <h1>Architecture Decision Records</h1>
-      <p class="lede">Cinco decisiones registradas, con contexto, decisión, consecuencias y alternativas.</p>
+      <p class="lede">Cinco decisiones resumidas en un unico documento tecnico.</p>
 
       <div class="grid grid-2">
         <div class="card"><h4>ADR-001 · Arquitectura hexagonal</h4><p>Núcleo puro y testeable; orillas intercambiables. Sin microservicios.</p></div>
@@ -1025,7 +1025,7 @@ flowchart TD
         <div class="card"><h4>ADR-004 · Agente híbrido con fallback</h4><p>Reglas deciden; LLM opcional solo redacta y degrada limpio.</p></div>
         <div class="card"><h4>ADR-005 · n8n orquestador desacoplado</h4><p>Lógica en el servicio HTTP; n8n orquesta. Mapeable a Appian/Power Platform.</p></div>
       </div>
-      <p style="margin-top:16px">Los ADRs completos están en <code>docs/adr/</code>.</p>
+      <p style="margin-top:16px">El detalle consolidado esta en <a href="architecture.md"><code>docs/architecture.md</code></a>.</p>
     </section>
 
   </div>
