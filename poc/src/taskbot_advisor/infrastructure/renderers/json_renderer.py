@@ -7,7 +7,13 @@ from __future__ import annotations
 
 import json
 
-from ...domain.entities import AnalysisResult, MigrationTarget
+from ...domain.entities import (
+    AnalysisResult,
+    ApiEnablement,
+    EvidencePack,
+    MigrationTarget,
+    ReviewStrategy,
+)
 
 
 class JsonRenderer:
@@ -31,6 +37,7 @@ class JsonRenderer:
                     "ola_2": len(result.by_wave(_w("ola_2"))),
                     "ola_3": len(result.by_wave(_w("ola_3"))),
                 },
+                "revision": _review_summary(result),
                 "errores": len(result.errors),
             },
             "clusters": [
@@ -58,6 +65,7 @@ class JsonRenderer:
                 for c in result.component_candidates
             ],
             "api_matrix": result.api_matrix,
+            "sensitivity": result.sensitivity,
             "recommendations": [
                 {
                     "taskbot_id": r.taskbot_id,
@@ -68,6 +76,11 @@ class JsonRenderer:
                     "complejidad": r.complexity_score,
                     "cluster_id": r.cluster_id,
                     "revision_manual": r.needs_manual_review,
+                    "tipo_revision": r.review_strategy.value,
+                    "requiere_gate_gobierno": r.requires_governance_gate,
+                    "revision_asistida_ia": r.ai_assisted_review,
+                    "accion_revision": r.review_action,
+                    "evidence_pack": _evidence_pack_dict(r.evidence_pack),
                     "razones": r.reasons,
                     "justificacion": r.rationale,
                     "score_breakdown": r.score_breakdown,
@@ -85,7 +98,7 @@ def _w(value: str):
     return Wave(value)
 
 
-def _api_enablement_dict(api) -> dict | None:
+def _api_enablement_dict(api: ApiEnablement | None) -> dict | None:
     if api is None:
         return None
     return {
@@ -94,4 +107,28 @@ def _api_enablement_dict(api) -> dict | None:
         "api_requerida": api.api_required,
         "bloqueador": api.blocker,
         "accion_habilitadora": api.enabling_action,
+        "destino_objetivo_post_habilitacion": api.target_after_enablement.value,
+    }
+
+
+def _evidence_pack_dict(pack: EvidencePack) -> dict:
+    return {
+        "dependencias": list(pack.dependencies),
+        "controles": list(pack.controls),
+        "checklist": list(pack.checklist),
+        "owner_sugerido": pack.suggested_owner,
+        "bloqueadores": list(pack.blockers),
+        "siguiente_accion": pack.next_action,
+    }
+
+
+def _review_summary(result: AnalysisResult) -> dict:
+    counts = {strategy.value: 0 for strategy in ReviewStrategy}
+    for rec in result.recommendations:
+        counts[rec.review_strategy.value] += 1
+    return {
+        **counts,
+        "gate_gobierno": sum(1 for rec in result.recommendations if rec.requires_governance_gate),
+        "asistida_ia": sum(1 for rec in result.recommendations if rec.ai_assisted_review),
+        "manual_profunda": counts[ReviewStrategy.MANUAL_DEEP_DIVE.value],
     }

@@ -19,9 +19,9 @@ valor/complejidad y una justificación; más grupos consolidables y un reporte J
 | RF1 | Cargar inventario local | Lee .txt/.csv/.json/.sqlite; registros inválidos no abortan el lote |
 | RF2 | Normalizar atributos | Tipos de interacción, riesgo y frecuencia se canonizan (tolerante a sinónimos) |
 | RF3 | Detectar duplicidad | Agrupa variantes en clusters; expone grupos consolidables |
-| RF4 | Clasificar destino | Cada taskbot recibe uno de: n8n / microservicio / Python-Java / RPA selectivo / revisión manual |
+| RF4 | Clasificar destino y revisión | Cada taskbot recibe destino tecnológico, `ReviewPlan` independiente y `EvidencePack` |
 | RF5 | Priorizar | Asigna Ola 1/2/3 por valor vs. complejidad |
-| RF6 | Justificar | Cada recomendación incluye razones explícitas |
+| RF6 | Justificar | Cada recomendación incluye razones explícitas, score breakdown y siguiente acción auditable |
 | RF7 | Reportar | Genera JSON + HTML con hallazgos accionables |
 | RF8 | Trazar | Logs estructurados con `run_id`; errores registrados por ítem |
 
@@ -37,7 +37,7 @@ secretos embebidos; el LLM es opcional).
 | Supuesto | Justificación | Riesgo si es falso |
 |----------|---------------|--------------------|
 | El inventario declara evidencia de duplicidad textual | Es un campo del formato provisto | Baja detección de duplicados no declarados (mitigado con similitud de apps/texto) |
-| El tipo de interacción refleja la vía de integración real | Base para clasificar destino | Clasificación imprecisa; se marca revisión manual ante ambigüedad |
+| El tipo de interacción refleja la vía de integración real | Base para clasificar destino | Clasificación imprecisa; se marca evaluación manual profunda ante ambigüedad |
 | UI legacy es el factor bloqueante de migración | Criterio estándar de RPA | Sobre-asignación a RPA selectivo (aceptable y conservador) |
 
 ### Preguntas abiertas
@@ -63,6 +63,16 @@ Interfaz (CLI / FastAPI)  →  Aplicación (AnalyzeInventory, ports)  →  Domin
 Infraestructura: repos (csv/json/sqlite/txt), similitud rapidfuzz, advisor (LLM|determinista), renderers, config, logging
 ```
 
+La organización de carpetas replica esas fronteras: `domain` concentra entidades y reglas puras,
+`application` contiene el caso de uso y sus puertos, `infrastructure` agrupa adaptadores
+reemplazables, e `interface` expone CLI/API. Fuera del paquete, `poc/contracts`, `poc/n8n`,
+`poc/data` y `poc/reports/example` separan contrato, orquestación, insumos y evidencia versionada.
+No se requiere una reorganización mayor sin crear acoplamiento o ruido adicional.
+
+Para continuidad con la Parte A, `taskbot_advisor.discovery` actúa como fachada de nombres:
+`cluster_taskbots`, `priority_score`, `api_matrix` y `run_discovery` delegan en módulos de dominio o
+en el caso de uso. Así se conserva el vocabulario evaluado en A sin volver a un script monolítico.
+
 ### Alternativas descartadas
 
 - **Microservicios**: no aplica — un solo dominio, un solo despliegue. Fragmentaría sin beneficio.
@@ -84,21 +94,41 @@ Infraestructura: repos (csv/json/sqlite/txt), similitud rapidfuzz, advisor (LLM|
   riesgo, dependencias, evidencia de duplicidad.
 - **InteractionType / RiskLevel** (enums con `parse`/`parse_many` tolerantes a sinónimos).
 - **Cluster**: grupo de variantes (union-find); `is_duplicate_group` si tiene ≥2 miembros.
-- **Recommendation**: compone `MigrationDecision` (destino, ola, razones, revisión manual),
+- **ReviewPlan / ReviewStrategy / EvidencePack**: separa gate de gobierno, prechequeo IA,
+  aprobación dirigida y evaluación manual profunda; además estructura dependencias, controles,
+  checklist, owner, bloqueadores y siguiente acción para revisión asistida.
+- **Recommendation**: compone `MigrationDecision` (destino, ola, razones, plan de revisión),
   `ScoreExplanation` (valor, complejidad, desglose) y `ApiEnablement`.
-- **AnalysisResult**: recomendaciones + clusters + errores; consultas por destino/ola.
+- **ApiEnablement**: expone sistemas tocados, disponibilidad/requerimiento de API, bloqueador,
+  acción habilitadora y `target_after_enablement` para saber el destino objetivo tras remover el
+  bloqueo legacy/API.
+- **AnalysisResult**: recomendaciones + clusters + errores + catálogo de componentes + matriz API
+  + sensibilidad de umbrales; consultas por destino/ola.
 
 ## 4. Reglas de negocio
 
 | Regla | Descripción | Dónde | Cómo se prueba |
 |-------|-------------|-------|----------------|
-| Sin interacción reconocida → revisión manual | No se puede clasificar destino | `domain/rules.py` | `test_rules::test_tipo_desconocido...` |
+| Sin interacción reconocida → revisión manual profunda | No se puede clasificar destino | `domain/rules.py` + `domain/review.py` | `test_rules::test_tipo_desconocido...` |
 | UI legacy presente → RPA selectivo | El eslabón frágil domina | `domain/rules.py` | `test_ui_legacy_domina...` |
 | Cluster ≥3 (sin legacy) → microservicio | Utilidad reutilizable compartida | `domain/rules.py` | `test_cluster_grande_no_legacy...` |
 | BD presente → Python/Java a la medida | Lógica de datos | `domain/rules.py` | `test_database_sin_legacy...` |
 | API/email/archivo → n8n | Integración orquestable | `domain/rules.py` | `test_api_va_a_n8n` |
-| Alto riesgo + ≥3 dependencias → flag revisión | Ortogonal al destino | `domain/rules.py` | `test_revision_manual_es_flag...` |
-| Ola 1 = valor≥50 y complejidad≤40 | Quick wins | `domain/scoring.py` | `test_ola_1...` |
+| Alto riesgo + ≥3 dependencias → gate de gobierno | Prechequeo IA, aprobación dirigida o manual profunda | `domain/review.py` | `test_alto_riesgo_api_va_a_prechequeo_ia` |
+| Ola 1 = valor≥70, complejidad≤65 y sin gate | Quick wins seguros | `domain/scoring.py` | `test_ola_1...` |
+| Ola 2 = valor≥50 y complejidad≤85 | Consolidación/habilitación controlada | `domain/scoring.py` | `test_gate_gobierno_no_veta...` |
+| Ola 3 = resto | Bajo valor relativo o complejidad extrema | `domain/scoring.py` | `test_ola_3_alta_complejidad` |
+
+En el inventario de ejemplo, **14 taskbots quedan en Ola 3**: 8 tienen complejidad extrema y
+requieren rediseño o habilitación antes de migrar; 6 quedan por menor valor relativo frente al
+esfuerzo. Hay 27 gates de gobierno, pero no equivalen a 27 evaluaciones manuales: 19 se resuelven
+con prechequeo IA/aprobación dirigida y solo 8 quedan como evaluación manual profunda. Esto produce
+un backlog accionable: 7 quick wins, 29 casos de habilitación/consolidación controlada y 14 casos
+tardíos.
+
+La sensibilidad de umbrales se calcula sin cambiar destinos ni scores base: compara dependencia
+`>=3/4` y complejidad manual profunda `>80/>85/>90`. Sirve para demostrar que el resultado base no
+es una caja negra y para calibrar cuánta carga humana aparece al endurecer o relajar el gate.
 
 Detección de duplicidad: **union-find** sobre pares cuya similitud ≥ umbral. Similitud = máximo de
 (evidencia declarada) y una mezcla ponderada de (solapamiento de apps no-hub) y (texto rapidfuzz).
@@ -133,7 +163,13 @@ La salida va más allá de "recomendación por taskbot" (alineado con la Parte A
   `ComponentCandidate` con nombre sugerido, propósito común, patrón destino, apps dominantes, blocker
   legacy, `needs_api_enablement` y acción recomendada.
 - **Matriz API/no-API** (`domain/api_enablement.py`): por sistema (agregada) y por operación
-  (`api_available`, `api_required`, `blocker`, `enabling_action`).
+  (`api_available`, `api_required`, `blocker`, `enabling_action`,
+  `target_after_enablement`).
+- **Política de revisión** (`domain/review.py`): clasifica el gate como prechequeo IA, aprobación
+  dirigida o evaluación manual profunda para minimizar trabajo humano; cada gate trae
+  `EvidencePack` estructurado.
+- **Sensibilidad de umbrales** (`domain/review.py::build_review_sensitivity`): recalcula gates,
+  evaluación manual profunda y olas bajo escenarios controlados de dependencia/complejidad.
 - **Scoring explicable** (`domain/scoring.py::score_breakdown`): desglose por frecuencia, riesgo,
   duplicidad, complejidad por interacción y dependencias.
 
@@ -165,9 +201,11 @@ y puede reprocesarse sin repetir todo el lote.
 | T8 | Reproducibilidad (dos corridas idénticas) | integración | alta |
 | T9 | Reportes versionados por run_id | integración | media |
 | T10 | API /health, /analyze, /analyze/inline, error 400 | integración | alta |
+| T11 | Smoke Docker: advisor + n8n importan y ejecutan workflow local | CI | alta |
+| T12 | Sensibilidad de umbrales y contrato OpenAPI tipado | unit + contrato | alta |
 
 Casos borde cubiertos: inventario vacío/registro inválido, campos faltantes, duplicados,
-LLM caído (fallback), archivo inexistente. La suite mantiene **100% de cobertura** (umbral `fail_under = 100`).
+LLM caído (fallback), archivo inexistente. La suite corre en CI con umbrales estrictos de calidad.
 Evidencia: [`evidencia_pruebas.txt`](evidencia_pruebas.txt).
 
 ## 10. Mejoras futuras

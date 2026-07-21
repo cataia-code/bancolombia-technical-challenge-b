@@ -2,13 +2,11 @@
 
 This is the core business criterion: given a taskbot (with possibly SEVERAL
 interaction types) and its cluster membership, it decides which migration
-target it goes to and why. It is 100% deterministic and explainable; the
+target it goes to and why. It is deterministic and explainable; the
 optional LLM agent only writes the justification, it never changes this decision.
 
-The ``needs_manual_review`` flag is ORTHOGONAL to the target: a taskbot may go
-to n8n AND still require manual review because of its risk/dependencies (this
-answers question 4 of the challenge: "which dependencies or risks require
-manual review").
+Review effort is deliberately handled in ``review.py`` through ``ReviewPlan``.
+That keeps technology target selection separate from governance gates.
 
 Target priority (first that applies wins):
   1. No recognized interaction  -> MANUAL REVIEW (cannot be classified)
@@ -23,41 +21,25 @@ project convention of English code with Spanish display text.
 
 from __future__ import annotations
 
-from .entities import Cluster, InteractionType, MigrationTarget, RiskLevel, Taskbot
+from .entities import Cluster, InteractionType, MigrationTarget, Taskbot
 
 # A cluster is treated as a "reusable utility" (shared microservice candidate)
 # from 3 variants on; with 2 it is simple consolidation via n8n.
 MICROSERVICE_CLUSTER_MIN_SIZE = 3
-# Dependency threshold that, together with high risk, forces human review.
-MANUAL_REVIEW_DEP_THRESHOLD = 3
-
-
-def _needs_manual_review(bot: Taskbot) -> tuple[bool, str | None]:
-    """Orthogonal flag: sensitive cases a human must review before migrating."""
-    if bot.risk is RiskLevel.HIGH and len(bot.dependencies) >= MANUAL_REVIEW_DEP_THRESHOLD:
-        return True, (
-            f"Alto riesgo operacional con {len(bot.dependencies)} dependencias: "
-            "revisar manualmente antes de migrar."
-        )
-    return False, None
 
 
 def classify_target(
     bot: Taskbot, cluster: Cluster | None
-) -> tuple[MigrationTarget, list[str], bool]:
-    """Return (target, reasons, needs_manual_review) for a taskbot."""
+) -> tuple[MigrationTarget, list[str]]:
+    """Return (target, reasons) for a taskbot."""
     reasons: list[str] = []
-    manual, manual_reason = _needs_manual_review(bot)
-    if manual_reason:
-        reasons.append(manual_reason)
-
     interactions = set(bot.known_interactions)
     in_big_cluster = cluster is not None and cluster.size >= MICROSERVICE_CLUSTER_MIN_SIZE
 
     # 1. No recognized interaction type: target cannot be classified.
     if not interactions:
         reasons.append("Tipo de interaccion no reconocido: requiere revision humana.")
-        return MigrationTarget.MANUAL_REVIEW, reasons, True
+        return MigrationTarget.MANUAL_REVIEW, reasons
 
     # 2. UI legacy present: without clean integration, the target is selective RPA.
     #    The most fragile link (the legacy UI) dominates the migration decision.
@@ -67,7 +49,7 @@ def classify_target(
             reasons.append(
                 f"Es variante dentro de un grupo de {cluster.size}: consolidar el RPA, no duplicarlo."
             )
-        return MigrationTarget.RPA_SELECTIVE, reasons, manual
+        return MigrationTarget.RPA_SELECTIVE, reasons
 
     # 3. Variant in a large cluster (no legacy) => shared component/microservice.
     if in_big_cluster:
@@ -75,12 +57,12 @@ def classify_target(
             f"Variante de una utilidad reutilizable (cluster de {cluster.size}): "
             "consolidar como microservicio/componente compartido."
         )
-        return MigrationTarget.MICROSERVICE, reasons, manual
+        return MigrationTarget.MICROSERVICE, reasons
 
     # 4. Database present: data logic => custom service (Python/Java).
     if InteractionType.DATABASE in interactions:
         reasons.append("Interaccion con BD: automatizacion a la medida en Python/Java.")
-        return MigrationTarget.CUSTOM_PYTHON_JAVA, reasons, manual
+        return MigrationTarget.CUSTOM_PYTHON_JAVA, reasons
 
     # 5. Only API / email / file: orchestrable integration => n8n.
     labels = {
@@ -95,4 +77,4 @@ def classify_target(
         reasons.append(
             f"Ademas es variante de otros {cluster.size - 1} taskbot(s): consolidar el flujo."
         )
-    return MigrationTarget.N8N, reasons, manual
+    return MigrationTarget.N8N, reasons

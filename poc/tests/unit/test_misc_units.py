@@ -4,12 +4,21 @@ import json
 
 from taskbot_advisor.domain.entities import (
     AnalysisResult,
+    ApiEnablement,
     Cluster,
     InteractionType,
+    MigrationDecision,
+    MigrationTarget,
+    Recommendation,
+    ReviewPlan,
+    ReviewStrategy,
     RiskLevel,
+    ScoreExplanation,
+    Wave,
 )
 from taskbot_advisor.infrastructure.logging import JsonRunLoggerFactory, get_logger
 from taskbot_advisor.infrastructure.mapping import _split_list, to_taskbot
+from taskbot_advisor.infrastructure.renderers.html_renderer import _build_wave_3_explanation
 from taskbot_advisor.infrastructure.similarity_rapidfuzz import RapidFuzzSimilarity
 
 I = InteractionType
@@ -117,3 +126,53 @@ def test_import_main_module():
 def test_api_enablement_dict_none():
     from taskbot_advisor.infrastructure.renderers.json_renderer import _api_enablement_dict
     assert _api_enablement_dict(None) is None
+
+
+def test_wave_3_explanation_desglosa_causas():
+    def rec(
+        id_,
+        *,
+        manual=False,
+        blocker=None,
+        complexity=70.0,
+        value=40.0,
+    ):
+        return Recommendation(
+            taskbot_id=id_,
+            taskbot_name=f"Bot {id_}",
+            decision=MigrationDecision(
+                target=MigrationTarget.RPA_SELECTIVE if blocker else MigrationTarget.N8N,
+                wave=Wave.WAVE_3,
+                cluster_id=None,
+                review=(
+                    ReviewPlan(ReviewStrategy.MANUAL_DEEP_DIVE)
+                    if manual
+                    else ReviewPlan()
+                ),
+            ),
+            scores=ScoreExplanation(value=value, complexity=complexity),
+            api_enablement=ApiEnablement(
+                systems=("SAP",),
+                api_available=False,
+                api_required=True,
+                blocker=blocker,
+                enabling_action="habilitar",
+                target_after_enablement=MigrationTarget.N8N,
+            ),
+        )
+
+    result = AnalysisResult(
+        "r",
+        [
+            rec("complex", complexity=90.0, value=80.0),
+            rec("low", complexity=30.0, value=10.0),
+            rec("manual-gate", manual=True, complexity=90.0, value=80.0),
+        ],
+        [],
+    )
+    explanation = _build_wave_3_explanation(result)
+    assert len(explanation) == 3
+    assert "complejidad extrema" in explanation[0]
+    assert "menor valor" in explanation[1]
+    assert "evaluacion manual profunda" in explanation[2]
+    assert result.recommendations[2].review_reason == ""

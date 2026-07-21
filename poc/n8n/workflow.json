@@ -1,4 +1,5 @@
 {
+  "id": "b1a1e001-0000-4001-8001-000000000000",
   "name": "Taskbot Migration Advisor",
   "nodes": [
     {
@@ -12,7 +13,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=http://advisor:8000/analyze",
+        "url": "http://advisor:8000/analyze",
         "sendBody": true,
         "specifyBody": "json",
         "jsonBody": "={ \"inventory_path\": \"ejemplo_50_taskbots_prueba.txt\", \"persist\": true }",
@@ -29,7 +30,7 @@
     },
     {
       "parameters": {
-        "jsCode": "// Extrae hallazgos accionables del resultado del servicio de analisis.\nconst r = $json;\nconst s = r.summary;\nconst grupos = (r.clusters || []).filter(c => c.es_grupo_consolidable);\nconst variantes = grupos.reduce((acc, c) => acc + c.miembros.length, 0);\nconst headlines = [\n  `${variantes} taskbots son variantes de ${grupos.length} utilidades reutilizables.`,\n  `${s.por_destino.n8n} candidatos a n8n (integracion API/archivo/email).`,\n  `${s.por_destino.rpa_selective} deben quedar en RPA selectivo por UI legacy.`,\n  `${s.por_destino.microservice} deberian ser microservicio/componente compartido.`,\n  `${s.por_ola.ola_1} entran en ola 1 (alto valor, baja complejidad).`\n];\nreturn [{ json: { run_id: r.run_id, headlines, resumen: s } }];"
+        "jsCode": "// Extrae hallazgos accionables del resultado del servicio de analisis.\nconst r = $json;\nconst s = r.summary;\nconst revision = s.revision || {};\nconst grupos = (r.clusters || []).filter(c => c.es_grupo_consolidable);\nconst variantes = grupos.reduce((acc, c) => acc + c.miembros.length, 0);\nconst recomendaciones = r.recommendations || [];\nconst revisionItems = recomendaciones.filter(x => x.requiere_gate_gobierno);\nconst revisionIa = revision.asistida_ia ?? revisionItems.filter(x => x.revision_asistida_ia).length;\nconst manualProfunda = revision.manual_profunda ?? revisionItems.filter(x => x.revision_manual).length;\nconst objetivosPostApi = recomendaciones.reduce((acc, x) => {\n  const destino = x.api_enablement?.destino_objetivo_post_habilitacion || x.destino;\n  acc[destino] = (acc[destino] || 0) + 1;\n  return acc;\n}, {});\nconst rpaSelectivos = recomendaciones.filter(x => x.destino === 'rpa_selective');\nconst postN8n = rpaSelectivos.filter(x => x.api_enablement?.destino_objetivo_post_habilitacion === 'n8n').length;\nconst postCustom = rpaSelectivos.filter(x => x.api_enablement?.destino_objetivo_post_habilitacion === 'custom_python_java').length;\nconst ola3Items = recomendaciones.filter(x => x.ola === 'ola_3');\nconst complejidadExtrema = ola3Items.filter(x => x.complejidad > 85).length;\nconst menorValor = ola3Items.filter(x => x.complejidad <= 85 && x.valor < 50).length;\nconst gateGobiernoOla3 = ola3Items.filter(x => x.requiere_gate_gobierno).length;\nconst manualProfundaOla3 = ola3Items.filter(x => x.revision_manual).length;\nconst iaOla3 = ola3Items.filter(x => x.revision_asistida_ia).length;\nconst otros = ola3Items.length - complejidadExtrema - menorValor;\nconst ola3 = { total: ola3Items.length, complejidad_extrema: complejidadExtrema, menor_valor: menorValor, otros, gate_gobierno: gateGobiernoOla3, evaluacion_manual_profunda: manualProfundaOla3, asistida_ia: iaOla3 };\nconst sensibilidad = r.sensitivity ? { regla: r.sensitivity.regla, base: r.sensitivity.base, escenarios: r.sensitivity.escenarios || [] } : null;\nlet ola3Text = `${ola3.total} quedan en ola 3: ${complejidadExtrema} por complejidad extrema, ${menorValor} por menor valor`;\nif (otros > 0) ola3Text += `, ${otros} por combinacion no prioritaria`;\nif (gateGobiernoOla3 > 0) ola3Text += `. ${manualProfundaOla3} manual profunda y ${iaOla3} con IA/aprobacion dirigida`;\nola3Text += '.';\nconst headlines = [\n  `${variantes} taskbots son variantes de ${grupos.length} utilidades reutilizables.`,\n  `${s.por_destino.n8n} candidatos a n8n (integracion API/archivo/email).`,\n  `${s.por_destino.rpa_selective} quedan en RPA selectivo o habilitacion API por UI legacy.`,\n  `${postN8n + postCustom} RPA selectivos tienen destino objetivo post-habilitacion API (${postN8n} n8n, ${postCustom} Python/Java).`,\n  `${s.por_destino.microservice} deberian ser microservicio/componente compartido.`,\n  `${s.por_ola.ola_1} entran en ola 1 y ${s.por_ola.ola_2} en ola 2.`,\n  `${revisionIa} gates se reducen con IA/aprobacion dirigida; ${manualProfunda} requieren evaluacion manual profunda.`,\n  ola3Text\n];\nreturn [{ json: { run_id: r.run_id, headlines, resumen: s, revision, ola_3: ola3, destinos_objetivo_post_habilitacion: objetivosPostApi, sensibilidad } }];"
       },
       "id": "b1a1e001-0003-4001-8001-000000000003",
       "name": "Extraer hallazgos",

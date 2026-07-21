@@ -98,6 +98,15 @@ class Wave(str, Enum):
     WAVE_3 = "ola_3"  # Low value or high complexity -> last
 
 
+class ReviewStrategy(str, Enum):
+    """How a governance gate should be handled."""
+
+    NONE = "sin_revision"
+    AI_PRECHECK = "prechequeo_ia"
+    TARGETED_APPROVAL = "aprobacion_dirigida"
+    MANUAL_DEEP_DIVE = "evaluacion_manual_profunda"
+
+
 @dataclass(frozen=True)
 class Taskbot:
     """A taskbot from the inventory. Immutable value object keyed by id."""
@@ -146,6 +155,48 @@ class Cluster:
 
 
 @dataclass(frozen=True)
+class EvidencePack:
+    """Structured evidence that an AI/human reviewer can consume."""
+
+    dependencies: tuple[str, ...] = ()
+    controls: tuple[str, ...] = ()
+    checklist: tuple[str, ...] = ()
+    suggested_owner: str = "arquitectura"
+    blockers: tuple[str, ...] = ()
+    next_action: str = "Sin accion adicional."
+
+
+@dataclass(frozen=True)
+class ReviewPlan:
+    """Governance action required before implementation.
+
+    A high-risk taskbot can require a gate without needing a full manual
+    assessment. AI-assisted modes prepare evidence and checklists; only
+    MANUAL_DEEP_DIVE represents deep human evaluation.
+    """
+
+    strategy: ReviewStrategy = ReviewStrategy.NONE
+    reason: str = ""
+    action: str = "Sin revision adicional."
+    evidence_pack: EvidencePack = field(default_factory=EvidencePack)
+
+    @property
+    def requires_governance_gate(self) -> bool:
+        return self.strategy is not ReviewStrategy.NONE
+
+    @property
+    def is_ai_assisted(self) -> bool:
+        return self.strategy in {
+            ReviewStrategy.AI_PRECHECK,
+            ReviewStrategy.TARGETED_APPROVAL,
+        }
+
+    @property
+    def needs_manual_review(self) -> bool:
+        return self.strategy is ReviewStrategy.MANUAL_DEEP_DIVE
+
+
+@dataclass(frozen=True)
 class MigrationDecision:
     """Target decision independent from scoring and written rationale."""
 
@@ -153,7 +204,11 @@ class MigrationDecision:
     wave: Wave
     cluster_id: int | None
     reasons: tuple[str, ...] = ()
-    needs_manual_review: bool = False
+    review: ReviewPlan = field(default_factory=ReviewPlan)
+
+    @property
+    def needs_manual_review(self) -> bool:
+        return self.review.needs_manual_review
 
 
 @dataclass(frozen=True)
@@ -212,6 +267,30 @@ class Recommendation:
         return self.decision.needs_manual_review
 
     @property
+    def review_strategy(self) -> ReviewStrategy:
+        return self.decision.review.strategy
+
+    @property
+    def review_reason(self) -> str:
+        return self.decision.review.reason
+
+    @property
+    def review_action(self) -> str:
+        return self.decision.review.action
+
+    @property
+    def evidence_pack(self) -> "EvidencePack":
+        return self.decision.review.evidence_pack
+
+    @property
+    def requires_governance_gate(self) -> bool:
+        return self.decision.review.requires_governance_gate
+
+    @property
+    def ai_assisted_review(self) -> bool:
+        return self.decision.review.is_ai_assisted
+
+    @property
     def score_breakdown(self) -> dict[str, object]:
         return self.scores.breakdown
 
@@ -230,6 +309,7 @@ class ApiEnablement:
     api_required: bool
     blocker: str | None
     enabling_action: str
+    target_after_enablement: MigrationTarget
 
 
 @dataclass(frozen=True)
@@ -268,6 +348,7 @@ class AnalysisResult:
     # Rationalization plan enrichments (built by the use case).
     component_candidates: list[ComponentCandidate] = field(default_factory=list)
     api_matrix: list[dict] = field(default_factory=list)
+    sensitivity: dict[str, object] = field(default_factory=dict)
 
     @property
     def total(self) -> int:

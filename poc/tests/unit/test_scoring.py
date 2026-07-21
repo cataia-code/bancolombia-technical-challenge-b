@@ -45,15 +45,19 @@ def test_dependencias_incrementan_complejidad_con_tope():
 
 
 def test_ola_1_alto_valor_baja_complejidad():
-    assert assign_wave(value=80, complexity=30, needs_manual_review=False) is Wave.WAVE_1
+    assert assign_wave(value=80, complexity=60, has_governance_gate=False) is Wave.WAVE_1
 
 
-def test_ola_3_para_revision_manual_aunque_valor_alto():
-    assert assign_wave(value=90, complexity=20, needs_manual_review=True) is Wave.WAVE_3
+def test_gate_gobierno_no_veta_si_valor_y_complejidad_permiten_ola_2():
+    assert assign_wave(value=90, complexity=70, has_governance_gate=True) is Wave.WAVE_2
+
+
+def test_gate_gobierno_no_entra_a_ola_1():
+    assert assign_wave(value=90, complexity=40, has_governance_gate=True) is Wave.WAVE_2
 
 
 def test_ola_3_alta_complejidad():
-    assert assign_wave(value=30, complexity=90, needs_manual_review=False) is Wave.WAVE_3
+    assert assign_wave(value=90, complexity=90, has_governance_gate=False) is Wave.WAVE_3
 
 
 def test_scores_acotados_0_100():

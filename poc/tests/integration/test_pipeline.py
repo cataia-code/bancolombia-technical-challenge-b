@@ -40,6 +40,20 @@ def test_analisis_end_to_end_produce_todas_las_categorias():
     # Debe detectar grupos consolidables (hay duplicidades declaradas).
     assert len(result.consolidation_groups) >= 1
     assert result.errors == []
+    data = JsonRenderer.to_dict(result)
+    summary = data["summary"]
+    assert summary["por_ola"] == {"ola_1": 7, "ola_2": 29, "ola_3": 14}
+    assert summary["revision"]["gate_gobierno"] == 27
+    assert summary["revision"]["asistida_ia"] == 19
+    assert summary["revision"]["manual_profunda"] == 8
+    sensitivity = data["sensitivity"]
+    assert len(sensitivity["escenarios"]) == 6
+    base = next(s for s in sensitivity["escenarios"] if s["escenario_base"])
+    assert base["revision"] == summary["revision"]
+    assert any(
+        s["delta_vs_base"]["manual_profunda"] != 0
+        for s in sensitivity["escenarios"]
+    )
 
 
 def test_write_reports_versiona_por_run_id(tmp_path):
@@ -51,6 +65,7 @@ def test_write_reports_versiona_por_run_id(tmp_path):
     # El JSON es valido y trae el resumen.
     data = JsonRenderer.to_dict(result)
     assert data["summary"]["total_taskbots"] == 50
+    assert "Analisis de sensibilidad" in paths["html"].read_text(encoding="utf-8")
 
 
 def test_reproducibilidad_dos_corridas_mismas_decisiones():

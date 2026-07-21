@@ -29,6 +29,9 @@ htmlcov/
 reports/*
 !reports/example/
 !reports/example/**
+poc/reports/*
+!poc/reports/example/
+!poc/reports/example/**
 
 # Local / secrets
 .env

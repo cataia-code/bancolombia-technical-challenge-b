@@ -7,7 +7,7 @@
  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px}
  h1{font-size:1.6rem;margin:0 0 4px} .sub{color:#94a3b8;margin:0 0 24px}
  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
- .card{background:#1e293b;border:1px solid #334155;border-radius:10px;padding:14px}
+ .card{background:#1e293b;border:1px solid #334155;border-radius:8px;padding:14px}
  .card .n{font-size:1.7rem;font-weight:700;color:#38bdf8} .card .l{color:#94a3b8;font-size:.85rem}
  .headlines{background:#132e1f;border:1px solid #14532d;border-radius:10px;padding:16px 20px;margin:20px 0}
  .headlines li{margin:6px 0}
@@ -15,6 +15,7 @@
  th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #334155;vertical-align:top}
  th{color:#94a3b8;font-weight:600}
  .tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:.75rem;background:#334155}
+ .delta{color:#94a3b8;font-size:.75rem}
  .w1{color:#22c55e} .w2{color:#eab308} .w3{color:#f87171}
  code{color:#7dd3fc}
 </style></head><body><div class="wrap">
@@ -22,28 +23,118 @@
  <p class="sub">run_id: <code>example</code> &middot; 50 taskbots analizados</p>
 
  <div class="headlines"><strong>Hallazgos accionables</strong>
-   <ul><li>33 taskbots son variantes de 15 utilidades reutilizables.</li><li>8 casos son candidatos a n8n por ser integracion API/archivo/email.</li><li>36 deben quedar en RPA selectivo porque dependen de UI legacy.</li><li>1 deberian convertirse en un microservicio/componente compartido.</li><li>2 entran en ola 1 por alto valor y baja complejidad.</li></ul>
+   <ul><li>33 taskbots son variantes de 15 utilidades reutilizables.</li><li>8 casos son candidatos a n8n por ser integracion API/archivo/email.</li><li>36 deben quedar en RPA selectivo porque dependen de UI legacy.</li><li>1 deberian convertirse en un microservicio/componente compartido.</li><li>7 entran en ola 1 por alto valor y baja complejidad.</li><li>19 gates se reducen con IA/aprobacion dirigida; 8 requieren evaluacion manual profunda.</li></ul>
  </div>
 
  <div class="cards">
    <div class="card"><div class="n">15</div><div class="l">Grupos consolidables</div></div>
-   <div class="card"><div class="n w1">2</div><div class="l">Ola 1 (quick wins)</div></div>
-   <div class="card"><div class="n w2">7</div><div class="l">Ola 2</div></div>
-   <div class="card"><div class="n w3">41</div><div class="l">Ola 3</div></div>
+   <div class="card"><div class="n w1">7</div><div class="l">Ola 1 (quick wins)</div></div>
+   <div class="card"><div class="n w2">29</div><div class="l">Ola 2</div></div>
+   <div class="card"><div class="n w3">14</div><div class="l">Ola 3</div></div>
+   <div class="card"><div class="n">19</div><div class="l">Prechequeo IA</div></div>
+   <div class="card"><div class="n w3">8</div><div class="l">Manual profunda</div></div>
    <div class="card"><div class="n">0</div><div class="l">Errores</div></div>
  </div>
 
+
+<div class="headlines"><strong>Reduccion de evaluacion manual</strong>
+   <ul><li>13 casos tienen API o patron repetible: el agente prepara evidence pack, controles y checklist antes de implementacion.</li><li>6 casos quedan con aprobacion dirigida: IA arma mapa de dependencias y arquitectura revisa solo el bloqueo especifico.</li><li>8 casos quedan como evaluacion manual profunda por complejidad extrema o interaccion no clasificable.</li></ul>
+</div>
+
+
+
+<div class="headlines"><strong>Por que 14 quedan en Ola 3</strong>
+   <ul><li>8 tienen complejidad extrema y requieren redisenio o habilitacion antes de migrar.</li><li>6 quedan por menor valor relativo frente al esfuerzo.</li><li>8 requieren evaluacion manual profunda; 4 quedan con prechequeo IA o aprobacion dirigida.</li></ul>
+</div>
+
+
+
+ <h2 style="font-size:1.1rem">Analisis de sensibilidad de umbrales</h2>
+ <p style="color:#94a3b8;font-size:.9rem">Gate de gobierno si riesgo=high y dependencias &gt;= umbral; manual profunda si complejidad &gt; umbral. Se recalculan revision y ola; destino y scores base no cambian.</p>
+ <table><thead><tr>
+   <th>Compl. manual &gt;</th><th>Deps gate &gt;=</th><th>Gate</th><th>IA/dir.</th><th>Manual</th><th>Olas 1/2/3</th><th>Delta manual</th><th>Delta gate</th>
+ </tr></thead><tbody>
+
+   <tr>
+     <td>80.0</td>
+     <td>3</td>
+     <td>27</td>
+     <td>5</td>
+     <td>22</td>
+     <td>7/29/14</td>
+     <td><span class="delta">+14</span></td>
+     <td><span class="delta">0</span></td>
+   </tr>
+
+   <tr>
+     <td>85.0 <span class="tag">base</span></td>
+     <td>3</td>
+     <td>27</td>
+     <td>19</td>
+     <td>8</td>
+     <td>7/29/14</td>
+     <td><span class="delta">0</span></td>
+     <td><span class="delta">0</span></td>
+   </tr>
+
+   <tr>
+     <td>90.0</td>
+     <td>3</td>
+     <td>27</td>
+     <td>27</td>
+     <td>0</td>
+     <td>7/29/14</td>
+     <td><span class="delta">-8</span></td>
+     <td><span class="delta">0</span></td>
+   </tr>
+
+   <tr>
+     <td>80.0</td>
+     <td>4</td>
+     <td>0</td>
+     <td>0</td>
+     <td>0</td>
+     <td>8/28/14</td>
+     <td><span class="delta">-8</span></td>
+     <td><span class="delta">-27</span></td>
+   </tr>
+
+   <tr>
+     <td>85.0</td>
+     <td>4</td>
+     <td>0</td>
+     <td>0</td>
+     <td>0</td>
+     <td>8/28/14</td>
+     <td><span class="delta">-8</span></td>
+     <td><span class="delta">-27</span></td>
+   </tr>
+
+   <tr>
+     <td>90.0</td>
+     <td>4</td>
+     <td>0</td>
+     <td>0</td>
+     <td>0</td>
+     <td>8/28/14</td>
+     <td><span class="delta">-8</span></td>
+     <td><span class="delta">-27</span></td>
+   </tr>
+
+ </tbody></table>
+
+
  <h2 style="font-size:1.1rem">Distribucion por destino</h2>
  <div class="cards">
- 
+
    <div class="card"><div class="n">8</div><div class="l">n8n</div></div>
- 
+
    <div class="card"><div class="n">1</div><div class="l">Microservicio compartido</div></div>
- 
+
    <div class="card"><div class="n">5</div><div class="l">Python/Java a la medida</div></div>
- 
+
    <div class="card"><div class="n">36</div><div class="l">RPA selectivo</div></div>
- 
+
  </div>
 
  <h2 style="font-size:1.1rem">Catalogo de componentes reutilizables</h2>
@@ -51,16 +142,16 @@
  <table><thead><tr>
    <th>Componente sugerido</th><th>Miembros</th><th>Patron destino</th><th>Apps dominantes</th><th>Legacy</th><th>Accion recomendada</th>
  </tr></thead><tbody>
- 
+
    <tr>
      <td>Componente Alerta <span class="tag">c8</span></td>
      <td>TB_Gestion_OC_Pendientes, TB_Alerta_OC_Atrasadas</td>
      <td>RPA selectivo</td>
      <td>SAP ECC, Outlook, Teams</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Reporte Ventas <span class="tag">c11</span></td>
      <td>TB_Reporte_Ventas_Diario, TB_Reporte_Ventas_Semanal</td>
@@ -69,16 +160,16 @@
      <td>-</td>
      <td>Unificar en un unico flujo n8n reutilizable y retirar los duplicados.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Cobranza <span class="tag">c14</span></td>
      <td>TB_Cobranza_Recordatorio_Clientes, TB_Cobranza_Escalamiento_Gerencial</td>
      <td>RPA selectivo</td>
      <td>SAP ECC, Outlook, Salesforce</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Clientes <span class="tag">c15</span></td>
      <td>TB_Alta_Clientes_CRM, TB_Actualizacion_Datos_Cliente, TB_Carga_Maestra_Productos, TB_Depuracion_Datos_Maestros, TB_Merge_Clientes_Duplicados</td>
@@ -87,7 +178,7 @@
      <td>si</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Etl Interface <span class="tag">c16</span></td>
      <td>TB_Monitoreo_Interface_ETL, TB_Reintento_Interface_ETL</td>
@@ -96,7 +187,7 @@
      <td>-</td>
      <td>Unificar en un unico flujo n8n reutilizable y retirar los duplicados.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Cliente <span class="tag">c18</span></td>
      <td>TB_Despacho_Guias_Transporte, TB_Tracking_Entregas_Cliente</td>
@@ -105,7 +196,7 @@
      <td>si</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Conciliacion <span class="tag">c19</span></td>
      <td>TB_Conciliacion_Tarjetas_Corporativas, TB_Validacion_Viaticos</td>
@@ -114,25 +205,25 @@
      <td>-</td>
      <td>Unificar en un unico flujo n8n reutilizable y retirar los duplicados.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Pago Proveedores <span class="tag">c20</span></td>
      <td>TB_Pago_Proveedores_Masivo, TB_Pago_Proveedores_Urgente</td>
      <td>RPA selectivo</td>
      <td>SAP ECC, Portal Bancario, PGP Encryptor</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Impuestos <span class="tag">c23</span></td>
      <td>TB_Provision_Impuestos_Indirectos, TB_Declaracion_Impuestos_Mensual</td>
      <td>RPA selectivo</td>
      <td>SAP ECC, Excel, SQL Server</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Clientes Credito <span class="tag">c24</span></td>
      <td>TB_Bloqueo_Credito_Clientes, TB_Desbloqueo_Credito_Clientes</td>
@@ -141,16 +232,16 @@
      <td>si</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Accesos <span class="tag">c25</span></td>
      <td>TB_Extraccion_Auditoria_SOX, TB_Evidencias_Control_Accesos</td>
      <td>RPA selectivo</td>
      <td>SharePoint, SAP ECC, SQL Server</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Actualizacion <span class="tag">c26</span></td>
      <td>TB_Actualizacion_Precios_Masiva, TB_Actualizacion_Descuentos_Comerciales</td>
@@ -159,7 +250,7 @@
      <td>si</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Digital Empleado <span class="tag">c27</span></td>
      <td>TB_Onboarding_Empleado_Digital, TB_Offboarding_Empleado_Digital</td>
@@ -168,7 +259,7 @@
      <td>si</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Tickets <span class="tag">c28</span></td>
      <td>TB_Clasificacion_Tickets_Soporte, TB_Priorizacion_Tickets_Criticos</td>
@@ -177,733 +268,783 @@
      <td>-</td>
      <td>Unificar en un unico flujo n8n reutilizable y retirar los duplicados.</td>
    </tr>
- 
+
    <tr>
      <td>Componente Alerta <span class="tag">c31</span></td>
      <td>TB_Control_Vencimiento_Contratos, TB_Alerta_Renovacion_Polizas</td>
      <td>n8n</td>
      <td>Outlook, SharePoint, SAP Ariba</td>
-     <td>si · req. API</td>
+     <td>si &middot; req. API</td>
      <td>Consolidar como componente RPA compartido y planear exposicion de API para migrarlo fuera de RPA en una ola posterior.</td>
    </tr>
- 
+
  </tbody></table>
 
  <h2 style="font-size:1.1rem">Matriz API / no-API por sistema</h2>
  <table><thead><tr>
    <th>Sistema</th><th>Taskbots</th><th>API disponible</th><th>Tocado por legacy</th><th>Requiere habilitacion API</th>
  </tr></thead><tbody>
- 
+
    <tr>
      <td>SAP ECC</td><td>35</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>SQL Server</td><td>12</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Outlook</td><td>11</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Excel</td><td>9</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Salesforce</td><td>9</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>ServiceNow</td><td>8</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>SharePoint</td><td>7</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Portal Bancario</td><td>4</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Active Directory</td><td>3</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Power BI</td><td>3</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>TMS</td><td>3</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Teams</td><td>3</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Workday</td><td>3</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Concur</td><td>2</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Control-M</td><td>2</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Email Gateway</td><td>2</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>API Banco Central</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>API Integracion</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Buró API</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>CMDB</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Data Quality Tool</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Excel Control</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>File Server</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Lista OFAC API</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>M365 Admin</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>MES Legacy</td><td>1</td>
      <td>no</td>
      <td>si</td>
      <td>SI</td>
    </tr>
- 
+
    <tr>
      <td>Mercado API</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>NLP API</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>OCR Service</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>PGP Encryptor</td><td>1</td>
      <td>no</td>
      <td>si</td>
      <td>SI</td>
    </tr>
- 
+
    <tr>
      <td>PIM</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Portal Aseguradora</td><td>1</td>
      <td>no</td>
      <td>si</td>
      <td>SI</td>
    </tr>
- 
+
    <tr>
      <td>Portal Tributario</td><td>1</td>
      <td>no</td>
      <td>si</td>
      <td>SI</td>
    </tr>
- 
+
    <tr>
      <td>SAP Ariba</td><td>1</td>
      <td>si</td>
      <td>-</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>Shopify</td><td>1</td>
      <td>si</td>
      <td>si</td>
      <td>-</td>
    </tr>
- 
+
    <tr>
      <td>WMS Legacy</td><td>1</td>
      <td>no</td>
      <td>si</td>
      <td>SI</td>
    </tr>
- 
+
  </tbody></table>
 
  <h2 style="font-size:1.1rem">Recomendaciones por taskbot</h2>
  <table><thead><tr>
-   <th>Taskbot</th><th>Destino</th><th>Ola</th><th>Valor</th><th>Compl.</th><th>API</th><th>Justificacion</th>
+   <th>Taskbot</th><th>Destino</th><th>Ola</th><th>Valor</th><th>Compl.</th><th>Revision</th><th>API</th><th>Justificacion</th>
  </tr></thead><tbody>
- 
+
    <tr>
      <td>TB_Recepcion_Facturas_Proveedor</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>58.0</td><td>77.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Recepcion_Facturas_Proveedor&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Recepcion_Facturas_Proveedor&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Validador_Facturas_OCR</td>
      <td>n8n</td>
      <td class="w3">ola_3</td>
      <td>40.0</td><td>63.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Validador_Facturas_OCR&#39; se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first, archivos): candidato a n8n. Valor=40.0, complejidad=63.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: equipo integracion/n8n - checklist: 3</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Validador_Facturas_OCR&#39; se recomienda para n8n (orquestador de integraciones) (ola 3). Integracion orquestable (API-first, archivos): candidato a n8n. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=40.0, complejidad=63.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Carga_Facturas_SAP</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>40.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Carga_Facturas_SAP&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Carga_Facturas_SAP&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=40.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Posteo_Gastos_No_OC</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Posteo_Gastos_No_OC&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Posteo_Gastos_No_OC&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Conciliacion_Bancaria_Diaria</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Conciliacion_Bancaria_Diaria&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Conciliacion_Bancaria_Diaria&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Conciliacion_Manual_Asistida</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>58.0</td><td>67.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Conciliacion_Manual_Asistida&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Conciliacion_Manual_Asistida&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Alta_Proveedores_Maestro</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Alta_Proveedores_Maestro&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Alta_Proveedores_Maestro&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Actualizacion_Datos_Proveedores</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>70.0</td><td>90.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Actualizacion_Datos_Proveedores&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Actualizacion_Datos_Proveedores&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Gestion_OC_Pendientes <span class="tag">cluster 8</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>72.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Gestion_OC_Pendientes&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Gestion_OC_Pendientes&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Alerta_OC_Atrasadas <span class="tag">cluster 8</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>72.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Alerta_OC_Atrasadas&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Alerta_OC_Atrasadas&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Control_Inventario_Ciclico</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Control_Inventario_Ciclico&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Control_Inventario_Ciclico&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Ajuste_Inventario_Emergencia</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>40.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Ajuste_Inventario_Emergencia&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Ajuste_Inventario_Emergencia&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=40.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Reporte_Ventas_Diario <span class="tag">cluster 11</span></td>
      <td>Python/Java a la medida</td>
-     <td class="w2">ola_2</td>
+     <td class="w1">ola_1</td>
      <td>88.0</td><td>57.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Reporte_Ventas_Diario&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Reporte_Ventas_Diario&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 1). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Reporte_Ventas_Semanal <span class="tag">cluster 11</span></td>
      <td>Python/Java a la medida</td>
      <td class="w2">ola_2</td>
      <td>63.0</td><td>44.0</td>
-     <td>API ok</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
      <td>&#39;TB_Reporte_Ventas_Semanal&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=63.0, complejidad=44.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Provision_Nomina_Contable</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>40.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Provision_Nomina_Contable&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Provision_Nomina_Contable&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=40.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Asiento_Ajuste_Mensual</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>40.0</td><td>80.0</td>
-     <td>bloqueo: ui_legacy</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
      <td>&#39;TB_Asiento_Ajuste_Mensual&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=80.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Cobranza_Recordatorio_Clientes <span class="tag">cluster 14</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>77.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Cobranza_Recordatorio_Clientes&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Cobranza_Recordatorio_Clientes&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Cobranza_Escalamiento_Gerencial <span class="tag">cluster 14</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>72.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Cobranza_Escalamiento_Gerencial&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Cobranza_Escalamiento_Gerencial&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Alta_Clientes_CRM <span class="tag">cluster 15</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Alta_Clientes_CRM&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Alta_Clientes_CRM&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Actualizacion_Datos_Cliente <span class="tag">cluster 15</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>67.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Actualizacion_Datos_Cliente&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Actualizacion_Datos_Cliente&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Monitoreo_Interface_ETL <span class="tag">cluster 16</span></td>
      <td>Python/Java a la medida</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>75.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Monitoreo_Interface_ETL&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=75.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: equipo backend - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Monitoreo_Interface_ETL&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=75.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Reintento_Interface_ETL <span class="tag">cluster 16</span></td>
      <td>Python/Java a la medida</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>70.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Reintento_Interface_ETL&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: equipo backend - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Reintento_Interface_ETL&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=70.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Carga_Maestra_Productos <span class="tag">cluster 15</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>100.0</td><td>90.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Carga_Maestra_Productos&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Carga_Maestra_Productos&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=100.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Alta_Materiales_Manufactura</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Alta_Materiales_Manufactura&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Aprobacion dirigida</span><br>IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Alta_Materiales_Manufactura&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Despacho_Guias_Transporte <span class="tag">cluster 18</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>77.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Despacho_Guias_Transporte&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Despacho_Guias_Transporte&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Tracking_Entregas_Cliente <span class="tag">cluster 18</span></td>
      <td>n8n</td>
-     <td class="w2">ola_2</td>
+     <td class="w1">ola_1</td>
      <td>88.0</td><td>44.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Tracking_Entregas_Cliente&#39; se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, email): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Tracking_Entregas_Cliente&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first, email): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Conciliacion_Tarjetas_Corporativas <span class="tag">cluster 19</span></td>
      <td>n8n</td>
-     <td class="w2">ola_2</td>
+     <td class="w1">ola_1</td>
      <td>73.0</td><td>50.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Conciliacion_Tarjetas_Corporativas&#39; se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Conciliacion_Tarjetas_Corporativas&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (archivos, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Validacion_Viaticos <span class="tag">cluster 19</span></td>
      <td>n8n</td>
      <td class="w1">ola_1</td>
      <td>88.0</td><td>37.0</td>
-     <td>API ok</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
      <td>&#39;TB_Validacion_Viaticos&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Pago_Proveedores_Masivo <span class="tag">cluster 20</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Pago_Proveedores_Masivo&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Pago_Proveedores_Masivo&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Pago_Proveedores_Urgente <span class="tag">cluster 20</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>70.0</td><td>90.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Pago_Proveedores_Urgente&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Pago_Proveedores_Urgente&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Actualiza_Tipo_Cambio</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>58.0</td><td>72.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Actualiza_Tipo_Cambio&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Actualiza_Tipo_Cambio&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Reproceso_Tipo_Cambio</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>28.0</td><td>72.0</td>
-     <td>bloqueo: ui_legacy</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
      <td>&#39;TB_Reproceso_Tipo_Cambio&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=28.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Provision_Impuestos_Indirectos <span class="tag">cluster 23</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>70.0</td><td>90.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Provision_Impuestos_Indirectos&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Provision_Impuestos_Indirectos&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Declaracion_Impuestos_Mensual <span class="tag">cluster 23</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Declaracion_Impuestos_Mensual&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Declaracion_Impuestos_Mensual&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Bloqueo_Credito_Clientes <span class="tag">cluster 24</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Bloqueo_Credito_Clientes&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Bloqueo_Credito_Clientes&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Desbloqueo_Credito_Clientes <span class="tag">cluster 24</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>72.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Desbloqueo_Credito_Clientes&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Desbloqueo_Credito_Clientes&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Extraccion_Auditoria_SOX <span class="tag">cluster 25</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>85.0</td><td>90.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Extraccion_Auditoria_SOX&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Extraccion_Auditoria_SOX&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Evidencias_Control_Accesos <span class="tag">cluster 25</span></td>
      <td>n8n</td>
-     <td class="w2">ola_2</td>
+     <td class="w1">ola_1</td>
      <td>73.0</td><td>50.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Evidencias_Control_Accesos&#39; se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Evidencias_Control_Accesos&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Actualizacion_Precios_Masiva <span class="tag">cluster 26</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>85.0</td><td>90.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Actualizacion_Precios_Masiva&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Actualizacion_Precios_Masiva&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Actualizacion_Descuentos_Comerciales <span class="tag">cluster 26</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>85.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Actualizacion_Descuentos_Comerciales&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Actualizacion_Descuentos_Comerciales&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=85.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Onboarding_Empleado_Digital <span class="tag">cluster 27</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>88.0</td><td>72.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Onboarding_Empleado_Digital&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Onboarding_Empleado_Digital&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Offboarding_Empleado_Digital <span class="tag">cluster 27</span></td>
      <td>n8n</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>50.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Offboarding_Empleado_Digital&#39; se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=100.0, complejidad=50.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: equipo integracion/n8n - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Offboarding_Empleado_Digital&#39; se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=50.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Clasificacion_Tickets_Soporte <span class="tag">cluster 28</span></td>
      <td>n8n</td>
      <td class="w1">ola_1</td>
      <td>88.0</td><td>37.0</td>
-     <td>API ok</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
      <td>&#39;TB_Clasificacion_Tickets_Soporte&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=37.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Priorizacion_Tickets_Criticos <span class="tag">cluster 28</span></td>
      <td>Python/Java a la medida</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>100.0</td><td>70.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Priorizacion_Tickets_Criticos&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: equipo backend - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Priorizacion_Tickets_Criticos&#39; se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=70.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Extraccion_Pedidos_Ecommerce</td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>70.0</td><td>90.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Extraccion_Pedidos_Ecommerce&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Extraccion_Pedidos_Ecommerce&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Integracion_Marketplace_Pedidos</td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>70.0</td><td>85.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Integracion_Marketplace_Pedidos&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.</td>
+     <td><span class="tag">Prechequeo IA</span><br>Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.<br><small>Owner: arquitectura + operacion RPA - checklist: 4</small></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Integracion_Marketplace_Pedidos&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Control_Vencimiento_Contratos <span class="tag">cluster 31</span></td>
      <td>n8n</td>
-     <td class="w2">ola_2</td>
+     <td class="w1">ola_1</td>
      <td>88.0</td><td>55.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Control_Vencimiento_Contratos&#39; se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Control_Vencimiento_Contratos&#39; se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (archivos, email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Alerta_Renovacion_Polizas <span class="tag">cluster 31</span></td>
      <td>RPA selectivo</td>
-     <td class="w3">ola_3</td>
+     <td class="w2">ola_2</td>
      <td>73.0</td><td>77.0</td>
-     <td>bloqueo: ui_legacy</td>
-     <td>&#39;TB_Alerta_Renovacion_Polizas&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0.</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>bloqueo: ui_legacy<br><small>objetivo: n8n</small></td>
+     <td>&#39;TB_Alerta_Renovacion_Polizas&#39; se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Depuracion_Datos_Maestros <span class="tag">cluster 15</span></td>
      <td>Microservicio compartido</td>
      <td class="w2">ola_2</td>
      <td>58.0</td><td>57.0</td>
-     <td>API ok</td>
+     <td><span class="tag">Sin revision</span></td>
+     <td>API ok<br><small>objetivo: Microservicio compartido</small></td>
      <td>&#39;TB_Depuracion_Datos_Maestros&#39; se recomienda para microservicio / componente compartido (ola 2). Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido. Valor=58.0, complejidad=57.0.</td>
    </tr>
- 
+
    <tr>
      <td>TB_Merge_Clientes_Duplicados <span class="tag">cluster 15</span></td>
      <td>RPA selectivo</td>
      <td class="w3">ola_3</td>
      <td>85.0</td><td>90.0</td>
-     <td>API ok</td>
-     <td>&#39;TB_Merge_Clientes_Duplicados&#39; se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=85.0, complejidad=90.0.</td>
+     <td><span class="tag">Manual profunda</span><br>Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.<br><small>Owner: arquitectura + operacion RPA - checklist: 5</small></td>
+     <td>API ok<br><small>objetivo: Python/Java a la medida</small></td>
+     <td>&#39;TB_Merge_Clientes_Duplicados&#39; se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.</td>
    </tr>
- 
+
  </tbody></table>
 
- 
+
 </div></body></html>

@@ -42,6 +42,7 @@ def test_api_enablement_legacy_sin_api_marca_bloqueador_y_accion():
     assert e.blocker == "ui_legacy"
     assert e.api_required is True
     assert "Exponer" in e.enabling_action
+    assert e.target_after_enablement is MigrationTarget.N8N
 
 
 def test_api_enablement_api_disponible_sin_bloqueador():
@@ -49,12 +50,20 @@ def test_api_enablement_api_disponible_sin_bloqueador():
     e = api_enablement.assess(bot, MigrationTarget.N8N)
     assert e.blocker is None
     assert e.api_available is True
+    assert e.target_after_enablement is MigrationTarget.N8N
 
 
 def test_api_enablement_database_sin_api():
     bot = _bot("1", "X", interactions=(I.DATABASE,))
     e = api_enablement.assess(bot, MigrationTarget.CUSTOM_PYTHON_JAVA)
     assert e.blocker == "database"
+    assert e.target_after_enablement is MigrationTarget.CUSTOM_PYTHON_JAVA
+
+
+def test_api_enablement_legacy_con_bd_objetivo_custom():
+    bot = _bot("1", "X", interactions=(I.UI_LEGACY, I.DATABASE))
+    e = api_enablement.assess(bot, MigrationTarget.RPA_SELECTIVE)
+    assert e.target_after_enablement is MigrationTarget.CUSTOM_PYTHON_JAVA
 
 
 def test_api_enablement_unknown_evalua():
@@ -62,6 +71,12 @@ def test_api_enablement_unknown_evalua():
     e = api_enablement.assess(bot, MigrationTarget.MANUAL_REVIEW)
     assert e.blocker is None
     assert "Evaluar" in e.enabling_action
+
+
+def test_api_enablement_rpa_sin_senial_clara_queda_en_revision():
+    bot = _bot("1", "X", interactions=(I.UNKNOWN,))
+    e = api_enablement.assess(bot, MigrationTarget.RPA_SELECTIVE)
+    assert e.target_after_enablement is MigrationTarget.MANUAL_REVIEW
 
 
 def test_system_matrix_agrega_por_sistema():

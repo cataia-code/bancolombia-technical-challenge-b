@@ -12,8 +12,10 @@ bash scripts/demo.sh          # Linux/macOS/Git-Bash
 .\scripts\demo.ps1            # Windows PowerShell
 ```
 
-Salida esperada: 50 taskbots, 15 grupos consolidables, 15 componentes catalogados, 0 errores,
-y la ruta del reporte (`poc/reports/demo/reporte.html`).
+Salida esperada: 50 taskbots, 15 grupos consolidables, 15 componentes catalogados, olas 7/29/14,
+27 gates de gobierno (19 asistidos por IA/aprobacion dirigida, 8 manuales profundos), 0 errores
+y la ruta del reporte (`poc/reports/demo/reporte.html`). El JSON debe incluir `evidence_pack`,
+`destino_objetivo_post_habilitacion` y `sensitivity`.
 
 ## Fallos comunes y recuperación
 
@@ -22,7 +24,6 @@ y la ruta del reporte (`poc/reports/demo/reporte.html`).
 | `InventoryLoadError: ... does not exist` | Ruta de inventario incorrecta | Verificar la ruta; usar `poc/data/ejemplo_50_taskbots_prueba.txt` | El error es claro y no rompe el proceso |
 | `ValueError: TASKBOT_SIMILARITY_THRESHOLD ...` | Config inválida (fail-fast) | Corregir la variable de entorno (0–100) | El servicio no arranca con config inválida (a propósito) |
 | Un taskbot aparece en `errors` del reporte | Registro inválido en el inventario | El lote continúa (fail-soft); reprocesar solo ese registro | Campo `errors[]` en el JSON con `taskbot_id` y motivo |
-| n8n Cloud no conecta al servicio | n8n Cloud no alcanza `localhost` | Usar `workflow.cloud.json` (autocontenido) o un túnel público al servicio | El workflow cloud corre sin servicio local |
 | `docker compose up` falla | Docker no está corriendo / puertos ocupados | Iniciar Docker; liberar 8000/5678; o usar el CLI sin Docker | El CLI produce el mismo reporte sin infraestructura |
 | Reportes previos "desaparecen" | — (no ocurre) | Cada corrida escribe en `reports/<run_id>/` sin sobrescribir | Carpetas por `run_id`, idempotentes |
 | `HTTP 400` en `/analyze` | `run_id` inválido o ruta fuera de `TASKBOT_INVENTORY_ROOT` | Usar `run_id` `[A-Za-z0-9_-]`; ruta relativa dentro del root | Guardrails de seguridad activos |
@@ -36,7 +37,7 @@ reprocesarse sin repetir todo el lote.
 
 ## Checklist previo a la demo
 
-- [ ] `python -m pytest` en `poc/` → 111 passed, 100% cobertura.
+- [ ] `python -m pytest` en `poc/` → suite sin fallos.
 - [ ] `bash scripts/demo.sh` → imprime hallazgos y valida el resumen.
-- [ ] Abrir `poc/reports/demo/reporte.html` (catálogo de componentes + matriz API).
+- [ ] Abrir `poc/reports/demo/reporte.html` (catálogo de componentes + matriz API + sensibilidad).
 - [ ] (Opcional) `docker compose up --build` y disparar el workflow en n8n (`:5678`).

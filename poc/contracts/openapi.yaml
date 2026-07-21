@@ -76,36 +76,240 @@ components:
   schemas:
     AnalysisResult:
       type: object
+      required: [run_id, summary, clusters, component_candidates, api_matrix, sensitivity, recommendations, errors]
       properties:
         run_id: { type: string }
-        summary:
-          type: object
-          properties:
-            total_taskbots: { type: integer }
-            grupos_consolidables: { type: integer }
-            por_destino: { type: object, additionalProperties: { type: integer } }
-            por_ola: { type: object, additionalProperties: { type: integer } }
-            errores: { type: integer }
+        summary: { $ref: "#/components/schemas/Summary" }
         clusters:
           type: array
-          items: { type: object, additionalProperties: true }
+          items: { $ref: "#/components/schemas/Cluster" }
+        component_candidates:
+          type: array
+          items: { $ref: "#/components/schemas/ComponentCandidate" }
+        api_matrix:
+          type: array
+          items: { $ref: "#/components/schemas/ApiMatrixRow" }
+        sensitivity: { $ref: "#/components/schemas/Sensitivity" }
         recommendations:
           type: array
-          items:
-            type: object
-            properties:
-              taskbot_id: { type: string }
-              taskbot: { type: string }
-              destino:
-                type: string
-                enum: [n8n, microservice, custom_python_java, rpa_selective, manual_review]
-              ola: { type: string, enum: [ola_1, ola_2, ola_3] }
-              valor: { type: number }
-              complejidad: { type: number }
-              cluster_id: { type: integer, nullable: true }
-              revision_manual: { type: boolean }
-              razones: { type: array, items: { type: string } }
-              justificacion: { type: string }
+          items: { $ref: "#/components/schemas/Recommendation" }
         errors:
           type: array
           items: { type: object, additionalProperties: true }
+    Summary:
+      type: object
+      required: [total_taskbots, grupos_consolidables, por_destino, por_ola, revision, errores]
+      properties:
+        total_taskbots: { type: integer }
+        grupos_consolidables: { type: integer }
+        por_destino: { $ref: "#/components/schemas/DestinationCounts" }
+        por_ola: { $ref: "#/components/schemas/WaveCounts" }
+        revision: { $ref: "#/components/schemas/ReviewSummary" }
+        errores: { type: integer }
+    DestinationCounts:
+      type: object
+      required: [n8n, microservice, custom_python_java, rpa_selective, manual_review]
+      properties:
+        n8n: { type: integer }
+        microservice: { type: integer }
+        custom_python_java: { type: integer }
+        rpa_selective: { type: integer }
+        manual_review: { type: integer }
+    WaveCounts:
+      type: object
+      required: [ola_1, ola_2, ola_3]
+      properties:
+        ola_1: { type: integer }
+        ola_2: { type: integer }
+        ola_3: { type: integer }
+    ReviewSummary:
+      type: object
+      required: [sin_revision, prechequeo_ia, aprobacion_dirigida, evaluacion_manual_profunda, gate_gobierno, asistida_ia, manual_profunda]
+      properties:
+        sin_revision: { type: integer }
+        prechequeo_ia: { type: integer }
+        aprobacion_dirigida: { type: integer }
+        evaluacion_manual_profunda: { type: integer }
+        gate_gobierno: { type: integer }
+        asistida_ia: { type: integer }
+        manual_profunda: { type: integer }
+    Cluster:
+      type: object
+      required: [id, miembros, representante, es_grupo_consolidable]
+      properties:
+        id: { type: integer }
+        miembros: { type: array, items: { type: string } }
+        representante: { type: string }
+        es_grupo_consolidable: { type: boolean }
+    ComponentCandidate:
+      type: object
+      required: [cluster_id, nombre_sugerido, miembros, nombres, proposito_comun, patron_destino, apps_dominantes, blocker_legacy, requiere_habilitacion_api, accion_recomendada]
+      properties:
+        cluster_id: { type: integer }
+        nombre_sugerido: { type: string }
+        miembros: { type: array, items: { type: string } }
+        nombres: { type: array, items: { type: string } }
+        proposito_comun: { type: string }
+        patron_destino: { $ref: "#/components/schemas/MigrationTarget" }
+        apps_dominantes: { type: array, items: { type: string } }
+        blocker_legacy: { type: boolean }
+        requiere_habilitacion_api: { type: boolean }
+        accion_recomendada: { type: string }
+    ApiMatrixRow:
+      type: object
+      required: [sistema, taskbots, api_disponible, tocado_por_legacy, requiere_habilitacion_api]
+      properties:
+        sistema: { type: string }
+        taskbots: { type: integer }
+        api_disponible: { type: boolean }
+        tocado_por_legacy: { type: boolean }
+        requiere_habilitacion_api: { type: boolean }
+    Sensitivity:
+      type: object
+      required: [regla, base, escenarios]
+      properties:
+        regla: { type: string }
+        base: { $ref: "#/components/schemas/SensitivityBase" }
+        escenarios:
+          type: array
+          items: { $ref: "#/components/schemas/SensitivityScenario" }
+    SensitivityBase:
+      type: object
+      required: [umbral_dependencias_gate_gobierno, umbral_complejidad_manual_profunda, revision, por_ola]
+      properties:
+        umbral_dependencias_gate_gobierno: { type: integer }
+        umbral_complejidad_manual_profunda: { type: number }
+        revision: { $ref: "#/components/schemas/ReviewSummary" }
+        por_ola: { $ref: "#/components/schemas/WaveCounts" }
+    SensitivityScenario:
+      type: object
+      required: [umbral_dependencias_gate_gobierno, umbral_complejidad_manual_profunda, escenario_base, revision, por_ola, delta_vs_base]
+      properties:
+        umbral_dependencias_gate_gobierno: { type: integer }
+        umbral_complejidad_manual_profunda: { type: number }
+        escenario_base: { type: boolean }
+        revision: { $ref: "#/components/schemas/ReviewSummary" }
+        por_ola: { $ref: "#/components/schemas/WaveCounts" }
+        delta_vs_base: { $ref: "#/components/schemas/SensitivityDelta" }
+    SensitivityDelta:
+      type: object
+      required: [gate_gobierno, asistida_ia, manual_profunda, ola_1, ola_2, ola_3]
+      properties:
+        gate_gobierno: { type: integer }
+        asistida_ia: { type: integer }
+        manual_profunda: { type: integer }
+        ola_1: { type: integer }
+        ola_2: { type: integer }
+        ola_3: { type: integer }
+    Recommendation:
+      type: object
+      required: [taskbot_id, taskbot, destino, ola, valor, complejidad, cluster_id, revision_manual, tipo_revision, requiere_gate_gobierno, revision_asistida_ia, accion_revision, evidence_pack, razones, justificacion, score_breakdown, api_enablement]
+      properties:
+        taskbot_id: { type: string }
+        taskbot: { type: string }
+        destino: { $ref: "#/components/schemas/MigrationTarget" }
+        ola: { $ref: "#/components/schemas/Wave" }
+        valor: { type: number }
+        complejidad: { type: number }
+        cluster_id: { type: integer, nullable: true }
+        revision_manual: { type: boolean }
+        tipo_revision: { $ref: "#/components/schemas/ReviewStrategy" }
+        requiere_gate_gobierno: { type: boolean }
+        revision_asistida_ia: { type: boolean }
+        accion_revision: { type: string }
+        evidence_pack: { $ref: "#/components/schemas/EvidencePack" }
+        razones: { type: array, items: { type: string } }
+        justificacion: { type: string }
+        score_breakdown: { $ref: "#/components/schemas/ScoreBreakdown" }
+        api_enablement:
+          nullable: true
+          allOf:
+            - { $ref: "#/components/schemas/ApiEnablement" }
+    EvidencePack:
+      type: object
+      required: [dependencias, controles, checklist, owner_sugerido, bloqueadores, siguiente_accion]
+      properties:
+        dependencias: { type: array, items: { type: string } }
+        controles: { type: array, items: { type: string } }
+        checklist: { type: array, items: { type: string } }
+        owner_sugerido: { type: string }
+        bloqueadores: { type: array, items: { type: string } }
+        siguiente_accion: { type: string }
+    ApiEnablement:
+      type: object
+      required: [sistemas, api_disponible, api_requerida, bloqueador, accion_habilitadora, destino_objetivo_post_habilitacion]
+      properties:
+        sistemas: { type: array, items: { type: string } }
+        api_disponible: { type: boolean }
+        api_requerida: { type: boolean }
+        bloqueador: { type: string, nullable: true }
+        accion_habilitadora: { type: string }
+        destino_objetivo_post_habilitacion: { $ref: "#/components/schemas/MigrationTarget" }
+    ScoreBreakdown:
+      type: object
+      required: [valor, complejidad]
+      properties:
+        valor: { $ref: "#/components/schemas/ValueBreakdown" }
+        complejidad: { $ref: "#/components/schemas/ComplexityBreakdown" }
+    ValueBreakdown:
+      type: object
+      required: [frecuencia, riesgo, duplicidad, total]
+      properties:
+        frecuencia: { $ref: "#/components/schemas/FrequencyScore" }
+        riesgo: { $ref: "#/components/schemas/RiskScore" }
+        duplicidad: { $ref: "#/components/schemas/DuplicateScore" }
+        total: { type: number }
+    FrequencyScore:
+      type: object
+      required: [bucket, puntos]
+      properties:
+        bucket: { type: string }
+        puntos: { type: number }
+    RiskScore:
+      type: object
+      required: [nivel, puntos]
+      properties:
+        nivel: { type: string }
+        puntos: { type: number }
+    DuplicateScore:
+      type: object
+      required: [en_grupo, puntos]
+      properties:
+        en_grupo: { type: boolean }
+        puntos: { type: number }
+    ComplexityBreakdown:
+      type: object
+      required: [interaccion_dominante, canales_extra, riesgo, dependencias, total]
+      properties:
+        interaccion_dominante: { $ref: "#/components/schemas/DominantInteractionScore" }
+        canales_extra: { $ref: "#/components/schemas/ExtraChannelsScore" }
+        riesgo: { $ref: "#/components/schemas/RiskScore" }
+        dependencias: { $ref: "#/components/schemas/DependencyScore" }
+        total: { type: number }
+    DominantInteractionScore:
+      type: object
+      required: [tipo, puntos]
+      properties:
+        tipo: { type: string }
+        puntos: { type: number }
+    ExtraChannelsScore:
+      type: object
+      required: [cantidad, puntos]
+      properties:
+        cantidad: { type: integer }
+        puntos: { type: number }
+    DependencyScore:
+      type: object
+      required: [cantidad, puntos]
+      properties:
+        cantidad: { type: integer }
+        puntos: { type: number }
+    MigrationTarget:
+      type: string
+      enum: [n8n, microservice, custom_python_java, rpa_selective, manual_review]
+    Wave:
+      type: string
+      enum: [ola_1, ola_2, ola_3]
+    ReviewStrategy:
+      type: string
+      enum: [sin_revision, prechequeo_ia, aprobacion_dirigida, evaluacion_manual_profunda]

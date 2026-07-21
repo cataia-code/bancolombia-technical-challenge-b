@@ -31,10 +31,11 @@ class DeterministicAdvisor:
     def explain(self, bot: Taskbot, rec: Recommendation) -> str:
         target = _TARGET_LABEL[rec.target]
         cause = " ".join(rec.reasons) if rec.reasons else "Clasificado por reglas base."
+        review = f" Revision: {rec.review_action}" if rec.requires_governance_gate else ""
         return (
             f"'{bot.name}' se recomienda para {target} (ola {rec.wave.value.split('_')[-1]}). "
             f"{cause} "
-            f"Valor={rec.value_score}, complejidad={rec.complexity_score}."
+            f"Valor={rec.value_score}, complejidad={rec.complexity_score}.{review}"
         )
 
 
@@ -76,6 +77,7 @@ def _build_prompt(bot: Taskbot, rec: Recommendation) -> str:
         f"- Taskbot: {bot.name} | proposito: {bot.purpose}\n"
         f"- Interaccion: {', '.join(i.value for i in bot.interactions)} | apps: {', '.join(bot.apps)}\n"
         f"- Destino: {rec.target.value} | Ola: {rec.wave.value}\n"
+        f"- Revision: {rec.review_strategy.value} | Accion: {rec.review_action}\n"
         f"- Razones internas: {'; '.join(rec.reasons)}\n"
         f"- Valor={rec.value_score}, Complejidad={rec.complexity_score}"
     )

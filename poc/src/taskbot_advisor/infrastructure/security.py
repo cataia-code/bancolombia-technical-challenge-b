@@ -1,6 +1,6 @@
 """Input guardrails for the HTTP surface (defense in depth).
 
-The API can be exposed to an external orchestrator (e.g. n8n Cloud via a tunnel).
+The API can be exposed to an external orchestrator through a controlled ingress.
 These helpers prevent two abuses of the /analyze endpoint:
 
   - Arbitrary local file reads: an ``inventory_path`` is only accepted inside a

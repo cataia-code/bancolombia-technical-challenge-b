@@ -382,7 +382,7 @@ blockquote{margin:16px 0}
       <div class="hero">
         <div class="eyebrow">Prueba técnica · Senior Software Engineer · Parte B</div>
         <h1>Agente de inteligencia para consolidación y priorización de migración de taskbots</h1>
-        <p class="lede">Una solución <strong>local y reproducible</strong> que recibe un inventario fragmentado de taskbots (RPA) y produce <strong>decisiones accionables</strong>: qué consolidar, a qué destino migrar (n8n / microservicio / Python-Java / RPA selectivo), qué requiere revisión manual y en qué <em>ola</em> entra cada caso — con reglas explicables, trazabilidad y sin depender de ambientes del cliente.</p>
+        <p class="lede">Una solución <strong>local y reproducible</strong> que recibe un inventario fragmentado de taskbots (RPA) y produce <strong>decisiones accionables</strong>: qué consolidar, a qué destino migrar (n8n / microservicio / Python-Java / RPA selectivo), qué requiere gate de gobierno/IA y qué queda en revisión manual profunda — con reglas explicables, trazabilidad y sin depender de ambientes del cliente.</p>
       </div>
 
       <div class="kpi-row">
@@ -440,7 +440,7 @@ blockquote{margin:16px 0}
           <tr><td class="mono">RF1</td><td>Cargar inventario local</td><td>Lee .txt/.csv/.json/.sqlite; registros inválidos no abortan el lote</td></tr>
           <tr><td class="mono">RF2</td><td>Normalizar atributos</td><td>Interacción, riesgo y frecuencia se canonizan (tolerante a sinónimos)</td></tr>
           <tr><td class="mono">RF3</td><td>Detectar duplicidad</td><td>Agrupa variantes en clusters; expone grupos consolidables</td></tr>
-          <tr><td class="mono">RF4</td><td>Clasificar destino</td><td>n8n / microservicio / Python-Java / RPA selectivo / revisión manual</td></tr>
+          <tr><td class="mono">RF4</td><td>Clasificar destino y revisión</td><td>n8n / microservicio / Python-Java / RPA selectivo + ReviewPlan</td></tr>
           <tr><td class="mono">RF5</td><td>Priorizar</td><td>Asigna Ola 1/2/3 por valor vs. complejidad</td></tr>
           <tr><td class="mono">RF6</td><td>Justificar</td><td>Cada recomendación incluye razones explícitas</td></tr>
           <tr><td class="mono">RF7</td><td>Reportar</td><td>Genera JSON + HTML con hallazgos accionables</td></tr>
@@ -451,7 +451,7 @@ blockquote{margin:16px 0}
       <h2>Requisitos no funcionales</h2>
       <div class="grid grid-3">
         <div class="card"><h4>Reproducibilidad</h4><p>Mismas entradas → mismas decisiones. El LLM solo afecta la redacción.</p></div>
-        <div class="card"><h4>Testabilidad</h4><p>Dominio puro sin I/O; cobertura de código 100%.</p></div>
+        <div class="card"><h4>Testabilidad</h4><p>Dominio puro sin I/O; pruebas unitarias e integración en CI.</p></div>
         <div class="card"><h4>Bajo acoplamiento</h4><p>Puertos y adapters: fuente, salida, LLM y orquestador intercambiables.</p></div>
         <div class="card"><h4>Extensibilidad</h4><p>Nuevos destinos/reglas/fuentes sin tocar el núcleo.</p></div>
         <div class="card"><h4>Observabilidad</h4><p>Logs JSON con correlation id por corrida.</p></div>
@@ -558,8 +558,8 @@ flowchart TB
         </tbody>
       </table></div>
       <div class="callout">
-        <div class="k">Bandera ortogonal</div>
-        <p><code>needs_manual_review</code> es independiente del destino: un taskbot puede ir a n8n y <em>además</em> requerir revisión manual por alto riesgo con múltiples dependencias (responde a la pregunta 4 del reto).</p>
+        <div class="k">Gate de gobierno, no cola manual masiva</div>
+        <p><code>ReviewPlan</code> es independiente del destino: un taskbot puede ir a n8n, microservicio o RPA selectivo y aun asi requerir prechequeo IA, aprobacion dirigida o evaluacion manual profunda. La IA no cambia la decision; prepara evidencia y checklist para reducir trabajo humano.</p>
       </div>
 
       <h2>Scoring y ola</h2>
@@ -570,9 +570,9 @@ flowchart TB
       <div class="tbl-wrap"><table>
         <thead><tr><th>Ola</th><th>Condición</th><th>Interpretación</th></tr></thead>
         <tbody>
-          <tr><td><span class="pill p-lo">Ola 1</span></td><td>valor ≥ 50 y complejidad ≤ 40</td><td>Quick wins: alto valor, baja fricción</td></tr>
-          <tr><td><span class="pill p-md">Ola 2</span></td><td>valor ≥ 40 y complejidad ≤ 65</td><td>Intermedios</td></tr>
-          <tr><td><span class="pill p-hi">Ola 3</span></td><td>resto o revisión manual</td><td>Bajo valor / alta complejidad / a revisar</td></tr>
+          <tr><td><span class="pill p-lo">Ola 1</span></td><td>valor ≥ 70, complejidad ≤ 65 y sin gate de gobierno</td><td>Quick wins seguros</td></tr>
+          <tr><td><span class="pill p-md">Ola 2</span></td><td>valor ≥ 50 y complejidad ≤ 85</td><td>Consolidación / habilitación controlada</td></tr>
+          <tr><td><span class="pill p-hi">Ola 3</span></td><td>resto</td><td>Bajo valor relativo o complejidad extrema</td></tr>
         </tbody>
       </table></div>
 
@@ -595,7 +595,8 @@ flowchart TB
         <div class="kpi"><div class="n">15</div><div class="l">Grupos consolidables</div></div>
         <div class="kpi"><div class="n">8</div><div class="l">Candidatos a n8n</div></div>
         <div class="kpi"><div class="n">36</div><div class="l">RPA selectivo (legacy)</div></div>
-        <div class="kpi"><div class="n">2</div><div class="l">Quick wins (Ola 1)</div></div>
+        <div class="kpi"><div class="n">7</div><div class="l">Quick wins (Ola 1)</div></div>
+        <div class="kpi"><div class="n">8</div><div class="l">Manual profunda</div></div>
       </div>
 
       <h2>Distribución por destino</h2>
@@ -616,19 +617,36 @@ flowchart TB
 
       <h2>Distribución por ola</h2>
       <div class="tbl-wrap"><table>
-        <thead><tr><th>Ola</th><th>Taskbots</th></tr></thead>
+        <thead><tr><th>Ola</th><th>Taskbots</th><th>Lectura</th></tr></thead>
         <tbody>
-          <tr><td><span class="pill p-lo">Ola 1 — quick wins</span></td><td>2</td></tr>
-          <tr><td><span class="pill p-md">Ola 2 — intermedios</span></td><td>7</td></tr>
-          <tr><td><span class="pill p-hi">Ola 3 — a habilitar/revisar</span></td><td>41</td></tr>
+          <tr><td><span class="pill p-lo">Ola 1 — quick wins</span></td><td>7</td><td>Alto valor, complejidad controlada y sin gate de gobierno.</td></tr>
+          <tr><td><span class="pill p-md">Ola 2 — habilitación/consolidación</span></td><td>29</td><td>Casos de valor suficiente para consolidar RPA, habilitar APIs o migrar con prechequeo.</td></tr>
+          <tr><td><span class="pill p-hi">Ola 3 — diferidos</span></td><td>14</td><td>8 con complejidad extrema; 6 con menor valor relativo frente al esfuerzo.</td></tr>
         </tbody>
       </table></div>
+      <h2>Reducción de evaluación manual</h2>
+      <div class="tbl-wrap"><table>
+        <thead><tr><th>Tipo de revisión</th><th>Taskbots</th><th>Lectura</th></tr></thead>
+        <tbody>
+          <tr><td><span class="pill p-lo">Sin revisión</span></td><td>23</td><td>No requieren gate adicional.</td></tr>
+          <tr><td><span class="pill p-md">Prechequeo IA</span></td><td>13</td><td>Existe API o patrón repetible; el agente prepara evidence pack y checklist.</td></tr>
+          <tr><td><span class="pill p-md">Aprobación dirigida</span></td><td>6</td><td>IA arma mapa de dependencias; arquitectura revisa solo el bloqueo específico.</td></tr>
+          <tr><td><span class="pill p-hi">Evaluación manual profunda</span></td><td>8</td><td>Complejidad extrema o interacción no clasificable.</td></tr>
+        </tbody>
+      </table></div>
+      <div class="callout warn">
+        <div class="k">Por qué Ola 3 queda acotada</div>
+        <p>Los 27 gates de gobierno no son 27 evaluaciones manuales completas: 19 se resuelven con prechequeo IA o aprobación dirigida y solo 8 quedan como evaluación manual profunda. Por eso los legacy de alto valor pasan a Ola 2 como habilitación/consolidación controlada y Ola 3 queda para rediseño o baja prioridad relativa.</p>
+      </div>
 
       <h2>De recomendaciones a plan de racionalización</h2>
-      <p class="lede">La salida no es una lista de recomendaciones sueltas: es un plan accionable con tres piezas que el reporte genera automáticamente.</p>
-      <div class="grid grid-3">
+      <p class="lede">La salida no es una lista de recomendaciones sueltas: es un plan accionable con piezas que el reporte genera automáticamente.</p>
+      <div class="grid grid-2">
         <div class="card"><h4>Catálogo de componentes</h4><p><strong>15 componentes reutilizables</strong> extraíbles: nombre sugerido, miembros, propósito común, patrón destino, apps dominantes, blocker legacy y acción recomendada. Conecta con "qué componentes reutilizables extraer".</p></div>
-        <div class="card"><h4>Matriz API / no-API</h4><p>Por sistema y por operación: <em>api_disponible</em>, <em>api_requerida</em>, <em>bloqueador</em> y <em>acción habilitadora</em>. Hace defendible el 72% legacy: no es resignación a RPA, es un plan de <em>API enablement</em>.</p></div>
+        <div class="card"><h4>Matriz API / no-API</h4><p>Por sistema y por operación: <em>api_disponible</em>, <em>api_requerida</em>, <em>bloqueador</em>, <em>acción habilitadora</em> y <code>destino_objetivo_post_habilitacion</code>. Hace defendible el 72% legacy: no es resignación a RPA, es un plan de <em>API enablement</em>.</p></div>
+        <div class="card"><h4>Política de revisión</h4><p>El reporte separa gates de gobierno, prechequeo IA, aprobación dirigida y evaluación manual profunda para reducir trabajo humano sin perder control.</p></div>
+        <div class="card"><h4>Evidence pack</h4><p>Cada gate trae dependencias, controles, checklist, owner sugerido, bloqueadores y siguiente acción. Esto vuelve auditable la intervención de IA antes de la aprobación.</p></div>
+        <div class="card"><h4>Sensibilidad de umbrales</h4><p>El reporte recalcula gates, manual profunda y olas con complejidad 80/85/90 y dependencias 3/4 para mostrar si la clasificación es robusta.</p></div>
         <div class="card"><h4>Scoring explicado</h4><p>Cada recomendación trae su <code>score_breakdown</code>: frecuencia, riesgo, duplicidad, complejidad por interacción y dependencias. Permite defender por qué algo cayó en Ola 1/2/3.</p></div>
       </div>
       <div class="callout tip">
@@ -660,10 +678,10 @@ python -m taskbot_advisor analyze poc/data/ejemplo_50_taskbots_prueba.txt
       <h2>API + n8n (local)</h2>
       <div class="card"><pre style="overflow-x:auto;margin:0"><code>cd poc &amp;&amp; docker compose up --build
 # API   → http://localhost:8000  (/health, /analyze, /analyze/inline)
-# n8n   → http://localhost:5678  → Import → poc/n8n/workflow.json</code></pre></div>
+# n8n   → http://localhost:5678  → Import from File → n8n/workflow.json</code></pre></div>
+      <p>Al ejecutar <em>Test workflow</em>, el nodo final debe devolver <code>run_id</code>,
+      <code>headlines</code>, <code>resumen</code> y <code>ola_3</code> con el desglose de causas.</p>
 
-      <h2>n8n Cloud</h2>
-      <p>Se entrega <code>poc/n8n/workflow.cloud.json</code>: un workflow <strong>autocontenido</strong> (nodo Code con el inventario embebido y la lógica en JS) que se importa en n8n Cloud y corre sin servicio local. <strong>Es solo fallback de demostración</strong>: duplica las reglas en JS porque n8n Cloud no alcanza <code>localhost</code>; la fuente única de verdad es el servicio Python. Para producción, el nodo HTTP apunta al servicio vía un túnel (cloudflared/ngrok).</p>
       <div class="callout tip">
         <div class="k">Rollback / recuperación</div>
         <p>El servicio es <em>stateless</em> y de solo lectura sobre el inventario. Cada corrida es idempotente y versionada por <code>run_id</code> en <code>reports/&lt;run_id&gt;/</code> sin sobrescribir. Fail-soft por ítem; el nodo HTTP de n8n reintenta 3×. Recuperarse = volver a ejecutar.</p>
@@ -689,6 +707,7 @@ flowchart LR
       uc3((Clasificar destino))
       uc4((Priorizar en olas))
       uc5((Generar reporte))
+      uc6((Definir gate de revision))
     end
     arq --> uc1
     ops --> uc5
@@ -697,6 +716,7 @@ flowchart LR
     uc1 -.incluye.-> uc3
     uc1 -.incluye.-> uc4
     uc1 -.incluye.-> uc5
+    uc1 -.incluye.-> uc6
         </pre></div>
         <figcaption>Actores y casos principales del sistema.</figcaption>
       </figure>
@@ -706,56 +726,194 @@ flowchart LR
         <div class="canvas"><pre class="mermaid">
 classDiagram
     class Taskbot {
-      +id
-      +interactions
-      +risk
-      +has()
+      +id: str
+      +name: str
+      +purpose: str
+      +apps: tuple
+      +interactions: tuple
+      +frequency: str
+      +risk: RiskLevel
+      +dependencies: tuple
+      +known_similarity: str
+      +normalized_text() str
+      +has(interaction) bool
+      +known_interactions: tuple
+    }
+    class InteractionType {
+      &lt;&lt;enum&gt;&gt;
+      +parse(raw) InteractionType
+      +parse_many(raw) tuple
+    }
+    class RiskLevel {
+      &lt;&lt;enum&gt;&gt;
+      +parse(raw) RiskLevel
+    }
+    class MigrationTarget {
+      &lt;&lt;enum&gt;&gt;
+      +N8N
+      +MICROSERVICE
+      +CUSTOM_PYTHON_JAVA
+      +RPA_SELECTIVE
+      +MANUAL_REVIEW
+    }
+    class Wave {
+      &lt;&lt;enum&gt;&gt;
+      +WAVE_1
+      +WAVE_2
+      +WAVE_3
+    }
+    class ReviewStrategy {
+      &lt;&lt;enum&gt;&gt;
+      +NONE
+      +AI_PRECHECK
+      +TARGETED_APPROVAL
+      +MANUAL_DEEP_DIVE
     }
     class Cluster {
-      +member_ids
-      +is_duplicate_group
+      +id: int
+      +member_ids: tuple
+      +representative_id: str
+      +size: int
+      +is_duplicate_group: bool
     }
     class Recommendation {
-      +decision
-      +scores
-      +rationale
+      +taskbot_id: str
+      +taskbot_name: str
+      +decision: MigrationDecision
+      +scores: ScoreExplanation
+      +rationale: str
+      +api_enablement: ApiEnablement
+      +evidence_pack: EvidencePack
+      +target: MigrationTarget
+      +wave: Wave
+      +value_score: float
+      +complexity_score: float
+      +cluster_id: int
+      +reasons: tuple
+      +review_strategy: ReviewStrategy
+      +requires_governance_gate: bool
+      +ai_assisted_review: bool
+      +needs_manual_review: bool
+      +score_breakdown: dict
     }
     class MigrationDecision {
-      +target
-      +wave
-      +needs_manual_review
+      +target: MigrationTarget
+      +wave: Wave
+      +cluster_id: int
+      +reasons: tuple
+      +review: ReviewPlan
+      +needs_manual_review: bool
+    }
+    class ReviewPlan {
+      +strategy: ReviewStrategy
+      +reason: str
+      +action: str
+      +evidence_pack: EvidencePack
+      +requires_governance_gate: bool
+      +is_ai_assisted: bool
+      +needs_manual_review: bool
+    }
+    class EvidencePack {
+      +dependencies: tuple
+      +controls: tuple
+      +checklist: tuple
+      +suggested_owner: str
+      +blockers: tuple
+      +next_action: str
     }
     class ScoreExplanation {
-      +value
-      +complexity
-      +breakdown
+      +value: float
+      +complexity: float
+      +breakdown: dict
+    }
+    class ApiEnablement {
+      +systems: tuple
+      +api_available: bool
+      +api_required: bool
+      +blocker: str
+      +enabling_action: str
+      +target_after_enablement: MigrationTarget
+    }
+    class ComponentCandidate {
+      +cluster_id: int
+      +suggested_name: str
+      +member_ids: tuple
+      +member_names: tuple
+      +common_purpose: str
+      +target_pattern: MigrationTarget
+      +dominant_apps: tuple
+      +legacy_blocker: bool
+      +needs_api_enablement: bool
+      +recommended_action: str
+      +size: int
+    }
+    class AnalysisResult {
+      +run_id: str
+      +recommendations: list
+      +clusters: list
+      +errors: list
+      +component_candidates: list
+      +api_matrix: list
+      +sensitivity: dict
+      +total: int
+      +by_target(target) list
+      +by_wave(wave) list
+      +consolidation_groups: list
     }
     class AnalyzeInventory {
-      +execute()
+      +execute(run_id: str) AnalysisResult
     }
     class InventoryRepository {
       &lt;&lt;port&gt;&gt;
+      +load() tuple
     }
     class SimilarityScorer {
       &lt;&lt;port&gt;&gt;
+      +score(a: Taskbot, b: Taskbot) float
     }
     class TrainableSimilarityScorer {
       &lt;&lt;port&gt;&gt;
+      +fit(bots: list) void
     }
     class AgentAdvisor {
       &lt;&lt;port&gt;&gt;
+      +explain(bot: Taskbot, rec: Recommendation) str
+    }
+    class ReportRenderer {
+      &lt;&lt;port&gt;&gt;
+      +render(result: AnalysisResult) str
     }
     class RunLoggerFactory {
       &lt;&lt;port&gt;&gt;
+      +for_run(run_id: str) RunLogger
+    }
+    class RunLogger {
+      &lt;&lt;port&gt;&gt;
+      +info(event: str, fields) void
+      +error(event: str, fields) void
     }
     AnalyzeInventory --> InventoryRepository
     AnalyzeInventory --> SimilarityScorer
     AnalyzeInventory --> RunLoggerFactory
     AnalyzeInventory --> AgentAdvisor
-    AnalyzeInventory --> Recommendation
+    AnalyzeInventory --> AnalysisResult
+    AnalysisResult "1" --> "*" Recommendation
+    AnalysisResult "1" --> "*" Cluster
+    AnalysisResult "1" --> "*" ComponentCandidate
     Recommendation --> MigrationDecision
     Recommendation --> ScoreExplanation
+    Recommendation --> ApiEnablement
+    MigrationDecision --> ReviewPlan
+    ReviewPlan --> ReviewStrategy
+    ReviewPlan --> EvidencePack
+    ApiEnablement --> MigrationTarget
+    Taskbot --> InteractionType
+    Taskbot --> RiskLevel
+    MigrationDecision --> MigrationTarget
+    MigrationDecision --> Wave
+    ComponentCandidate --> MigrationTarget
     TrainableSimilarityScorer --|> SimilarityScorer
+    RunLoggerFactory --> RunLogger
         </pre></div>
         <figcaption>El caso de uso depende de puertos; las entidades son value objects puros.</figcaption>
       </figure>
@@ -779,11 +937,13 @@ sequenceDiagram
     UC->>D: build_clusters(...)
     D-->>UC: clusters
     loop por taskbot
-      UC->>D: classify + score + wave
+      UC->>D: classify + review + score + api_enablement + wave
       D-->>UC: recommendation
       UC->>A: explain(bot, rec)
       A-->>UC: justificacion
     end
+    UC->>D: catalogo + matriz API + sensibilidad
+    D-->>UC: enrichments
     UC-->>U: AnalysisResult
         </pre></div>
         <figcaption>Desde la carga hasta la respuesta con recomendaciones.</figcaption>
@@ -798,7 +958,7 @@ flowchart TD
     B -- si --> C[Normalizar]
     C --> D[Clustering + apps hub]
     D --> F{Interaccion reconocida?}
-    F -- no --> G[Revision manual]
+    F -- no --> G[Revision manual profunda]
     F -- si --> H{UI legacy?}
     H -- si --> I[RPA selectivo]
     H -- no --> J{Cluster grande?}
@@ -806,8 +966,14 @@ flowchart TD
     J -- no --> L{BD?}
     L -- si --> M[Python/Java]
     L -- no --> N[n8n]
-    G & I & K & M & N --> O[Scoring -> ola]
-    O --> P[Justificar y reportar]
+    G & I & K & M & N --> O[Assess review: sin gate / IA / aprobacion / manual profunda]
+    O --> V[Evidence pack + destino post habilitacion API]
+    V --> S[Scoring -> ola]
+    S --> Q{Ola 3?}
+    Q -- si --> R[Etiquetar causa: complejidad extrema / menor valor / tipo revision]
+    Q -- no --> T[Calcular sensibilidad de umbrales]
+    R --> T
+    T --> P[Justificar y reportar]
         </pre></div>
         <figcaption>La primera regla que aplica define el destino.</figcaption>
       </figure>
@@ -817,11 +983,11 @@ flowchart TD
     <section class="page" id="testing" data-title="Testing">
       <div class="eyebrow">Calidad</div>
       <h1>Estrategia de pruebas</h1>
-      <p class="lede">Suite automatizada (unit + integración). Cobertura de código 100% (umbral fijado en CI).</p>
+      <p class="lede">Suite automatizada (unit + integración), contrato OpenAPI, drift check del reporte y smoke Docker de n8n en CI.</p>
 
       <div class="kpi-row">
         <div class="kpi"><div class="n">suite</div><div class="l">Pruebas</div></div>
-        <div class="kpi"><div class="n">100%</div><div class="l">Cobertura</div></div>
+        <div class="kpi"><div class="n">CI</div><div class="l">Validación</div></div>
         <div class="kpi"><div class="n">unit + e2e</div><div class="l">Niveles</div></div>
         <div class="kpi"><div class="n">0</div><div class="l">Fallos</div></div>
       </div>
@@ -839,6 +1005,8 @@ flowchart TD
           <tr><td class="mono">T8</td><td>Reproducibilidad (dos corridas idénticas)</td><td>integración</td></tr>
           <tr><td class="mono">T9</td><td>Reportes versionados por run_id</td><td>integración</td></tr>
           <tr><td class="mono">T10</td><td>API /health, /analyze, /analyze/inline, error 400</td><td>integración</td></tr>
+          <tr><td class="mono">T11</td><td>Smoke Docker: advisor + n8n importan y ejecutan workflow local</td><td>CI</td></tr>
+          <tr><td class="mono">T12</td><td>Sensibilidad de umbrales y contrato OpenAPI tipado</td><td>unit + contrato</td></tr>
         </tbody>
       </table></div>
       <div class="callout tip"><div class="k">Casos borde cubiertos</div><p>Inventario vacío/registro inválido, campos faltantes, duplicados, LLM caído (fallback determinista), archivo inexistente.</p></div>

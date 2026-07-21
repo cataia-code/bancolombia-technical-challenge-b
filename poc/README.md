@@ -2,13 +2,15 @@
 
 Servicio ejecutable de la Parte B: recibe un inventario de taskbots y genera recomendaciones de
 consolidación y migración. Arquitectura **hexagonal** (dominio puro + puertos/adapters), CLI y API
-para n8n, suite automatizada con **100% de cobertura**.
+para n8n, con suite automatizada e integración Docker local.
 
 ## Requisitos
 
 - Python 3.10+ (validado en 3.10.11). Opcional: Docker Compose para el stack con n8n.
 
-## Instalación
+## Ejecución local paso a paso
+
+### 1. Instalar dependencias
 
 ```bash
 # Desde poc/
@@ -17,38 +19,55 @@ python -m pip install -e ".[dev]"
 python -m pip install -r requirements.txt
 ```
 
-## Ejecución (CLI)
+### 2. Ejecutar por CLI
 
 ```bash
 # Con el paquete instalado:
-taskbot-advisor analyze data/ejemplo_50_taskbots_prueba.txt
+taskbot-advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id demo
 
 # Sin instalar, apuntando al código fuente:
-PYTHONPATH=src python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt
+PYTHONPATH=src python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id demo
 ```
 
-Genera `reports/<run_id>/reporte.json` y `reporte.html`. En PowerShell:
+Genera `reports/demo/reporte.json` y `reports/demo/reporte.html`. En PowerShell:
 
 ```powershell
-$env:PYTHONPATH="src"; python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt
+$env:PYTHONPATH="src"
+python -m taskbot_advisor analyze data/ejemplo_50_taskbots_prueba.txt --run-id demo
+Get-ChildItem reports\demo
 ```
 
-## Ejecución (API + n8n)
+### 3. Ejecutar API + n8n con Docker
 
 ```bash
 docker compose up --build
 # API   → http://localhost:8000  (/health, /analyze, /analyze/inline)
-# n8n   → http://localhost:5678  → Import → n8n/workflow.json
+# n8n   → http://localhost:5678  → Import from File → n8n/workflow.json
 ```
+
+En otra terminal:
+
+```bash
+curl http://localhost:8000/health
+```
+
+En n8n: importar `n8n/workflow.json`, ejecutar *Test workflow* y revisar `run_id`, `headlines`,
+`resumen`, `revision`, `destinos_objetivo_post_habilitacion`, `sensibilidad` y `ola_3`.
+El reporte queda en `reports/<run_id>/`.
 
 ## Pruebas
 
 ```bash
 python -m pytest
-python -m pytest --cov=taskbot_advisor --cov-report=term-missing   # 100% (fail_under=100)
 ```
 
 Evidencia: [`../docs/evidencia_pruebas.txt`](../docs/evidencia_pruebas.txt).
+
+Resultado esperado con el inventario de 50 taskbots: Ola 1 = 7, Ola 2 = 29, Ola 3 = 14. La politica
+de revision separa 27 gates de gobierno en 19 casos asistidos por IA/aprobacion dirigida y 8 de
+evaluacion manual profunda.
+La salida tambien incluye `evidence_pack` por taskbot, `destino_objetivo_post_habilitacion` en
+`api_enablement` y `sensitivity` para comparar umbrales de revision.
 
 ## Configuración (variables de entorno)
 
@@ -65,12 +84,15 @@ Evidencia: [`../docs/evidencia_pruebas.txt`](../docs/evidencia_pruebas.txt).
 
 ```
 src/taskbot_advisor/
-  domain/          entities, rules, scoring, similarity (pure, no I/O)
+  discovery.py      Part A-compatible facade: cluster_taskbots, priority_score, api_matrix, run_discovery
+  domain/          entities, rules, review, scoring, similarity (pure, no I/O)
   application/     AnalyzeInventory use case + ports
   infrastructure/  repos (csv/json/sqlite/txt), similarity, advisor, renderers, config, logging
   interface/       CLI (Typer) + API (FastAPI for n8n)
 data/              real inventory (.txt) + sample (.csv)
-n8n/               workflow.json (local) + workflow.cloud.json (self-contained demo) + guide
+n8n/               workflow.json (local) + guide
+contracts/         committed OpenAPI contract
+scripts/           OpenAPI export/check helper
 reports/example/   committed sample report (JSON + HTML)
 tests/             unit/ + integration/
 ```

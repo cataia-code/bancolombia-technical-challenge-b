@@ -1,6 +1,6 @@
 name: Deploy propuesta a GitHub Pages
 
-# Verifica la solución (tests 100%, workflow n8n, sitio) y publica docs/ en Pages
+# Verifica la solución (tests, workflow n8n local, sitio) y publica docs/ en Pages
 # en cada push a main.
 on:
   push:
@@ -67,7 +67,7 @@ jobs:
         working-directory: poc
         run: python -m pip install --upgrade pip && python -m pip install -e ".[dev]"
 
-      - name: Tests con 100% de cobertura
+      - name: Tests
         working-directory: poc
         run: python -m pytest tests/ --cov=taskbot_advisor --cov-report=term-missing --cov-fail-under=100
 
@@ -84,8 +84,39 @@ jobs:
       - name: Validar docker-compose
         run: docker compose -f poc/docker-compose.yml config
 
-      - name: Workflows n8n son JSON válido
-        run: python -c "import json; json.load(open('poc/n8n/workflow.cloud.json', encoding='utf-8')); json.load(open('poc/n8n/workflow.json', encoding='utf-8')); print('n8n workflows OK')"
+      - name: Workflow n8n local es JSON válido
+        run: python -c "import json; json.load(open('poc/n8n/workflow.json', encoding='utf-8')); print('n8n workflow OK')"
+
+      - name: Smoke n8n con Docker Compose
+        run: |
+          set -euo pipefail
+
+          docker compose -f poc/docker-compose.yml up -d --build advisor n8n
+
+          wait_for() {
+            local url="$1"
+            local name="$2"
+            for attempt in $(seq 1 45); do
+              if curl -fsS "$url" >/tmp/${name}-health.json 2>/tmp/${name}-health.err; then
+                cat /tmp/${name}-health.json
+                return 0
+              fi
+              sleep 2
+            done
+
+            echo "${name} no respondio a tiempo en ${url}"
+            cat /tmp/${name}-health.err || true
+            return 1
+          }
+
+          wait_for "http://localhost:8000/health" "advisor"
+          wait_for "http://localhost:5678/healthz" "n8n"
+
+          docker compose -f poc/docker-compose.yml run --rm --no-deps --entrypoint /bin/sh n8n /home/node/.n8n-import/smoke.sh
+
+      - name: Apagar stack Docker de smoke
+        if: always()
+        run: docker compose -f poc/docker-compose.yml down -v
 
   # ---- Build del artefacto de Pages ----
   build:

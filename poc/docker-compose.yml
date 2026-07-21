@@ -10,19 +10,18 @@ services:
       - ./reports:/app/reports   # los reportes quedan en el host
       - ./data:/app/data:ro      # inventario de ejemplo (solo lectura)
     environment:
-      TASKBOT_LLM_ENABLED: "false"   # demo 100% offline y reproducible
+      TASKBOT_LLM_ENABLED: "false"   # demo offline y reproducible
       TASKBOT_INVENTORY_ROOT: "/app/data"  # /analyze solo acepta inventarios montados
 
   n8n:
-    image: n8nio/n8n:latest
+    # Pinneado para que la demo y CI no dependan del tag mutable "latest".
+    image: n8nio/n8n:2.30.5
     container_name: taskbot-n8n
     ports:
       - "5678:5678"          # editor de n8n en http://localhost:5678
     environment:
       N8N_SECURE_COOKIE: "false"
       GENERIC_TIMEZONE: "America/Bogota"
-      # URL del servicio de analisis dentro de la red de compose.
-      ADVISOR_URL: "http://advisor:8000"
     volumes:
       - ./n8n:/home/node/.n8n-import:ro   # workflow.json disponible para importar
     depends_on:

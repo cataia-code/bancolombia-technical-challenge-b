@@ -17,7 +17,12 @@ def test_health():
 def test_analyze_ok():
     resp = client.post("/analyze", json={"inventory_path": TXT, "persist": False})
     assert resp.status_code == 200
-    assert resp.json()["summary"]["total_taskbots"] == 50
+    body = resp.json()
+    assert body["summary"]["total_taskbots"] == 50
+    first = body["recommendations"][0]
+    assert "evidence_pack" in first
+    assert "destino_objetivo_post_habilitacion" in first["api_enablement"]
+    assert "sensitivity" in body
 
 
 def test_analyze_persist_escribe_reportes(tmp_path, monkeypatch):
@@ -69,3 +74,16 @@ def test_analyze_inline():
     destinos = resp.json()["summary"]["por_destino"]
     assert destinos["n8n"] == 1
     assert destinos["rpa_selective"] == 1
+
+
+def test_openapi_usa_modelos_de_respuesta():
+    schemas = client.get("/openapi.json").json()["components"]["schemas"]
+    analysis = schemas["AnalysisResponse"]["properties"]
+    assert analysis["summary"]["$ref"].endswith("/SummaryResponse")
+    assert analysis["api_matrix"]["items"]["$ref"].endswith("/ApiMatrixResponse")
+    assert schemas["RecommendationResponse"]["properties"]["score_breakdown"]["$ref"].endswith(
+        "/ScoreBreakdownResponse"
+    )
+    assert schemas["RecommendationResponse"]["properties"]["evidence_pack"]["$ref"].endswith(
+        "/EvidencePackResponse"
+    )

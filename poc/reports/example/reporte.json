@@ -11,9 +11,18 @@
       "manual_review": 0
     },
     "por_ola": {
-      "ola_1": 2,
-      "ola_2": 7,
-      "ola_3": 41
+      "ola_1": 7,
+      "ola_2": 29,
+      "ola_3": 14
+    },
+    "revision": {
+      "sin_revision": 23,
+      "prechequeo_ia": 13,
+      "aprobacion_dirigida": 6,
+      "evaluacion_manual_profunda": 8,
+      "gate_gobierno": 27,
+      "asistida_ia": 19,
+      "manual_profunda": 8
     },
     "errores": 0
   },
@@ -885,20 +894,231 @@
       "requiere_habilitacion_api": true
     }
   ],
+  "sensitivity": {
+    "regla": "Gate de gobierno si riesgo=high y dependencias >= umbral; manual profunda si complejidad > umbral.",
+    "base": {
+      "umbral_dependencias_gate_gobierno": 3,
+      "umbral_complejidad_manual_profunda": 85.0,
+      "revision": {
+        "sin_revision": 23,
+        "prechequeo_ia": 13,
+        "aprobacion_dirigida": 6,
+        "evaluacion_manual_profunda": 8,
+        "gate_gobierno": 27,
+        "asistida_ia": 19,
+        "manual_profunda": 8
+      },
+      "por_ola": {
+        "ola_1": 7,
+        "ola_2": 29,
+        "ola_3": 14
+      }
+    },
+    "escenarios": [
+      {
+        "umbral_dependencias_gate_gobierno": 3,
+        "umbral_complejidad_manual_profunda": 80.0,
+        "escenario_base": false,
+        "revision": {
+          "sin_revision": 23,
+          "prechequeo_ia": 5,
+          "aprobacion_dirigida": 0,
+          "evaluacion_manual_profunda": 22,
+          "gate_gobierno": 27,
+          "asistida_ia": 5,
+          "manual_profunda": 22
+        },
+        "por_ola": {
+          "ola_1": 7,
+          "ola_2": 29,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": 0,
+          "asistida_ia": -14,
+          "manual_profunda": 14,
+          "ola_1": 0,
+          "ola_2": 0,
+          "ola_3": 0
+        }
+      },
+      {
+        "umbral_dependencias_gate_gobierno": 3,
+        "umbral_complejidad_manual_profunda": 85.0,
+        "escenario_base": true,
+        "revision": {
+          "sin_revision": 23,
+          "prechequeo_ia": 13,
+          "aprobacion_dirigida": 6,
+          "evaluacion_manual_profunda": 8,
+          "gate_gobierno": 27,
+          "asistida_ia": 19,
+          "manual_profunda": 8
+        },
+        "por_ola": {
+          "ola_1": 7,
+          "ola_2": 29,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": 0,
+          "asistida_ia": 0,
+          "manual_profunda": 0,
+          "ola_1": 0,
+          "ola_2": 0,
+          "ola_3": 0
+        }
+      },
+      {
+        "umbral_dependencias_gate_gobierno": 3,
+        "umbral_complejidad_manual_profunda": 90.0,
+        "escenario_base": false,
+        "revision": {
+          "sin_revision": 23,
+          "prechequeo_ia": 20,
+          "aprobacion_dirigida": 7,
+          "evaluacion_manual_profunda": 0,
+          "gate_gobierno": 27,
+          "asistida_ia": 27,
+          "manual_profunda": 0
+        },
+        "por_ola": {
+          "ola_1": 7,
+          "ola_2": 29,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": 0,
+          "asistida_ia": 8,
+          "manual_profunda": -8,
+          "ola_1": 0,
+          "ola_2": 0,
+          "ola_3": 0
+        }
+      },
+      {
+        "umbral_dependencias_gate_gobierno": 4,
+        "umbral_complejidad_manual_profunda": 80.0,
+        "escenario_base": false,
+        "revision": {
+          "sin_revision": 50,
+          "prechequeo_ia": 0,
+          "aprobacion_dirigida": 0,
+          "evaluacion_manual_profunda": 0,
+          "gate_gobierno": 0,
+          "asistida_ia": 0,
+          "manual_profunda": 0
+        },
+        "por_ola": {
+          "ola_1": 8,
+          "ola_2": 28,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": -27,
+          "asistida_ia": -19,
+          "manual_profunda": -8,
+          "ola_1": 1,
+          "ola_2": -1,
+          "ola_3": 0
+        }
+      },
+      {
+        "umbral_dependencias_gate_gobierno": 4,
+        "umbral_complejidad_manual_profunda": 85.0,
+        "escenario_base": false,
+        "revision": {
+          "sin_revision": 50,
+          "prechequeo_ia": 0,
+          "aprobacion_dirigida": 0,
+          "evaluacion_manual_profunda": 0,
+          "gate_gobierno": 0,
+          "asistida_ia": 0,
+          "manual_profunda": 0
+        },
+        "por_ola": {
+          "ola_1": 8,
+          "ola_2": 28,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": -27,
+          "asistida_ia": -19,
+          "manual_profunda": -8,
+          "ola_1": 1,
+          "ola_2": -1,
+          "ola_3": 0
+        }
+      },
+      {
+        "umbral_dependencias_gate_gobierno": 4,
+        "umbral_complejidad_manual_profunda": 90.0,
+        "escenario_base": false,
+        "revision": {
+          "sin_revision": 50,
+          "prechequeo_ia": 0,
+          "aprobacion_dirigida": 0,
+          "evaluacion_manual_profunda": 0,
+          "gate_gobierno": 0,
+          "asistida_ia": 0,
+          "manual_profunda": 0
+        },
+        "por_ola": {
+          "ola_1": 8,
+          "ola_2": 28,
+          "ola_3": 14
+        },
+        "delta_vs_base": {
+          "gate_gobierno": -27,
+          "asistida_ia": -19,
+          "manual_profunda": -8,
+          "ola_1": 1,
+          "ola_2": -1,
+          "ola_3": 0
+        }
+      }
+    ]
+  },
   "recommendations": [
     {
       "taskbot_id": "TB01",
       "taskbot": "TB_Recepcion_Facturas_Proveedor",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 58.0,
       "complejidad": 77.0,
       "cluster_id": null,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Buzon AP activo",
+          "credenciales SAP",
+          "carpeta SharePoint Facturas_Entrada"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Recepcion_Facturas_Proveedor' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0.",
+      "justificacion": "'TB_Recepcion_Facturas_Proveedor' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=77.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -944,7 +1164,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -955,12 +1176,35 @@
       "valor": 40.0,
       "complejidad": 63.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "API OCR disponible",
+          "plantilla Excel vigente",
+          "acceso a repositorio de entrada"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Integracion orquestable (API-first, archivos): candidato a n8n."
+        "Integracion orquestable (API-first, archivos): candidato a n8n.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Validador_Facturas_OCR' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first, archivos): candidato a n8n. Valor=40.0, complejidad=63.0.",
+      "justificacion": "'TB_Validador_Facturas_OCR' se recomienda para n8n (orquestador de integraciones) (ola 3). Integracion orquestable (API-first, archivos): candidato a n8n. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=40.0, complejidad=63.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1006,7 +1250,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -1017,12 +1262,39 @@
       "valor": 40.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Ventana de SAP disponible",
+          "tabla de staging en SQL",
+          "reglas fiscales actualizadas"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Carga_Facturas_SAP' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "justificacion": "'TB_Carga_Facturas_SAP' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=40.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1067,23 +1339,50 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB04",
       "taskbot": "TB_Posteo_Gastos_No_OC",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Catalogo de centros de costo",
+          "aprobacion por correo",
+          "usuario tecnico SAP"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Posteo_Gastos_No_OC' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Posteo_Gastos_No_OC' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1128,23 +1427,50 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB05",
       "taskbot": "TB_Conciliacion_Bancaria_Diaria",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Archivo MT940",
+          "acceso al portal bancario",
+          "reportes SAP habilitados"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Conciliacion_Bancaria_Diaria' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Conciliacion_Bancaria_Diaria' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1190,22 +1516,48 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB06",
       "taskbot": "TB_Conciliacion_Manual_Asistida",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 58.0,
       "complejidad": 67.0,
       "cluster_id": null,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Plantilla Excel macro",
+          "extraccion SAP FBL3N"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Conciliacion_Manual_Asistida' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0.",
+      "justificacion": "'TB_Conciliacion_Manual_Asistida' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=67.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1250,23 +1602,50 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB07",
       "taskbot": "TB_Alta_Proveedores_Maestro",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Ticket ServiceNow aprobado",
+          "endpoint OFAC disponible",
+          "rol SAP XK01"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Alta_Proveedores_Maestro' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Alta_Proveedores_Maestro' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1312,7 +1691,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -1324,11 +1704,37 @@
       "complejidad": 90.0,
       "cluster_id": null,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Formulario de cambios validado",
+          "doble aprobacion",
+          "acceso a transaccion XK02"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Actualizacion_Datos_Proveedores' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "justificacion": "'TB_Actualizacion_Datos_Proveedores' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1374,22 +1780,51 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB09",
       "taskbot": "TB_Gestion_OC_Pendientes",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 72.0,
       "cluster_id": 8,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Reporte ME2N",
+          "lista de compradores",
+          "conector Teams"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 8"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Gestion_OC_Pendientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "justificacion": "'TB_Gestion_OC_Pendientes' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1435,22 +1870,51 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB10",
       "taskbot": "TB_Alerta_OC_Atrasadas",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 72.0,
       "cluster_id": 8,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Parametro de antiguedad",
+          "buzones por categoria",
+          "calendario laboral"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 8"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alerta_OC_Atrasadas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "justificacion": "'TB_Alerta_OC_Atrasadas' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1495,23 +1959,51 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB11",
       "taskbot": "TB_Control_Inventario_Ciclico",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Archivo de conteo cerrado",
+          "interfaz WMS disponible",
+          "ventana nocturna SAP"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Control_Inventario_Ciclico' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Control_Inventario_Ciclico' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1557,7 +2049,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
@@ -1568,12 +2061,38 @@
       "valor": 40.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Ticket aprobado por operaciones",
+          "codigo de motivo",
+          "usuario con privilegios"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Ajuste_Inventario_Emergencia' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "justificacion": "'TB_Ajuste_Inventario_Emergencia' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=40.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1618,22 +2137,49 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB13",
       "taskbot": "TB_Reporte_Ventas_Diario",
       "destino": "custom_python_java",
-      "ola": "ola_2",
+      "ola": "ola_1",
       "valor": 88.0,
       "complejidad": 57.0,
       "cluster_id": 11,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Job ETL finalizado",
+          "dataset Power BI",
+          "permiso de publicacion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 11"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo backend",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
-      "justificacion": "'TB_Reporte_Ventas_Diario' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0.",
+      "justificacion": "'TB_Reporte_Ventas_Diario' se recomienda para automatizacion a la medida (Python/Java) (ola 1). Interaccion con BD: automatizacion a la medida en Python/Java. Valor=88.0, complejidad=57.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1679,7 +2225,8 @@
         "api_disponible": true,
         "api_requerida": false,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
@@ -1691,6 +2238,31 @@
       "complejidad": 44.0,
       "cluster_id": 11,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Calendario comercial",
+          "vistas SQL certificadas"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 11"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo backend",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Interaccion con BD: automatizacion a la medida en Python/Java."
       ],
@@ -1739,7 +2311,8 @@
         "api_disponible": true,
         "api_requerida": false,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
@@ -1750,12 +2323,38 @@
       "valor": 40.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Archivo de nomina cerrado",
+          "mapping contable vigente",
+          "bloqueo de periodo SAP"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Provision_Nomina_Contable' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=40.0, complejidad=85.0.",
+      "justificacion": "'TB_Provision_Nomina_Contable' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=40.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1801,7 +2400,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -1813,6 +2413,31 @@
       "complejidad": 80.0,
       "cluster_id": null,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Plantilla de asientos aprobada",
+          "ventana de cierre habilitada"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
@@ -1861,22 +2486,51 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB17",
       "taskbot": "TB_Cobranza_Recordatorio_Clientes",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 77.0,
       "cluster_id": 14,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Segmentacion de cartera",
+          "plantillas de correo",
+          "conexion Salesforce"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 14"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Cobranza_Recordatorio_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
+      "justificacion": "'TB_Cobranza_Recordatorio_Clientes' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1922,22 +2576,51 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB18",
       "taskbot": "TB_Cobranza_Escalamiento_Gerencial",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 72.0,
       "cluster_id": 14,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Umbral de mora",
+          "jerarquia comercial",
+          "listas de distribucion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 14"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Cobranza_Escalamiento_Gerencial' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "justificacion": "'TB_Cobranza_Escalamiento_Gerencial' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -1983,24 +2666,53 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB19",
       "taskbot": "TB_Alta_Clientes_CRM",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 85.0,
       "cluster_id": 15,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Validacion fiscal",
+          "API de sincronizacion",
+          "reglas de deduplicacion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 15"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
-        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Alta_Clientes_CRM' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=85.0.",
+      "justificacion": "'TB_Alta_Clientes_CRM' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2046,23 +2758,51 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB20",
       "taskbot": "TB_Actualizacion_Datos_Cliente",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 67.0,
       "cluster_id": 15,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Flujo de aprobacion comercial",
+          "endpoint de cambios maestros"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 15"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
         "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
       ],
-      "justificacion": "'TB_Actualizacion_Datos_Cliente' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0.",
+      "justificacion": "'TB_Actualizacion_Datos_Cliente' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=88.0, complejidad=67.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2107,23 +2847,50 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB21",
       "taskbot": "TB_Monitoreo_Interface_ETL",
       "destino": "custom_python_java",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 75.0,
       "cluster_id": 16,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "API scheduler",
+          "tabla de logs ETL",
+          "SMTP corporativo"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 16"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo backend",
+        "bloqueadores": [],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Interaccion con BD: automatizacion a la medida en Python/Java."
+        "Interaccion con BD: automatizacion a la medida en Python/Java.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Monitoreo_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=75.0.",
+      "justificacion": "'TB_Monitoreo_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=75.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2169,23 +2936,50 @@
         "api_disponible": true,
         "api_requerida": false,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB22",
       "taskbot": "TB_Reintento_Interface_ETL",
       "destino": "custom_python_java",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 70.0,
       "cluster_id": 16,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Politica de retries",
+          "token de scheduler",
+          "scripts de recuperacion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 16"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo backend",
+        "bloqueadores": [],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Interaccion con BD: automatizacion a la medida en Python/Java."
+        "Interaccion con BD: automatizacion a la medida en Python/Java.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Reintento_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.",
+      "justificacion": "'TB_Reintento_Interface_ETL' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=70.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2230,7 +3024,8 @@
         "api_disponible": true,
         "api_requerida": false,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
@@ -2242,12 +3037,41 @@
       "complejidad": 90.0,
       "cluster_id": 15,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Catalogo PIM aprobado",
+          "taxonomia vigente",
+          "tabla de mapeo categorias"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 15"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
-        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Carga_Maestra_Productos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=100.0, complejidad=90.0.",
+      "justificacion": "'TB_Carga_Maestra_Productos' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=100.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2293,23 +3117,50 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB24",
       "taskbot": "TB_Alta_Materiales_Manufactura",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "aprobacion_dirigida",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Solicitudes de ingenieria",
+          "codigos de planta",
+          "hoja de especificacion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate."
       ],
-      "justificacion": "'TB_Alta_Materiales_Manufactura' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Alta_Materiales_Manufactura' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad controlada, pero sin API/patron repetible para automatizar todo el gate. Valor=70.0, complejidad=85.0. Revision: IA prepara checklist y mapa de dependencias; arquitectura valida solo el bloqueo legacy/API antes de implementar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2355,22 +3206,51 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB25",
       "taskbot": "TB_Despacho_Guias_Transporte",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 77.0,
       "cluster_id": 18,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Ordenes liberadas",
+          "API TMS operativa",
+          "plantillas de guia"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 18"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Despacho_Guias_Transporte' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
+      "justificacion": "'TB_Despacho_Guias_Transporte' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=77.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2416,23 +3296,49 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB26",
       "taskbot": "TB_Tracking_Entregas_Cliente",
       "destino": "n8n",
-      "ola": "ola_2",
+      "ola": "ola_1",
       "valor": 88.0,
       "complejidad": 44.0,
       "cluster_id": 18,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Webhooks TMS",
+          "mapping pedidos CRM",
+          "plantilla de notificacion"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 18"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (API-first, email): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Tracking_Entregas_Cliente' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, email): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0.",
+      "justificacion": "'TB_Tracking_Entregas_Cliente' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first, email): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=44.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2478,23 +3384,49 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB27",
       "taskbot": "TB_Conciliacion_Tarjetas_Corporativas",
       "destino": "n8n",
-      "ola": "ola_2",
+      "ola": "ola_1",
       "valor": 73.0,
       "complejidad": 50.0,
       "cluster_id": 19,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Extracto bancario semanal",
+          "export Concur",
+          "reglas de categoria"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 19"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (archivos, API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Conciliacion_Tarjetas_Corporativas' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
+      "justificacion": "'TB_Conciliacion_Tarjetas_Corporativas' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (archivos, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2540,7 +3472,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -2552,6 +3485,31 @@
       "complejidad": 37.0,
       "cluster_id": 19,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Politica de gastos vigente",
+          "acceso API Concur",
+          "mesa de control"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 19"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
@@ -2601,23 +3559,52 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB29",
       "taskbot": "TB_Pago_Proveedores_Masivo",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 85.0,
       "cluster_id": 20,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Propuesta F110 aprobada",
+          "certificado PGP vigente",
+          "ventana bancaria"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 20"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Pago_Proveedores_Masivo' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.",
+      "justificacion": "'TB_Pago_Proveedores_Masivo' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2663,7 +3650,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -2675,11 +3663,39 @@
       "complejidad": 90.0,
       "cluster_id": 20,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Aprobacion de tesoreria",
+          "usuario habilitado",
+          "corte bancario extraordinario"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 20"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Pago_Proveedores_Urgente' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "justificacion": "'TB_Pago_Proveedores_Urgente' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2725,22 +3741,49 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB31",
       "taskbot": "TB_Actualiza_Tipo_Cambio",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 58.0,
       "complejidad": 72.0,
       "cluster_id": null,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Endpoint banco central",
+          "tabla de monedas activas",
+          "permisos OB08"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Actualiza_Tipo_Cambio' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0.",
+      "justificacion": "'TB_Actualiza_Tipo_Cambio' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=58.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2785,7 +3828,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -2797,6 +3841,32 @@
       "complejidad": 72.0,
       "cluster_id": null,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Archivo de respaldo",
+          "validacion financiera",
+          "logs de error"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
@@ -2845,7 +3915,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -2857,11 +3928,40 @@
       "complejidad": 90.0,
       "cluster_id": 23,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Parametros fiscales del mes",
+          "cierre de ventas",
+          "tablas de tasas"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 23"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Provision_Impuestos_Indirectos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "justificacion": "'TB_Provision_Impuestos_Indirectos' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2907,23 +4007,52 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB34",
       "taskbot": "TB_Declaracion_Impuestos_Mensual",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": 23,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Provision cerrada",
+          "usuario tributario",
+          "firma digital"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 23"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Declaracion_Impuestos_Mensual' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Declaracion_Impuestos_Mensual' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -2969,23 +4098,52 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB35",
       "taskbot": "TB_Bloqueo_Credito_Clientes",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 85.0,
       "cluster_id": 24,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Score crediticio actualizado",
+          "umbrales comerciales",
+          "sincronizacion CRM"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 24"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Bloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=100.0, complejidad=85.0.",
+      "justificacion": "'TB_Bloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3031,22 +4189,51 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB36",
       "taskbot": "TB_Desbloqueo_Credito_Clientes",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 72.0,
       "cluster_id": 24,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Confirmacion de pago aplicada",
+          "aprobacion comercial",
+          "reglas de credito"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 24"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Desbloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "justificacion": "'TB_Desbloqueo_Credito_Clientes' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3091,7 +4278,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -3103,11 +4291,40 @@
       "complejidad": 90.0,
       "cluster_id": 25,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Matriz de controles",
+          "accesos de auditoria",
+          "repositorio SharePoint"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 25"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Extraccion_Auditoria_SOX' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.",
+      "justificacion": "'TB_Extraccion_Auditoria_SOX' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3153,23 +4370,49 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB38",
       "taskbot": "TB_Evidencias_Control_Accesos",
       "destino": "n8n",
-      "ola": "ola_2",
+      "ola": "ola_1",
       "valor": 73.0,
       "complejidad": 50.0,
       "cluster_id": 25,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Logs AD",
+          "tickets cerrados",
+          "estructura de carpetas de evidencia"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 25"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (API-first, archivos): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Evidencias_Control_Accesos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
+      "justificacion": "'TB_Evidencias_Control_Accesos' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (API-first, archivos): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=73.0, complejidad=50.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3215,7 +4458,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -3227,11 +4471,39 @@
       "complejidad": 90.0,
       "cluster_id": 26,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Lista aprobada por pricing",
+          "validaciones de margen",
+          "versionamiento de archivo"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 26"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Actualizacion_Precios_Masiva' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=90.0.",
+      "justificacion": "'TB_Actualizacion_Precios_Masiva' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3277,23 +4549,52 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB40",
       "taskbot": "TB_Actualizacion_Descuentos_Comerciales",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 85.0,
       "complejidad": 85.0,
       "cluster_id": 26,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Politica comercial vigente",
+          "aprobacion de gerencia",
+          "tabla de condiciones"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 26"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Actualizacion_Descuentos_Comerciales' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=85.0, complejidad=85.0.",
+      "justificacion": "'TB_Actualizacion_Descuentos_Comerciales' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=85.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3338,22 +4639,51 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB41",
       "taskbot": "TB_Onboarding_Empleado_Digital",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 88.0,
       "complejidad": 72.0,
       "cluster_id": 27,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Alta en HR cerrada",
+          "plantillas de rol",
+          "conectividad M365"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 27"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Onboarding_Empleado_Digital' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
+      "justificacion": "'TB_Onboarding_Empleado_Digital' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=88.0, complejidad=72.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3400,24 +4730,50 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB42",
       "taskbot": "TB_Offboarding_Empleado_Digital",
       "destino": "n8n",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 50.0,
       "cluster_id": 27,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Notificacion HR",
+          "politicas de retencion",
+          "flujo de aprobacion legal"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 27"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Integracion orquestable (API-first): candidato a n8n.",
-        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
+        "Ademas es variante de otros 1 taskbot(s): consolidar el flujo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Offboarding_Empleado_Digital' se recomienda para n8n (orquestador de integraciones) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=100.0, complejidad=50.0.",
+      "justificacion": "'TB_Offboarding_Empleado_Digital' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=50.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3463,7 +4819,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -3475,6 +4832,31 @@
       "complejidad": 37.0,
       "cluster_id": 28,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Modelo NLP publicado",
+          "reglas de enrutamiento",
+          "integracion Teams"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 28"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
@@ -3525,23 +4907,50 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB44",
       "taskbot": "TB_Priorizacion_Tickets_Criticos",
       "destino": "custom_python_java",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 100.0,
       "complejidad": 70.0,
       "cluster_id": 28,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "CMDB actualizada",
+          "matriz impacto-urgencia",
+          "API ServiceNow"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 28"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo backend",
+        "bloqueadores": [],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Interaccion con BD: automatizacion a la medida en Python/Java."
+        "Interaccion con BD: automatizacion a la medida en Python/Java.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Priorizacion_Tickets_Criticos' se recomienda para automatizacion a la medida (Python/Java) (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Interaccion con BD: automatizacion a la medida en Python/Java. Valor=100.0, complejidad=70.0.",
+      "justificacion": "'TB_Priorizacion_Tickets_Criticos' se recomienda para automatizacion a la medida (Python/Java) (ola 2). Interaccion con BD: automatizacion a la medida en Python/Java. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=100.0, complejidad=70.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3586,7 +4995,8 @@
         "api_disponible": true,
         "api_requerida": false,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
@@ -3598,11 +5008,38 @@
       "complejidad": 90.0,
       "cluster_id": null,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "API key ecommerce",
+          "tabla staging",
+          "reglas de impuestos por canal"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Extraccion_Pedidos_Ecommerce' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=90.0.",
+      "justificacion": "'TB_Extraccion_Pedidos_Ecommerce' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=70.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3648,23 +5085,50 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     },
     {
       "taskbot_id": "TB46",
       "taskbot": "TB_Integracion_Marketplace_Pedidos",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 70.0,
       "complejidad": 85.0,
       "cluster_id": null,
-      "revision_manual": true,
+      "revision_manual": false,
+      "tipo_revision": "prechequeo_ia",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": true,
+      "accion_revision": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
+      "evidence_pack": {
+        "dependencias": [
+          "Tokens marketplace vigentes",
+          "mapeo SKU",
+          "disponibilidad de TMS"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
-        "Depende de UI legacy sin integracion: mantener en RPA selectivo."
+        "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
+        "Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa."
       ],
-      "justificacion": "'TB_Integracion_Marketplace_Pedidos' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=70.0, complejidad=85.0.",
+      "justificacion": "'TB_Integracion_Marketplace_Pedidos' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Alto riesgo operacional con 3 dependencias. Existe API o patron repetible: resolver con prechequeo asistido por IA, no con evaluacion manual completa. Valor=70.0, complejidad=85.0. Revision: Generar evidence pack con IA: dependencias, controles, excepciones, datos de prueba y checklist de aprobacion.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3710,23 +5174,49 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB47",
       "taskbot": "TB_Control_Vencimiento_Contratos",
       "destino": "n8n",
-      "ola": "ola_2",
+      "ola": "ola_1",
       "valor": 88.0,
       "complejidad": 55.0,
       "cluster_id": 31,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Maestro de contratos actualizado",
+          "responsables asignados",
+          "plantillas de aviso"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 31"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo integracion/n8n",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Integracion orquestable (archivos, email, API-first): candidato a n8n.",
         "Ademas es variante de otros 1 taskbot(s): consolidar el flujo."
       ],
-      "justificacion": "'TB_Control_Vencimiento_Contratos' se recomienda para n8n (orquestador de integraciones) (ola 2). Integracion orquestable (archivos, email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0.",
+      "justificacion": "'TB_Control_Vencimiento_Contratos' se recomienda para n8n (orquestador de integraciones) (ola 1). Integracion orquestable (archivos, email, API-first): candidato a n8n. Ademas es variante de otros 1 taskbot(s): consolidar el flujo. Valor=88.0, complejidad=55.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3772,22 +5262,51 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
       "taskbot_id": "TB48",
       "taskbot": "TB_Alerta_Renovacion_Polizas",
       "destino": "rpa_selective",
-      "ola": "ola_3",
+      "ola": "ola_2",
       "valor": 73.0,
       "complejidad": 77.0,
       "cluster_id": 31,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Base de polizas vigente",
+          "calendario de renovacion",
+          "acceso al portal"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "comparar variantes del cluster 31"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Depende de UI legacy sin integracion: mantener en RPA selectivo."
       ],
-      "justificacion": "'TB_Alerta_Renovacion_Polizas' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0.",
+      "justificacion": "'TB_Alerta_Renovacion_Polizas' se recomienda para RPA selectivo (ola 2). Depende de UI legacy sin integracion: mantener en RPA selectivo. Valor=73.0, complejidad=77.0.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3833,7 +5352,8 @@
         "api_disponible": false,
         "api_requerida": true,
         "bloqueador": "ui_legacy",
-        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior."
+        "accion_habilitadora": "Exponer una API para el/los sistema(s) legacy; habilita migrar fuera de RPA en una ola posterior.",
+        "destino_objetivo_post_habilitacion": "n8n"
       }
     },
     {
@@ -3845,6 +5365,32 @@
       "complejidad": 57.0,
       "cluster_id": 15,
       "revision_manual": false,
+      "tipo_revision": "sin_revision",
+      "requiere_gate_gobierno": false,
+      "revision_asistida_ia": false,
+      "accion_revision": "Sin revision adicional.",
+      "evidence_pack": {
+        "dependencias": [
+          "Reglas de calidad de datos",
+          "permisos de lectura transversal",
+          "catalogos de referencia"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 15"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "equipo plataforma",
+        "bloqueadores": [],
+        "siguiente_accion": "Sin accion adicional."
+      },
       "razones": [
         "Variante de una utilidad reutilizable (cluster de 5): consolidar como microservicio/componente compartido."
       ],
@@ -3894,7 +5440,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "microservice"
       }
     },
     {
@@ -3906,12 +5453,41 @@
       "complejidad": 90.0,
       "cluster_id": 15,
       "revision_manual": true,
+      "tipo_revision": "evaluacion_manual_profunda",
+      "requiere_gate_gobierno": true,
+      "revision_asistida_ia": false,
+      "accion_revision": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
+      "evidence_pack": {
+        "dependencias": [
+          "Matriz de consolidacion aprobada",
+          "respaldo previo",
+          "ventana de mantenimiento"
+        ],
+        "controles": [
+          "validar impacto operacional",
+          "confirmar rollback y monitoreo",
+          "validar consistencia transaccional",
+          "comparar variantes del cluster 15"
+        ],
+        "checklist": [
+          "verificar dependencias declaradas",
+          "preparar datos de prueba",
+          "validar responsable de aprobacion",
+          "validar alternativa API para UI legacy",
+          "definir flujo canonico para retirar duplicados"
+        ],
+        "owner_sugerido": "arquitectura + operacion RPA",
+        "bloqueadores": [
+          "ui_legacy"
+        ],
+        "siguiente_accion": "Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar."
+      },
       "razones": [
-        "Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar.",
         "Depende de UI legacy sin integracion: mantener en RPA selectivo.",
-        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo."
+        "Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo.",
+        "Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda."
       ],
-      "justificacion": "'TB_Merge_Clientes_Duplicados' se recomienda para RPA selectivo (ola 3). Alto riesgo operacional con 3 dependencias: revisar manualmente antes de migrar. Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Valor=85.0, complejidad=90.0.",
+      "justificacion": "'TB_Merge_Clientes_Duplicados' se recomienda para RPA selectivo (ola 3). Depende de UI legacy sin integracion: mantener en RPA selectivo. Es variante dentro de un grupo de 5: consolidar el RPA, no duplicarlo. Alto riesgo operacional con 3 dependencias. Complejidad extrema: requiere evaluacion manual profunda. Valor=85.0, complejidad=90.0. Revision: Arquitectura y operacion deben decidir redisenio, API enablement o permanencia temporal en RPA antes de ejecutar.",
       "score_breakdown": {
         "valor": {
           "frecuencia": {
@@ -3957,7 +5533,8 @@
         "api_disponible": true,
         "api_requerida": true,
         "bloqueador": null,
-        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion)."
+        "accion_habilitadora": "Usar la API existente del sistema (sin trabajo de habilitacion).",
+        "destino_objetivo_post_habilitacion": "custom_python_java"
       }
     }
   ],

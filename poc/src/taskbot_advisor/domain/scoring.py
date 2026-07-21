@@ -34,6 +34,11 @@ _CLUSTER_VALUE_BONUS = 30.0  # consolidating duplicates unlocks immediate value
 _DEP_COMPLEXITY_PER_ITEM = 5.0
 _DEP_COMPLEXITY_CAP = 20.0
 
+_WAVE_1_VALUE_MIN = 70.0
+_WAVE_1_COMPLEXITY_MAX = 65.0
+_WAVE_2_VALUE_MIN = 50.0
+_WAVE_2_COMPLEXITY_MAX = 85.0
+
 
 def classify_frequency(raw: str | None) -> str:
     """Map free-text frequency to a high/medium/low bucket (fail-soft).
@@ -115,16 +120,20 @@ def score_breakdown(bot: Taskbot, in_duplicate_cluster: bool) -> dict:
     }
 
 
-def assign_wave(value: float, complexity: float, needs_manual_review: bool) -> Wave:
-    """Assign a wave: Wave 1 = high value and low complexity (quick wins).
+def assign_wave(value: float, complexity: float, has_governance_gate: bool) -> Wave:
+    """Assign a wave as a prioritized backlog, not a hard migrability verdict.
 
-    Cases that require manual review are deferred to Wave 3: they must not enter
-    a migration train before their uncertainty is resolved.
+    A governance gate (manual or AI-assisted) prevents a taskbot from being a
+    Wave 1 quick win, but it must not make the rules useless by sending every
+    valuable/high-risk candidate to Wave 3. Such candidates can enter Wave 2
+    with explicit prechecks before implementation.
     """
-    if needs_manual_review:
-        return Wave.WAVE_3
-    if value >= 50.0 and complexity <= 40.0:
+    if (
+        not has_governance_gate
+        and value >= _WAVE_1_VALUE_MIN
+        and complexity <= _WAVE_1_COMPLEXITY_MAX
+    ):
         return Wave.WAVE_1
-    if value >= 40.0 and complexity <= 65.0:
+    if value >= _WAVE_2_VALUE_MIN and complexity <= _WAVE_2_COMPLEXITY_MAX:
         return Wave.WAVE_2
     return Wave.WAVE_3

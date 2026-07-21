@@ -43,7 +43,21 @@ def assess(bot: Taskbot, target: MigrationTarget) -> ApiEnablement:
         api_required=api_required,
         blocker=blocker,
         enabling_action=action,
+        target_after_enablement=_target_after_enablement(bot, target),
     )
+
+
+def _target_after_enablement(bot: Taskbot, current: MigrationTarget) -> MigrationTarget:
+    """Target once the legacy/API blocker has been removed."""
+    if current is not MigrationTarget.RPA_SELECTIVE:
+        return current
+    if bot.has(InteractionType.DATABASE):
+        return MigrationTarget.CUSTOM_PYTHON_JAVA
+    if any(bot.has(i) for i in (InteractionType.API, InteractionType.EMAIL, InteractionType.FILE)):
+        return MigrationTarget.N8N
+    if bot.has(InteractionType.UI_LEGACY):
+        return MigrationTarget.N8N
+    return MigrationTarget.MANUAL_REVIEW
 
 
 def system_matrix(bots: list[Taskbot]) -> list[dict]:

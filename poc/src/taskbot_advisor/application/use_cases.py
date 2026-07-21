@@ -20,6 +20,7 @@ from ..domain.entities import (
     ScoreExplanation,
     Taskbot,
 )
+from ..domain.review import ReviewSensitivityInput, assess_review, build_review_sensitivity
 from ..domain.rules import classify_target
 from ..domain.similarity import build_clusters, cluster_of
 from .ports import (
@@ -71,10 +72,13 @@ class AnalyzeInventory:
         recommendations: list[Recommendation] = []
         errors: list[dict] = list(load_errors)
         processed: list[Taskbot] = []
+        sensitivity_items: list[ReviewSensitivityInput] = []
         for bot in bots:
             try:
-                recommendations.append(self._recommend(bot, clusters))
+                rec = self._recommend(bot, clusters)
+                recommendations.append(rec)
                 processed.append(bot)
+                sensitivity_items.append(self._sensitivity_input(bot, clusters, rec))
             except Exception as exc:  # Fail-soft: one item must not sink the batch.
                 log.error("fallo_taskbot", taskbot=bot.id, exc_info=True)
                 errors.append({"taskbot_id": bot.id, "error": str(exc)})
@@ -88,6 +92,7 @@ class AnalyzeInventory:
         result = AnalysisResult(
             run_id=run_id, recommendations=recommendations, clusters=clusters, errors=errors,
             component_candidates=component_candidates, api_matrix=api_matrix,
+            sensitivity=build_review_sensitivity(sensitivity_items),
         )
         log.info(
             "analisis_completado",
@@ -101,10 +106,13 @@ class AnalyzeInventory:
         cluster = cluster_of(bot.id, clusters)
         in_dup = cluster is not None and cluster.is_duplicate_group
 
-        target, reasons, manual = classify_target(bot, cluster)
+        target, reasons = classify_target(bot, cluster)
         value = scoring.value_score(bot, in_dup)
         complexity = scoring.complexity_score(bot)
-        wave = scoring.assign_wave(value, complexity, manual)
+        review = assess_review(bot, cluster, target, complexity)
+        if review.reason and review.reason not in reasons:
+            reasons.append(review.reason)
+        wave = scoring.assign_wave(value, complexity, review.requires_governance_gate)
 
         rec = Recommendation(
             taskbot_id=bot.id,
@@ -114,7 +122,7 @@ class AnalyzeInventory:
                 wave=wave,
                 cluster_id=cluster.id if (cluster and cluster.is_duplicate_group) else None,
                 reasons=tuple(reasons),
-                needs_manual_review=manual,
+                review=review,
             ),
             scores=ScoreExplanation(
                 value=round(value, 1),
@@ -126,3 +134,17 @@ class AnalyzeInventory:
         # Written justification (deterministic or LLM). Does not alter the decision.
         rec.rationale = self._advisor.explain(bot, rec)
         return rec
+
+    def _sensitivity_input(
+        self,
+        bot: Taskbot,
+        clusters: list[Cluster],
+        rec: Recommendation,
+    ) -> ReviewSensitivityInput:
+        return ReviewSensitivityInput(
+            bot=bot,
+            cluster=cluster_of(bot.id, clusters),
+            target=rec.target,
+            value=rec.value_score,
+            complexity=rec.complexity_score,
+        )

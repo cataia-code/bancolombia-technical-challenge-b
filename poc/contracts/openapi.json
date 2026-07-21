@@ -1,6 +1,68 @@
 {
   "components": {
     "schemas": {
+      "AnalysisResponse": {
+        "properties": {
+          "api_matrix": {
+            "items": {
+              "$ref": "#/components/schemas/ApiMatrixResponse"
+            },
+            "title": "Api Matrix",
+            "type": "array"
+          },
+          "clusters": {
+            "items": {
+              "$ref": "#/components/schemas/ClusterResponse"
+            },
+            "title": "Clusters",
+            "type": "array"
+          },
+          "component_candidates": {
+            "items": {
+              "$ref": "#/components/schemas/ComponentCandidateResponse"
+            },
+            "title": "Component Candidates",
+            "type": "array"
+          },
+          "errors": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Errors",
+            "type": "array"
+          },
+          "recommendations": {
+            "items": {
+              "$ref": "#/components/schemas/RecommendationResponse"
+            },
+            "title": "Recommendations",
+            "type": "array"
+          },
+          "run_id": {
+            "title": "Run Id",
+            "type": "string"
+          },
+          "sensitivity": {
+            "$ref": "#/components/schemas/SensitivityResponse"
+          },
+          "summary": {
+            "$ref": "#/components/schemas/SummaryResponse"
+          }
+        },
+        "required": [
+          "run_id",
+          "summary",
+          "clusters",
+          "component_candidates",
+          "api_matrix",
+          "sensitivity",
+          "recommendations",
+          "errors"
+        ],
+        "title": "AnalysisResponse",
+        "type": "object"
+      },
       "AnalyzeRequest": {
         "properties": {
           "inventory_path": {
@@ -32,6 +94,387 @@
         "title": "AnalyzeRequest",
         "type": "object"
       },
+      "ApiEnablementResponse": {
+        "properties": {
+          "accion_habilitadora": {
+            "title": "Accion Habilitadora",
+            "type": "string"
+          },
+          "api_disponible": {
+            "title": "Api Disponible",
+            "type": "boolean"
+          },
+          "api_requerida": {
+            "title": "Api Requerida",
+            "type": "boolean"
+          },
+          "bloqueador": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Bloqueador"
+          },
+          "destino_objetivo_post_habilitacion": {
+            "title": "Destino Objetivo Post Habilitacion",
+            "type": "string"
+          },
+          "sistemas": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sistemas",
+            "type": "array"
+          }
+        },
+        "required": [
+          "sistemas",
+          "api_disponible",
+          "api_requerida",
+          "bloqueador",
+          "accion_habilitadora",
+          "destino_objetivo_post_habilitacion"
+        ],
+        "title": "ApiEnablementResponse",
+        "type": "object"
+      },
+      "ApiMatrixResponse": {
+        "properties": {
+          "api_disponible": {
+            "title": "Api Disponible",
+            "type": "boolean"
+          },
+          "requiere_habilitacion_api": {
+            "title": "Requiere Habilitacion Api",
+            "type": "boolean"
+          },
+          "sistema": {
+            "title": "Sistema",
+            "type": "string"
+          },
+          "taskbots": {
+            "title": "Taskbots",
+            "type": "integer"
+          },
+          "tocado_por_legacy": {
+            "title": "Tocado Por Legacy",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "sistema",
+          "taskbots",
+          "api_disponible",
+          "tocado_por_legacy",
+          "requiere_habilitacion_api"
+        ],
+        "title": "ApiMatrixResponse",
+        "type": "object"
+      },
+      "ClusterResponse": {
+        "properties": {
+          "es_grupo_consolidable": {
+            "title": "Es Grupo Consolidable",
+            "type": "boolean"
+          },
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "miembros": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Miembros",
+            "type": "array"
+          },
+          "representante": {
+            "title": "Representante",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "miembros",
+          "representante",
+          "es_grupo_consolidable"
+        ],
+        "title": "ClusterResponse",
+        "type": "object"
+      },
+      "ComplexityBreakdownResponse": {
+        "properties": {
+          "canales_extra": {
+            "$ref": "#/components/schemas/ExtraChannelsScoreResponse"
+          },
+          "dependencias": {
+            "$ref": "#/components/schemas/DependencyScoreResponse"
+          },
+          "interaccion_dominante": {
+            "$ref": "#/components/schemas/DominantInteractionScoreResponse"
+          },
+          "riesgo": {
+            "$ref": "#/components/schemas/RiskScoreResponse"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        },
+        "required": [
+          "interaccion_dominante",
+          "canales_extra",
+          "riesgo",
+          "dependencias",
+          "total"
+        ],
+        "title": "ComplexityBreakdownResponse",
+        "type": "object"
+      },
+      "ComponentCandidateResponse": {
+        "properties": {
+          "accion_recomendada": {
+            "title": "Accion Recomendada",
+            "type": "string"
+          },
+          "apps_dominantes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Apps Dominantes",
+            "type": "array"
+          },
+          "blocker_legacy": {
+            "title": "Blocker Legacy",
+            "type": "boolean"
+          },
+          "cluster_id": {
+            "title": "Cluster Id",
+            "type": "integer"
+          },
+          "miembros": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Miembros",
+            "type": "array"
+          },
+          "nombre_sugerido": {
+            "title": "Nombre Sugerido",
+            "type": "string"
+          },
+          "nombres": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Nombres",
+            "type": "array"
+          },
+          "patron_destino": {
+            "title": "Patron Destino",
+            "type": "string"
+          },
+          "proposito_comun": {
+            "title": "Proposito Comun",
+            "type": "string"
+          },
+          "requiere_habilitacion_api": {
+            "title": "Requiere Habilitacion Api",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "cluster_id",
+          "nombre_sugerido",
+          "miembros",
+          "nombres",
+          "proposito_comun",
+          "patron_destino",
+          "apps_dominantes",
+          "blocker_legacy",
+          "requiere_habilitacion_api",
+          "accion_recomendada"
+        ],
+        "title": "ComponentCandidateResponse",
+        "type": "object"
+      },
+      "DependencyScoreResponse": {
+        "properties": {
+          "cantidad": {
+            "title": "Cantidad",
+            "type": "integer"
+          },
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          }
+        },
+        "required": [
+          "cantidad",
+          "puntos"
+        ],
+        "title": "DependencyScoreResponse",
+        "type": "object"
+      },
+      "DestinationCountsResponse": {
+        "properties": {
+          "custom_python_java": {
+            "title": "Custom Python Java",
+            "type": "integer"
+          },
+          "manual_review": {
+            "title": "Manual Review",
+            "type": "integer"
+          },
+          "microservice": {
+            "title": "Microservice",
+            "type": "integer"
+          },
+          "n8n": {
+            "title": "N8N",
+            "type": "integer"
+          },
+          "rpa_selective": {
+            "title": "Rpa Selective",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "n8n",
+          "microservice",
+          "custom_python_java",
+          "rpa_selective",
+          "manual_review"
+        ],
+        "title": "DestinationCountsResponse",
+        "type": "object"
+      },
+      "DominantInteractionScoreResponse": {
+        "properties": {
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          },
+          "tipo": {
+            "title": "Tipo",
+            "type": "string"
+          }
+        },
+        "required": [
+          "tipo",
+          "puntos"
+        ],
+        "title": "DominantInteractionScoreResponse",
+        "type": "object"
+      },
+      "DuplicateScoreResponse": {
+        "properties": {
+          "en_grupo": {
+            "title": "En Grupo",
+            "type": "boolean"
+          },
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          }
+        },
+        "required": [
+          "en_grupo",
+          "puntos"
+        ],
+        "title": "DuplicateScoreResponse",
+        "type": "object"
+      },
+      "EvidencePackResponse": {
+        "properties": {
+          "bloqueadores": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Bloqueadores",
+            "type": "array"
+          },
+          "checklist": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Checklist",
+            "type": "array"
+          },
+          "controles": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Controles",
+            "type": "array"
+          },
+          "dependencias": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Dependencias",
+            "type": "array"
+          },
+          "owner_sugerido": {
+            "title": "Owner Sugerido",
+            "type": "string"
+          },
+          "siguiente_accion": {
+            "title": "Siguiente Accion",
+            "type": "string"
+          }
+        },
+        "required": [
+          "dependencias",
+          "controles",
+          "checklist",
+          "owner_sugerido",
+          "bloqueadores",
+          "siguiente_accion"
+        ],
+        "title": "EvidencePackResponse",
+        "type": "object"
+      },
+      "ExtraChannelsScoreResponse": {
+        "properties": {
+          "cantidad": {
+            "title": "Cantidad",
+            "type": "integer"
+          },
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          }
+        },
+        "required": [
+          "cantidad",
+          "puntos"
+        ],
+        "title": "ExtraChannelsScoreResponse",
+        "type": "object"
+      },
+      "FrequencyScoreResponse": {
+        "properties": {
+          "bucket": {
+            "title": "Bucket",
+            "type": "string"
+          },
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          }
+        },
+        "required": [
+          "bucket",
+          "puntos"
+        ],
+        "title": "FrequencyScoreResponse",
+        "type": "object"
+      },
       "HTTPValidationError": {
         "properties": {
           "detail": {
@@ -43,6 +486,19 @@
           }
         },
         "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "HealthResponse": {
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "HealthResponse",
         "type": "object"
       },
       "InlineRequest": {
@@ -72,6 +528,349 @@
           "taskbots"
         ],
         "title": "InlineRequest",
+        "type": "object"
+      },
+      "RecommendationResponse": {
+        "properties": {
+          "accion_revision": {
+            "title": "Accion Revision",
+            "type": "string"
+          },
+          "api_enablement": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ApiEnablementResponse"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "cluster_id": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cluster Id"
+          },
+          "complejidad": {
+            "title": "Complejidad",
+            "type": "number"
+          },
+          "destino": {
+            "title": "Destino",
+            "type": "string"
+          },
+          "evidence_pack": {
+            "$ref": "#/components/schemas/EvidencePackResponse"
+          },
+          "justificacion": {
+            "title": "Justificacion",
+            "type": "string"
+          },
+          "ola": {
+            "title": "Ola",
+            "type": "string"
+          },
+          "razones": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Razones",
+            "type": "array"
+          },
+          "requiere_gate_gobierno": {
+            "title": "Requiere Gate Gobierno",
+            "type": "boolean"
+          },
+          "revision_asistida_ia": {
+            "title": "Revision Asistida Ia",
+            "type": "boolean"
+          },
+          "revision_manual": {
+            "title": "Revision Manual",
+            "type": "boolean"
+          },
+          "score_breakdown": {
+            "$ref": "#/components/schemas/ScoreBreakdownResponse"
+          },
+          "taskbot": {
+            "title": "Taskbot",
+            "type": "string"
+          },
+          "taskbot_id": {
+            "title": "Taskbot Id",
+            "type": "string"
+          },
+          "tipo_revision": {
+            "title": "Tipo Revision",
+            "type": "string"
+          },
+          "valor": {
+            "title": "Valor",
+            "type": "number"
+          }
+        },
+        "required": [
+          "taskbot_id",
+          "taskbot",
+          "destino",
+          "ola",
+          "valor",
+          "complejidad",
+          "cluster_id",
+          "revision_manual",
+          "tipo_revision",
+          "requiere_gate_gobierno",
+          "revision_asistida_ia",
+          "accion_revision",
+          "evidence_pack",
+          "razones",
+          "justificacion",
+          "score_breakdown",
+          "api_enablement"
+        ],
+        "title": "RecommendationResponse",
+        "type": "object"
+      },
+      "ReviewSummary": {
+        "properties": {
+          "aprobacion_dirigida": {
+            "title": "Aprobacion Dirigida",
+            "type": "integer"
+          },
+          "asistida_ia": {
+            "title": "Asistida Ia",
+            "type": "integer"
+          },
+          "evaluacion_manual_profunda": {
+            "title": "Evaluacion Manual Profunda",
+            "type": "integer"
+          },
+          "gate_gobierno": {
+            "title": "Gate Gobierno",
+            "type": "integer"
+          },
+          "manual_profunda": {
+            "title": "Manual Profunda",
+            "type": "integer"
+          },
+          "prechequeo_ia": {
+            "title": "Prechequeo Ia",
+            "type": "integer"
+          },
+          "sin_revision": {
+            "title": "Sin Revision",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "sin_revision",
+          "prechequeo_ia",
+          "aprobacion_dirigida",
+          "evaluacion_manual_profunda",
+          "gate_gobierno",
+          "asistida_ia",
+          "manual_profunda"
+        ],
+        "title": "ReviewSummary",
+        "type": "object"
+      },
+      "RiskScoreResponse": {
+        "properties": {
+          "nivel": {
+            "title": "Nivel",
+            "type": "string"
+          },
+          "puntos": {
+            "title": "Puntos",
+            "type": "number"
+          }
+        },
+        "required": [
+          "nivel",
+          "puntos"
+        ],
+        "title": "RiskScoreResponse",
+        "type": "object"
+      },
+      "ScoreBreakdownResponse": {
+        "properties": {
+          "complejidad": {
+            "$ref": "#/components/schemas/ComplexityBreakdownResponse"
+          },
+          "valor": {
+            "$ref": "#/components/schemas/ValueBreakdownResponse"
+          }
+        },
+        "required": [
+          "valor",
+          "complejidad"
+        ],
+        "title": "ScoreBreakdownResponse",
+        "type": "object"
+      },
+      "SensitivityBaseResponse": {
+        "properties": {
+          "por_ola": {
+            "$ref": "#/components/schemas/WaveCountsResponse"
+          },
+          "revision": {
+            "$ref": "#/components/schemas/ReviewSummary"
+          },
+          "umbral_complejidad_manual_profunda": {
+            "title": "Umbral Complejidad Manual Profunda",
+            "type": "number"
+          },
+          "umbral_dependencias_gate_gobierno": {
+            "title": "Umbral Dependencias Gate Gobierno",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "umbral_dependencias_gate_gobierno",
+          "umbral_complejidad_manual_profunda",
+          "revision",
+          "por_ola"
+        ],
+        "title": "SensitivityBaseResponse",
+        "type": "object"
+      },
+      "SensitivityDeltaResponse": {
+        "properties": {
+          "asistida_ia": {
+            "title": "Asistida Ia",
+            "type": "integer"
+          },
+          "gate_gobierno": {
+            "title": "Gate Gobierno",
+            "type": "integer"
+          },
+          "manual_profunda": {
+            "title": "Manual Profunda",
+            "type": "integer"
+          },
+          "ola_1": {
+            "title": "Ola 1",
+            "type": "integer"
+          },
+          "ola_2": {
+            "title": "Ola 2",
+            "type": "integer"
+          },
+          "ola_3": {
+            "title": "Ola 3",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "gate_gobierno",
+          "asistida_ia",
+          "manual_profunda",
+          "ola_1",
+          "ola_2",
+          "ola_3"
+        ],
+        "title": "SensitivityDeltaResponse",
+        "type": "object"
+      },
+      "SensitivityResponse": {
+        "properties": {
+          "base": {
+            "$ref": "#/components/schemas/SensitivityBaseResponse"
+          },
+          "escenarios": {
+            "items": {
+              "$ref": "#/components/schemas/SensitivityScenarioResponse"
+            },
+            "title": "Escenarios",
+            "type": "array"
+          },
+          "regla": {
+            "title": "Regla",
+            "type": "string"
+          }
+        },
+        "required": [
+          "regla",
+          "base",
+          "escenarios"
+        ],
+        "title": "SensitivityResponse",
+        "type": "object"
+      },
+      "SensitivityScenarioResponse": {
+        "properties": {
+          "delta_vs_base": {
+            "$ref": "#/components/schemas/SensitivityDeltaResponse"
+          },
+          "escenario_base": {
+            "title": "Escenario Base",
+            "type": "boolean"
+          },
+          "por_ola": {
+            "$ref": "#/components/schemas/WaveCountsResponse"
+          },
+          "revision": {
+            "$ref": "#/components/schemas/ReviewSummary"
+          },
+          "umbral_complejidad_manual_profunda": {
+            "title": "Umbral Complejidad Manual Profunda",
+            "type": "number"
+          },
+          "umbral_dependencias_gate_gobierno": {
+            "title": "Umbral Dependencias Gate Gobierno",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "umbral_dependencias_gate_gobierno",
+          "umbral_complejidad_manual_profunda",
+          "escenario_base",
+          "revision",
+          "por_ola",
+          "delta_vs_base"
+        ],
+        "title": "SensitivityScenarioResponse",
+        "type": "object"
+      },
+      "SummaryResponse": {
+        "properties": {
+          "errores": {
+            "title": "Errores",
+            "type": "integer"
+          },
+          "grupos_consolidables": {
+            "title": "Grupos Consolidables",
+            "type": "integer"
+          },
+          "por_destino": {
+            "$ref": "#/components/schemas/DestinationCountsResponse"
+          },
+          "por_ola": {
+            "$ref": "#/components/schemas/WaveCountsResponse"
+          },
+          "revision": {
+            "$ref": "#/components/schemas/ReviewSummary"
+          },
+          "total_taskbots": {
+            "title": "Total Taskbots",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total_taskbots",
+          "grupos_consolidables",
+          "por_destino",
+          "por_ola",
+          "revision",
+          "errores"
+        ],
+        "title": "SummaryResponse",
         "type": "object"
       },
       "ValidationError": {
@@ -113,6 +912,54 @@
         ],
         "title": "ValidationError",
         "type": "object"
+      },
+      "ValueBreakdownResponse": {
+        "properties": {
+          "duplicidad": {
+            "$ref": "#/components/schemas/DuplicateScoreResponse"
+          },
+          "frecuencia": {
+            "$ref": "#/components/schemas/FrequencyScoreResponse"
+          },
+          "riesgo": {
+            "$ref": "#/components/schemas/RiskScoreResponse"
+          },
+          "total": {
+            "title": "Total",
+            "type": "number"
+          }
+        },
+        "required": [
+          "frecuencia",
+          "riesgo",
+          "duplicidad",
+          "total"
+        ],
+        "title": "ValueBreakdownResponse",
+        "type": "object"
+      },
+      "WaveCountsResponse": {
+        "properties": {
+          "ola_1": {
+            "title": "Ola 1",
+            "type": "integer"
+          },
+          "ola_2": {
+            "title": "Ola 2",
+            "type": "integer"
+          },
+          "ola_3": {
+            "title": "Ola 3",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "ola_1",
+          "ola_2",
+          "ola_3"
+        ],
+        "title": "WaveCountsResponse",
+        "type": "object"
       }
     }
   },
@@ -140,9 +987,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response Analyze Analyze Post",
-                  "type": "object"
+                  "$ref": "#/components/schemas/AnalysisResponse"
                 }
               }
             },
@@ -181,9 +1026,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response Analyze Inline Analyze Inline Post",
-                  "type": "object"
+                  "$ref": "#/components/schemas/AnalysisResponse"
                 }
               }
             },
@@ -211,9 +1054,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response Health Health Get",
-                  "type": "object"
+                  "$ref": "#/components/schemas/HealthResponse"
                 }
               }
             },
