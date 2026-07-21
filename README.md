@@ -26,20 +26,21 @@ Taskbots por ola:
 
 ```text
 .
-├── docs/
-│   ├── index.html              # sitio publicado en GitHub Pages
-│   ├── architecture.md         # diseno, decisiones y diagramas resumidos
-│   ├── evidencia_pruebas.txt   # evidencia de validacion local
-│   └── assets/                 # logo y Mermaid local para el sitio
-├── poc/
-│   ├── src/taskbot_advisor/    # domain, application, infrastructure, interface
-│   ├── tests/                  # unit + integration
-│   ├── data/                   # inventarios de ejemplo
-│   ├── n8n/workflow.json       # workflow local
-│   ├── contracts/              # OpenAPI versionado
-│   ├── reports/example/        # reporte de referencia
-│   └── docker-compose.yml
-└── .github/workflows/deploy.yml
++-- docs/
+|   +-- index.html              # sitio publicado en GitHub Pages
+|   +-- architecture.md         # diseno, decisiones y diagramas resumidos
+|   +-- adr/                    # registros de decisiones de arquitectura
+|   +-- evidencia_pruebas.txt   # evidencia de validacion local
+|   +-- assets/                 # logo y Mermaid local para el sitio
++-- poc/
+|   +-- src/taskbot_advisor/    # domain, application, infrastructure, interface
+|   +-- tests/                  # unit + integration
+|   +-- data/                   # inventarios de ejemplo
+|   +-- n8n/workflow.json       # workflow local
+|   +-- contracts/              # OpenAPI versionado
+|   +-- reports/example/        # reporte de referencia
+|   +-- docker-compose.yml
++-- .github/workflows/deploy.yml
 ```
 
 ## Ejecucion local con Python
@@ -93,6 +94,7 @@ Contrato: `poc/contracts/openapi.json`.
 
 - Sitio tecnico: `docs/index.html`
 - Diseno y diagramas resumidos: `docs/architecture.md`
+- ADRs: `docs/adr/`
 - Evidencia de pruebas: `docs/evidencia_pruebas.txt`
 
 ## Decisiones clave

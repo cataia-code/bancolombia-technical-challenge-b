@@ -1,7 +1,7 @@
 # Arquitectura y decisiones
 
-Documento unico de diseno. Reemplaza los ADRs, UML, runbook y resumen ejecutivo separados para
-mantener la documentacion corta y facil de evaluar.
+Documento compacto de diseno. Resume arquitectura, reglas y diagramas; los registros formales de
+decision se conservan en `docs/adr/` para trazabilidad ante evaluacion.
 
 ## Objetivo
 
@@ -152,6 +152,8 @@ inflen falsos positivos de similitud.
 | Resto | Ola 3 |
 
 ## Decisiones de arquitectura
+
+Los ADRs completos estan en `docs/adr/`. Resumen:
 
 1. **Hexagonal ligera**: suficiente separacion sin convertir una PoC en microservicios.
 2. **Reglas deterministas**: mismas entradas producen mismas decisiones; el resultado es explicable.
